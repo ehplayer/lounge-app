@@ -1,0 +1,20 @@
+{
+  "expo": {
+    "sdkVersion": "26.0.0",
+    "name": "mba-lounge",
+    "slug": "mba-lounge",
+    "icon": "src/images/app-icon.png",
+    "privacy": "public",
+    "version": "1.0.0",
+    "splash": {
+      "image": "src/images/splash.png",
+      "resizeMode": "cover"
+    },
+    "ios": {
+      "bundleIdentifier": "com.mbalounge.lounge"
+    },
+    "android": {
+      "package": "com.mbalounge.lounge"
+    }
+  }
+}
