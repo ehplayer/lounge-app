@@ -1,31 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Dimensions,
-  FlatList,
-  Image, Platform,
-  RefreshControl,
-  ScrollView,
-  StyleSheet,
-  TouchableHighlight,
-  TouchableOpacity,
-  View
-} from 'react-native';
-import {
-  Body,
-  Button,
-  Card,
-  CardItem,
-  Container,
-  Content,
-  Left,
-  List,
-  ListItem,
-  Picker,
-  Right,
-  Text,
-  Thumbnail
-} from 'native-base';
+import {Dimensions, FlatList, Image, Platform, RefreshControl, TouchableHighlight, View} from 'react-native';
+import {Body, Button, Card, CardItem, Container, Left, List, ListItem, Right, Text, Thumbnail} from 'native-base';
 import {Actions} from 'react-native-router-flux';
 import Loading from './Loading';
 import Error from './Error';
@@ -33,7 +9,6 @@ import ActionButton from 'react-native-action-button';
 import moment from "moment/moment";
 import ArrowRight from '../../images/arrow_right_gray.png';
 import ArrowDown from '../../images/arrow_down.png';
-import ArrowUp from '../../images/arrow_up.png';
 import PencilIcon from '../../images/pencil.png';
 import ModalDropDown from 'react-native-modal-dropdown';
 
@@ -113,128 +88,129 @@ class UnivComponent extends React.Component {
 
     return (
       <Container>
+        <List>
         <FlatList
           numColumns={1}
           data={univ.articleList}
           ListHeaderComponent={
-            <Content>
-              <Card transparent style={{marginTop: 0, height:70}}>
-                <CardItem>
-                  <Thumbnail source={{uri: boardItem && boardItem.thumb}} style={{width:44, height:44, borderRadius: 22}}/>
-                  <ModalDropDown ref="dropdown_2"
-                                 style={{
-                                   alignSelf: 'flex-end',
-                                   width: '70%',
-                                   right: 8,
-                                   marginLeft:20,
-                                   paddingLeft:0
-                                 }}
-                                 textStyle={{marginVertical: 10,
-                                   marginHorizontal: 6,
-                                   fontSize: 15,
-                                   color: '#000000',
-                                   fontWeight:'100',
-                                   textAlign: 'left',
-                                   textAlignVertical: 'center',}}
-                                 dropdownStyle={{
-                                   width: '100%',
-                                   height: Dimensions.get('window').height,
-                                   backgroundColor: "rgba(0, 0, 0, 0.5)",
-                                   paddingBottom: Dimensions.get('window').height - 165,
-                                 }}
-                                 options={univ.boardList}
-                                 defaultValue={boardItem && boardItem.name}
-                                 renderButtonText={(rowData) => rowData.name}
-                                 renderRow={this.renderRow.bind(this)}
-                                 renderSeparator={(sectionID, rowID) => this.renderSeparator(sectionID, rowID, univ.boardList.length)}
-                                 adjustFrame={(adjust) => {return {...adjust, left:0, top: adjust.top + (Platform.OS === 'ios' ? 25 : 0)};}}
-                                 onSelect={(index, value) => this.onChangeBoard(value, index === univ.boardList.length - 1 + "")}
-                  />
-                  <Image
-                    style={{width: 20, height: 20, marginLeft:0}}
-                    resizeMode="contain"
-                    source={ArrowDown}/>
-                </CardItem>
-              </Card>
-              <Card transparent>
-                <CardItem style={{paddingBottom:0}}>
-                  <Body>
-                  <List>
-                    <ListItem style={{height: 40, paddingLeft:0, marginLeft:0, alignItems:'center'}}>
-                      <Text style={{width: '90%', paddingLeft:0, marginLeft:0}}
-                            onPress={item => Actions.noticeList({title: '공지사항'})}>공지사항</Text>
-                      <Image
-                        style={{width: 20, height: 20, marginLeft:10}}
-                        resizeMode="contain"
-                        source={ArrowRight}/>
-                    </ListItem>
-                    <FlatList
-                      numColumns={1}
-                      data={univ.noticeList && univ.noticeList.length > 3 ? univ.noticeList.slice(0,3) : univ.noticeList}
-                      renderItem={({item}) => (
-                        <ListItem key={item.articleId} onPress={() => this.openArticle('notice', item)} style={{height: 50, paddingLeft:0, marginLeft:0, marginRight:0}}>
-                          <Left style={{marginLeft:0}}>
-                            <Body style={{marginLeft:0}}><Text numberOfLines={1} style={{fontWeight:'100'}}>{item.title}</Text></Body>
-                          </Left>
-                          <Right><Text note>{moment(item.createDateTime).format("MM.DD") === now ? '오늘' : moment(item.createDateTime).format("MM.DD")}</Text></Right>
-                        </ListItem>
-                      )}
-                      keyExtractor={(item, index) => index + item.toString()}
-                    />
-                  </List>
-                  </Body>
-                </CardItem>
-              </Card>
-              <Card transparent style={{marginBottom:5}}>
-                <CardItem style={{paddingBottom:0, marginBottom:0}}>
-                  <Body>
+              <View>
+                  <Card transparent style={{marginTop: 0, height:70}}>
+                      <CardItem>
+                          <Thumbnail source={{uri: boardItem && boardItem.thumb}} style={{width:44, height:44, borderRadius: 22}}/>
+                          <ModalDropDown ref="dropdown_2"
+                                         style={{
+                                             alignSelf: 'flex-end',
+                                             width: '70%',
+                                             right: 8,
+                                             marginLeft:20,
+                                             paddingLeft:0
+                                         }}
+                                         textStyle={{marginVertical: 10,
+                                             marginHorizontal: 6,
+                                             fontSize: 15,
+                                             color: '#000000',
+                                             fontWeight:'100',
+                                             textAlign: 'left',
+                                             textAlignVertical: 'center',}}
+                                         dropdownStyle={{
+                                             width: '100%',
+                                             height: Dimensions.get('window').height,
+                                             backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                             paddingBottom: Dimensions.get('window').height - 165,
+                                         }}
+                                         options={univ.boardList}
+                                         defaultValue={boardItem && boardItem.name}
+                                         renderButtonText={(rowData) => rowData.name}
+                                         renderRow={this.renderRow.bind(this)}
+                                         renderSeparator={(sectionID, rowID) => this.renderSeparator(sectionID, rowID, univ.boardList.length)}
+                                         adjustFrame={(adjust) => {return {...adjust, left:0, top: adjust.top + (Platform.OS === 'ios' ? 25 : 0)};}}
+                                         onSelect={(index, value) => this.onChangeBoard(value, index === univ.boardList.length - 1 + "")}
+                          />
+                          <Image
+                              style={{width: 20, height: 20, marginLeft:0}}
+                              resizeMode="contain"
+                              source={ArrowDown}/>
+                      </CardItem>
+                  </Card>
+                  <Card transparent>
+                      <CardItem style={{paddingBottom:0}}>
+                          <Body>
+                          <List>
+                              <ListItem style={{height: 40, paddingLeft:0, marginLeft:0, alignItems:'center'}}>
+                                  <Text style={{width: '90%', paddingLeft:0, marginLeft:0}}
+                                        onPress={item => Actions.noticeList({title: '공지사항'})}>공지사항</Text>
+                                  <Image
+                                      style={{width: 20, height: 20, marginLeft:10}}
+                                      resizeMode="contain"
+                                      source={ArrowRight}/>
+                              </ListItem>
+                              <FlatList
+                                  numColumns={1}
+                                  data={univ.noticeList && univ.noticeList.length > 3 ? univ.noticeList.slice(0,3) : univ.noticeList}
+                                  renderItem={({item}) => (
+                                      <ListItem key={item.articleId} onPress={() => this.openArticle('notice', item)} style={{height: 50, paddingLeft:0, marginLeft:0, marginRight:0}}>
+                                          <Left style={{marginLeft:0}}>
+                                              <Body style={{marginLeft:0}}><Text numberOfLines={1} style={{fontWeight:'100'}}>{item.title}</Text></Body>
+                                          </Left>
+                                          <Right><Text note>{moment(item.createDateTime).format("MM.DD") === now ? '오늘' : moment(item.createDateTime).format("MM.DD")}</Text></Right>
+                                      </ListItem>
+                                  )}
+                                  keyExtractor={(item, index) => index + item.toString()}
+                              />
+                          </List>
+                          </Body>
+                      </CardItem>
+                  </Card>
+                  <Card transparent style={{marginBottom:5}}>
+                      <CardItem style={{paddingBottom:0, marginBottom:0}}>
+                          <Body>
 
-                  <List>
-                    <ListItem style={{height: 40, paddingLeft:0, marginLeft:0}} onPress={Actions.scheduleList}>
-                      <Text style={{width: '90%', paddingLeft:0, marginLeft:0}}>일정</Text>
-                      <Image
-                        style={{width: 20, height: 20, marginLeft:10}}
-                        resizeMode="contain"
-                        source={ArrowRight}/>
-                    </ListItem>
-                    {univ.scheduleList && univ.scheduleList[0] &&
-                    <ListItem style={{marginLeft:0,height:75}} onPress={() => this.openArticle('schedule', univ.scheduleList[0])}>
-                      <Button transparent style={{
-                        marginTop: 15,
-                        marginLeft:0,
-                        height: 29,
-                        backgroundColor: '#ffffff',
-                        borderColor: boardColor,
-                        borderWidth: 0.5,
-                        borderRadius: 15,
-                      }} disabled>
-                        <Text style={{fontSize: 14, color: boardColor, paddingLeft: 5, paddingRight: 5}}>{moment(univ.scheduleList[0].startDatetimeLong).format('MM / DD')}</Text>
-                      </Button>
-                      <Left>
-                        <Body style={{alignContent: "center", marginTop: 10, paddingLeft:10}}>
-                        <Text style={{fontSize: 15, fontWeight:'100', marginBottom:5}}>{univ.scheduleList[0].title}</Text>
-                        <Text note style={{paddingTop: 5, color:boardColor, fontSize:13}}>{'참석 16'} {univ.scheduleList[0].comment && univ.scheduleList[0].comment.length !== 0? '댓글 ' + univ.scheduleList[0].comment.length : ''}</Text>
-                        </Body>
-                      </Left>
-                    </ListItem>
-                    }
-                  </List>
-                  </Body>
-                </CardItem>
-              </Card>
-              <Card transparent style={{marginBottom:0}}>
-                <CardItem style={{paddingBottom:0, marginBottom:0}}>
-                  <Body>
+                          <List>
+                              <ListItem style={{height: 40, paddingLeft:0, marginLeft:0}} onPress={Actions.scheduleList}>
+                                  <Text style={{width: '90%', paddingLeft:0, marginLeft:0}}>일정</Text>
+                                  <Image
+                                      style={{width: 20, height: 20, marginLeft:10}}
+                                      resizeMode="contain"
+                                      source={ArrowRight}/>
+                              </ListItem>
+                              {univ.scheduleList && univ.scheduleList[0] &&
+                              <ListItem style={{marginLeft:0,height:75}} onPress={() => this.openArticle('schedule', univ.scheduleList[0])}>
+                                  <Button transparent style={{
+                                      marginTop: 15,
+                                      marginLeft:0,
+                                      height: 29,
+                                      backgroundColor: '#ffffff',
+                                      borderColor: boardColor,
+                                      borderWidth: 0.5,
+                                      borderRadius: 15,
+                                  }} disabled>
+                                      <Text style={{fontSize: 14, color: boardColor, paddingLeft: 5, paddingRight: 5}}>{moment(univ.scheduleList[0].startDatetimeLong).format('MM / DD')}</Text>
+                                  </Button>
+                                  <Left>
+                                      <Body style={{alignContent: "center", marginTop: 10, paddingLeft:10}}>
+                                      <Text style={{fontSize: 15, fontWeight:'100', marginBottom:5}}>{univ.scheduleList[0].title}</Text>
+                                      <Text note style={{paddingTop: 5, color:boardColor, fontSize:13}}>{'참석 16'} {univ.scheduleList[0].comment && univ.scheduleList[0].comment.length !== 0? '댓글 ' + univ.scheduleList[0].comment.length : ''}</Text>
+                                      </Body>
+                                  </Left>
+                              </ListItem>
+                              }
+                          </List>
+                          </Body>
+                      </CardItem>
+                  </Card>
+                  <Card transparent style={{marginBottom:0}}>
+                      <CardItem style={{paddingBottom:0, marginBottom:0}}>
+                          <Body>
 
-                  <List>
-                    <ListItem style={{height: 40, paddingLeft:0, marginLeft:0}}>
-                      <Text style={{width: '100%', paddingLeft:0, marginLeft:0}}>게시글</Text>
-                    </ListItem>
-                  </List>
-                  </Body>
-                </CardItem>
-              </Card>
-            </Content>
+                          <List>
+                              <ListItem style={{height: 40, paddingLeft:0, marginLeft:0}}>
+                                  <Text style={{width: '100%', paddingLeft:0, marginLeft:0}}>게시글</Text>
+                              </ListItem>
+                          </List>
+                          </Body>
+                      </CardItem>
+                  </Card>
+              </View>
           }
           renderItem={({item}) => (
             <ListItem key={item.articleId} style={{height: 70, paddingLeft:5, marginLeft:0, backgroundColor:'#ffffff'}} onPress={() => this.openArticle('article', item)}>
@@ -263,6 +239,7 @@ class UnivComponent extends React.Component {
             moreFetch(boardItem.docId, member, 'univ', univ.articleList[univ.articleList.length - 1]);
           }}
         />
+        </List>
         <ActionButton
           buttonColor={boardColor}
           onPress={() => Actions.createArticle({boardType: member.universe + '', boardItem: boardItem})}
