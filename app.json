@@ -1,6 +1,6 @@
 {
   "expo": {
-    "sdkVersion": "26.0.0",
+    "sdkVersion": "30.0.0",
     "name": "mba-lounge",
     "slug": "mba-lounge",
     "icon": "src/images/app-icon.png",

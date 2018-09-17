@@ -3,10 +3,8 @@ import React from 'react'
 import {Actions} from 'react-native-router-flux'
 import Button from 'react-native-button'
 import {LinearGradient} from 'expo';
-import Icon from 'react-native-vector-icons/EvilIcons';
 import TopLogo from '../../../images/logo_menu.png';
 import MenuButton from '../../../images/hamburger_button.png';
-import {Left} from "native-base";
 
 const styles = StyleSheet.create({
   container: {

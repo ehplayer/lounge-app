@@ -19,6 +19,8 @@
 #ifndef GRPC_CORE_EXT_FILTERS_CLIENT_CHANNEL_LB_POLICY_H
 #define GRPC_CORE_EXT_FILTERS_CLIENT_CHANNEL_LB_POLICY_H
 
+#include <grpc/support/port_platform.h>
+
 #include "src/core/ext/filters/client_channel/client_channel_factory.h"
 #include "src/core/ext/filters/client_channel/subchannel.h"
 #include "src/core/lib/gprpp/abstract.h"
@@ -160,6 +162,8 @@ class LoadBalancingPolicy
   GRPC_ABSTRACT_BASE_CLASS
 
  protected:
+  GPRC_ALLOW_CLASS_TO_USE_NON_PUBLIC_DELETE
+
   explicit LoadBalancingPolicy(const Args& args);
   virtual ~LoadBalancingPolicy();
 

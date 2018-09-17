@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Image, Platform, StyleSheet} from 'react-native';
-import Icon from 'react-native-vector-icons/EvilIcons';
+// import Icon from 'react-native-vector-icons/EvilIcons';
 import DatePicker from 'react-native-datepicker'
 import moment from "moment/moment";
 import {
@@ -181,14 +181,14 @@ class CreateArticle extends React.Component {
                 </View>
                 <Separator style={{height: 1, width: '100%'}}/>
                 <View style={[{flexDirection: 'row'}]}>
-                  <Icon name="check" size={35} color={(isSchedule ? '#4a90e2' : '#cccccc')}
-                        style={{marginTop: 10, width: '15%',}}
-                        onPress={() => this.handleChange('isSchedule', !isSchedule)}/>
+                  {/*<Icon name="check" size={35} color={(isSchedule ? '#4a90e2' : '#cccccc')}*/}
+                        {/*style={{marginTop: 10, width: '15%',}}*/}
+                        {/*onPress={() => this.handleChange('isSchedule', !isSchedule)}/>*/}
                   <Text style={{width: '35%', color: (isSchedule ? '#222222' : '#cccccc'), paddingTop: 15}}
                         onPress={() => this.handleChange('isSchedule', !isSchedule)}>일정</Text>
-                  <Icon name="check" size={35} color={(isNotice ? '#4a90e2' : '#cccccc')}
-                        style={{marginTop: 10, width: '15%',}}
-                        onPress={() => this.handleChange('isNotice', !isNotice)}/>
+                  {/*<Icon name="check" size={35} color={(isNotice ? '#4a90e2' : '#cccccc')}*/}
+                        {/*style={{marginTop: 10, width: '15%',}}*/}
+                        {/*onPress={() => this.handleChange('isNotice', !isNotice)}/>*/}
                   <Text style={{width: '35%', color: (isNotice ? '#222222' : '#cccccc'), paddingTop: 15}}
                         onPress={() => this.handleChange('isNotice', !isNotice)}>공지</Text>
                 </View>

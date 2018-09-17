@@ -1,34 +1,13 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Dimensions, Image, ScrollView,
-  Platform,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native'
-import {
-  Container,
-  Content,
-  Form,
-  Item,
-  Label,
-  Input,
-  Text,
-  Button,
-  View,
-  List,
-  ListItem,
-  Left,
-  Body, Thumbnail
-} from 'native-base';
+import {Dimensions, Image, Platform, ScrollView, StyleSheet,} from 'react-native'
+import {Body, Button, Input, Left, ListItem, Text, View} from 'native-base';
 import {Actions} from 'react-native-router-flux';
 import Loading from './Loading';
 import Messages from './Messages';
-import Header from './Header';
-import Spacer from './Spacer';
 import MainLogo from '../../images/logo_splash.png';
 import {LinearGradient} from "expo";
-import Icon from 'react-native-vector-icons/EvilIcons';
-import Error from "./Error";
+// import Icon from 'react-native-vector-icons/EvilIcons';
 
 let scrollYPos = 0;
 
@@ -138,7 +117,7 @@ class Login extends Component {
             <View style={{marginBottom:0, paddingBottom:0}}>
 
               <Button transparent>
-                <Icon name="check" size={40} color='#ffffff' onPress={v => this.handleChange('keepLogin', v)}/>
+                {/*<Icon name="check" size={40} color='#ffffff' onPress={v => this.handleChange('keepLogin', v)}/>*/}
                 <Text style={{color: '#ffffff', alignItems: 'center', paddingLeft:0}}>로그인 상태 유지</Text>
               </Button>
             </View>

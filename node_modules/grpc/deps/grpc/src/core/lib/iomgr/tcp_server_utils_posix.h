@@ -19,6 +19,8 @@
 #ifndef GRPC_CORE_LIB_IOMGR_TCP_SERVER_UTILS_POSIX_H
 #define GRPC_CORE_LIB_IOMGR_TCP_SERVER_UTILS_POSIX_H
 
+#include <grpc/support/port_platform.h>
+
 #include "src/core/lib/iomgr/ev_posix.h"
 #include "src/core/lib/iomgr/resolve_address.h"
 #include "src/core/lib/iomgr/socket_utils_posix.h"
@@ -111,7 +113,7 @@ grpc_error* grpc_tcp_server_add_all_local_addrs(grpc_tcp_server* s,
                                                 int* out_port);
 
 /* Prepare a recently-created socket for listening. */
-grpc_error* grpc_tcp_server_prepare_socket(int fd,
+grpc_error* grpc_tcp_server_prepare_socket(grpc_tcp_server*, int fd,
                                            const grpc_resolved_address* addr,
                                            bool so_reuseport, int* port);
 /* Ruturn true if the platform supports ifaddrs */

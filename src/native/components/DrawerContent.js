@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {FlatList, Image, StyleSheet, TouchableOpacity, ViewPropTypes} from 'react-native';
+import {Image, StyleSheet, ViewPropTypes} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import {getMemberData, logout} from '../../actions/member';
 import schedulerIcon from '../../images/menu_scheduler.png'
@@ -11,21 +11,7 @@ import manageIcon from '../../images/menu_manage.png'
 import approveIcon from '../../images/menu_approve.png'
 import serviceApproveIcon from '../../images/menu_service_approve.png'
 
-import {
-  Body,
-  Button,
-  Container,
-  Content,
-  Left,
-  List,
-  ListItem,
-  Right,
-  Separator,
-  Text,
-  Thumbnail,
-  View
-} from 'native-base';
-import Icon from 'react-native-vector-icons/EvilIcons';
+import {Body, Button, Container, Content, Left, List, ListItem, Separator, Text, Thumbnail} from 'native-base';
 
 
 const styles = StyleSheet.create({

@@ -19,6 +19,8 @@
 #ifndef GRPC_CORE_LIB_CHANNEL_CHANNEL_STACK_BUILDER_H
 #define GRPC_CORE_LIB_CHANNEL_CHANNEL_STACK_BUILDER_H
 
+#include <grpc/support/port_platform.h>
+
 #include <stdbool.h>
 
 #include "src/core/lib/channel/channel_args.h"
@@ -152,7 +154,5 @@ grpc_error* grpc_channel_stack_builder_finish(
 
 /// Destroy the builder without creating a channel stack
 void grpc_channel_stack_builder_destroy(grpc_channel_stack_builder* builder);
-
-extern grpc_core::TraceFlag grpc_trace_channel_stack_builder;
 
 #endif /* GRPC_CORE_LIB_CHANNEL_CHANNEL_STACK_BUILDER_H */

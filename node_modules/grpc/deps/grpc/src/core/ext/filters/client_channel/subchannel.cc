@@ -16,6 +16,8 @@
  *
  */
 
+#include <grpc/support/port_platform.h>
+
 #include "src/core/ext/filters/client_channel/subchannel.h"
 
 #include <inttypes.h>
@@ -38,6 +40,7 @@
 #include "src/core/lib/debug/stats.h"
 #include "src/core/lib/gprpp/debug_location.h"
 #include "src/core/lib/gprpp/manual_constructor.h"
+#include "src/core/lib/gprpp/ref_counted_ptr.h"
 #include "src/core/lib/iomgr/sockaddr_utils.h"
 #include "src/core/lib/iomgr/timer.h"
 #include "src/core/lib/profiling/timers.h"
@@ -405,7 +408,7 @@ static void on_external_state_watcher_done(void* arg, grpc_error* error) {
   gpr_mu_unlock(&w->subchannel->mu);
   GRPC_SUBCHANNEL_WEAK_UNREF(w->subchannel, "external_state_watcher");
   gpr_free(w);
-  GRPC_CLOSURE_RUN(follow_up, GRPC_ERROR_REF(error));
+  GRPC_CLOSURE_SCHED(follow_up, GRPC_ERROR_REF(error));
 }
 
 static void on_alarm(void* arg, grpc_error* error) {
@@ -464,7 +467,7 @@ static void maybe_start_connecting_locked(grpc_subchannel* c) {
     if (time_til_next <= 0) {
       gpr_log(GPR_INFO, "Subchannel %p: Retry immediately", c);
     } else {
-      gpr_log(GPR_INFO, "Subchannel %p: Retry in %" PRIdPTR " milliseconds", c,
+      gpr_log(GPR_INFO, "Subchannel %p: Retry in %" PRId64 " milliseconds", c,
               time_til_next);
     }
     GRPC_CLOSURE_INIT(&c->on_alarm, on_alarm, c, grpc_schedule_on_exec_ctx);
@@ -657,7 +660,6 @@ static void on_subchannel_connected(void* arg, grpc_error* error) {
 static void subchannel_call_destroy(void* call, grpc_error* error) {
   GPR_TIMER_SCOPE("grpc_subchannel_call_unref.destroy", 0);
   grpc_subchannel_call* c = static_cast<grpc_subchannel_call*>(call);
-  GPR_ASSERT(c->schedule_closure_after_destroy != nullptr);
   grpc_core::ConnectedSubchannel* connection = c->connection;
   grpc_call_stack_destroy(SUBCHANNEL_CALL_TO_CALL_STACK(c), nullptr,
                           c->schedule_closure_after_destroy);
@@ -671,9 +673,10 @@ void grpc_subchannel_call_set_cleanup_closure(grpc_subchannel_call* call,
   call->schedule_closure_after_destroy = closure;
 }
 
-void grpc_subchannel_call_ref(
+grpc_subchannel_call* grpc_subchannel_call_ref(
     grpc_subchannel_call* c GRPC_SUBCHANNEL_REF_EXTRA_ARGS) {
   GRPC_CALL_STACK_REF(SUBCHANNEL_CALL_TO_CALL_STACK(c), REF_REASON);
+  return c;
 }
 
 void grpc_subchannel_call_unref(
@@ -701,6 +704,13 @@ grpc_subchannel_get_connected_subchannel(grpc_subchannel* c) {
 const grpc_subchannel_key* grpc_subchannel_get_key(
     const grpc_subchannel* subchannel) {
   return subchannel->key;
+}
+
+void* grpc_connected_subchannel_call_get_parent_data(
+    grpc_subchannel_call* subchannel_call) {
+  grpc_channel_stack* chanstk = subchannel_call->connection->channel_stack();
+  return (char*)subchannel_call + sizeof(grpc_subchannel_call) +
+         chanstk->call_stack_size;
 }
 
 grpc_call_stack* grpc_subchannel_call_get_call_stack(
@@ -774,8 +784,8 @@ void ConnectedSubchannel::Ping(grpc_closure* on_initiate,
 grpc_error* ConnectedSubchannel::CreateCall(const CallArgs& args,
                                             grpc_subchannel_call** call) {
   *call = static_cast<grpc_subchannel_call*>(gpr_arena_alloc(
-      args.arena,
-      sizeof(grpc_subchannel_call) + channel_stack_->call_stack_size));
+      args.arena, sizeof(grpc_subchannel_call) +
+                      channel_stack_->call_stack_size + args.parent_data_size));
   grpc_call_stack* callstk = SUBCHANNEL_CALL_TO_CALL_STACK(*call);
   RefCountedPtr<ConnectedSubchannel> connection =
       Ref(DEBUG_LOCATION, "subchannel_call");
@@ -793,7 +803,7 @@ grpc_error* ConnectedSubchannel::CreateCall(const CallArgs& args,
   };
   grpc_error* error = grpc_call_stack_init(
       channel_stack_, 1, subchannel_call_destroy, *call, &call_args);
-  if (error != GRPC_ERROR_NONE) {
+  if (GPR_UNLIKELY(error != GRPC_ERROR_NONE)) {
     const char* error_string = grpc_error_string(error);
     gpr_log(GPR_ERROR, "error: %s", error_string);
     return error;

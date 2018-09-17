@@ -16,6 +16,8 @@
  *
  */
 
+#include <grpc/support/port_platform.h>
+
 #include "src/core/lib/transport/transport.h"
 
 #include <string.h>
@@ -182,7 +184,8 @@ void grpc_transport_set_pops(grpc_transport* transport, grpc_stream* stream,
              nullptr) {
     transport->vtable->set_pollset_set(transport, stream, pollset_set);
   } else {
-    abort();
+    // No-op for empty pollset. Empty pollset is possible when using
+    // non-fd-based event engines such as CFStream.
   }
 }
 
@@ -207,7 +210,7 @@ void grpc_transport_stream_op_batch_finish_with_failure(
     grpc_transport_stream_op_batch* batch, grpc_error* error,
     grpc_call_combiner* call_combiner) {
   if (batch->send_message) {
-    grpc_byte_stream_destroy(batch->payload->send_message.send_message);
+    batch->payload->send_message.send_message.reset();
   }
   if (batch->recv_message) {
     GRPC_CALL_COMBINER_START(

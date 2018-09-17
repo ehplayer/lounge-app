@@ -19,6 +19,8 @@
 #ifndef GRPC_CORE_EXT_FILTERS_CLIENT_CHANNEL_LB_POLICY_GRPCLB_LOAD_BALANCER_API_H
 #define GRPC_CORE_EXT_FILTERS_CLIENT_CHANNEL_LB_POLICY_GRPCLB_LOAD_BALANCER_API_H
 
+#include <grpc/support/port_platform.h>
+
 #include <grpc/slice_buffer.h>
 
 #include "src/core/ext/filters/client_channel/lb_policy/grpclb/grpclb_client_stats.h"
@@ -40,7 +42,7 @@ typedef struct {
 /** Create a request for a gRPC LB service under \a lb_service_name */
 grpc_grpclb_request* grpc_grpclb_request_create(const char* lb_service_name);
 grpc_grpclb_request* grpc_grpclb_load_report_request_create_locked(
-    grpc_grpclb_client_stats* client_stats);
+    grpc_core::GrpcLbClientStats* client_stats);
 
 /** Protocol Buffers v3-encode \a request */
 grpc_slice grpc_grpclb_request_encode(const grpc_grpclb_request* request);

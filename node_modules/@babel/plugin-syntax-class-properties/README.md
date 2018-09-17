@@ -2,18 +2,18 @@
 
 > Allow parsing of class properties
 
-See our website [@babel/plugin-syntax-class-properties](https://new.babeljs.io/docs/en/next/babel-plugin-syntax-class-properties.html) for more information.
+See our website [@babel/plugin-syntax-class-properties](https://babeljs.io/docs/en/next/babel-plugin-syntax-class-properties.html) for more information.
 
 ## Install
 
 Using npm:
 
 ```sh
-npm install --save @babel/plugin-syntax-class-properties
+npm install --save-dev @babel/plugin-syntax-class-properties
 ```
 
 or using yarn:
 
 ```sh
-yarn add --save @babel/plugin-syntax-class-properties
+yarn add @babel/plugin-syntax-class-properties --dev
 ```

@@ -19,16 +19,18 @@
 #ifndef GRPC_CORE_EXT_TRANSPORT_CHTTP2_TRANSPORT_HPACK_ENCODER_H
 #define GRPC_CORE_EXT_TRANSPORT_CHTTP2_TRANSPORT_HPACK_ENCODER_H
 
+#include <grpc/support/port_platform.h>
+
 #include <grpc/slice.h>
 #include <grpc/slice_buffer.h>
-#include <grpc/support/port_platform.h>
 #include "src/core/ext/transport/chttp2/transport/frame.h"
 #include "src/core/lib/transport/metadata.h"
 #include "src/core/lib/transport/metadata_batch.h"
 #include "src/core/lib/transport/transport.h"
 
-#define GRPC_CHTTP2_HPACKC_NUM_FILTERS 256
-#define GRPC_CHTTP2_HPACKC_NUM_VALUES 256
+// This should be <= 8. We use 6 to save space.
+#define GRPC_CHTTP2_HPACKC_NUM_VALUES_BITS 6
+#define GRPC_CHTTP2_HPACKC_NUM_VALUES (1 << GRPC_CHTTP2_HPACKC_NUM_VALUES_BITS)
 /* initial table size, per spec */
 #define GRPC_CHTTP2_HPACKC_INITIAL_TABLE_SIZE 4096
 /* maximum table size we'll actually use */
@@ -57,7 +59,7 @@ typedef struct {
      a new literal should be added to the compression table or not.
      They track a single integer that counts how often a particular value has
      been seen. When that count reaches max (255), all values are halved. */
-  uint8_t filter_elems[GRPC_CHTTP2_HPACKC_NUM_FILTERS];
+  uint8_t filter_elems[GRPC_CHTTP2_HPACKC_NUM_VALUES];
 
   /* entry tables for keys & elems: these tables track values that have been
      seen and *may* be in the decompressor table */

@@ -3,8 +3,6 @@ import React from 'react'
 import {Actions} from 'react-native-router-flux'
 import {connect} from "react-redux";
 import {LinearGradient} from 'expo';
-import {Button, Right} from "native-base";
-import Icon from 'react-native-vector-icons/Entypo';
 import ArrowLeft from '../../../images/arrow_left.png';
 
 const styles = StyleSheet.create({
