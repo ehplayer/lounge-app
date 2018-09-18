@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {Actions} from 'react-native-router-flux';
-import { getHomeNotice, setError, getUnivTotal, getUnivNoticeList} from '../actions/univ';
+import { getHomeNotice} from '../actions/home';
+import { setError, getUnivTotal, getUnivNoticeList} from '../actions/univ';
 
 class HomeNoticeList extends React.Component {
   static propTypes = {

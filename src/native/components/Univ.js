@@ -54,8 +54,8 @@ class UnivComponent extends React.Component {
     });
     this.props.reFetch(board.docId, this.props.member, true);
   }
-  onRefresh = () => {
-    console.log('refresh?')
+  onRefresh = (currentBoardId) => {
+      this.props.reFetch(currentBoardId, this.props.member, true);
   }
 
   renderRow(boardItem) {
@@ -231,7 +231,7 @@ class UnivComponent extends React.Component {
           refreshControl={
             <RefreshControl
               refreshing={loading}
-              onRefresh={this.onRefresh}
+              onRefresh={() => this.onRefresh(boardItem.docId)}
             />
           }
           onEndReachedThreshold={0.5}

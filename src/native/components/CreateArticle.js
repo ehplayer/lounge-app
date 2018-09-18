@@ -1,30 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Image, Platform, StyleSheet} from 'react-native';
-// import Icon from 'react-native-vector-icons/EvilIcons';
+import {Image, StyleSheet, TouchableOpacity} from 'react-native';
+import checkedIcon from '../../images/checkO_blue.png'
+import uncheckedIcon from '../../images/checkX.png'
 import DatePicker from 'react-native-datepicker'
-import moment from "moment/moment";
 import {
-  Body,
-  Button,
-  Card,
-  CardItem,
-  Container,
-  Content,
-  Form,
-  Input,
-  Item,
-  Label, Left,
-  Separator,
-  Text,
-  Textarea,
-  View,
+    Body,
+    Button,
+    Card,
+    CardItem,
+    Container,
+    Content,
+    Form,
+    Input,
+    Item,
+    Label,
+    Separator,
+    Text,
+    Textarea,
+    View,
 } from 'native-base';
 import Messages from './Messages';
 import Loading from './Loading';
 import {Actions} from 'react-native-router-flux'
 import CameraImage from '../../images/camera.png';
-
 import {ImagePicker, Permissions} from 'expo';
 
 const styles = StyleSheet.create({
@@ -180,16 +179,28 @@ class CreateArticle extends React.Component {
                   )}
                 </View>
                 <Separator style={{height: 1, width: '100%'}}/>
-                <View style={[{flexDirection: 'row'}]}>
-                  {/*<Icon name="check" size={35} color={(isSchedule ? '#4a90e2' : '#cccccc')}*/}
-                        {/*style={{marginTop: 10, width: '15%',}}*/}
-                        {/*onPress={() => this.handleChange('isSchedule', !isSchedule)}/>*/}
-                  <Text style={{width: '35%', color: (isSchedule ? '#222222' : '#cccccc'), paddingTop: 15}}
+                <View style={[{flexDirection: 'row', paddingBottom:10}]}>
+                    <TouchableOpacity
+                        onPress={() => this.handleChange('isSchedule', !isSchedule)}
+                        style={{ paddingRight: 20, paddingTop: 10, width:30}}>
+                        <Image
+                            style={{width: 28, height: 28, marginRight:'10%'}}
+                            resizeMode="contain"
+                            source={isSchedule ? checkedIcon : uncheckedIcon}
+                        />
+                    </TouchableOpacity>
+                  <Text style={{width: '35%', color: (isSchedule ? '#222222' : '#cccccc'), paddingTop: 15, paddingLeft:15}}
                         onPress={() => this.handleChange('isSchedule', !isSchedule)}>일정</Text>
-                  {/*<Icon name="check" size={35} color={(isNotice ? '#4a90e2' : '#cccccc')}*/}
-                        {/*style={{marginTop: 10, width: '15%',}}*/}
-                        {/*onPress={() => this.handleChange('isNotice', !isNotice)}/>*/}
-                  <Text style={{width: '35%', color: (isNotice ? '#222222' : '#cccccc'), paddingTop: 15}}
+                    <TouchableOpacity
+                        onPress={() => this.handleChange('isNotice', !isNotice)}
+                        style={{paddingRight: 20, paddingTop: 10, width:30}}>
+                        <Image
+                            style={{width: 28, height: 28, marginRight:'10%'}}
+                            resizeMode="contain"
+                            source={isNotice ? checkedIcon : uncheckedIcon}
+                        />
+                    </TouchableOpacity>
+                  <Text style={{width: '35%', color: (isNotice ? '#222222' : '#cccccc'), paddingTop: 15, paddingLeft:15}}
                         onPress={() => this.handleChange('isNotice', !isNotice)}>공지</Text>
                 </View>
                 {isSchedule &&
@@ -269,9 +280,16 @@ class CreateArticle extends React.Component {
                   width: '100%',
                   borderTopWidth: 0
                 }]}>
-                  <Icon name="check" size={35} color={(isLimitMember ? '#4a90e2' : '#cccccc')}
-                        style={{marginTop: 10, width: '10%'}}
-                        onPress={() => this.handleChange('isLimitMember', !isLimitMember)}/>
+                    <TouchableOpacity
+                        onPress={() => this.handleChange('isLimitMember', !isLimitMember)}
+                        style={{paddingRight: 20, paddingTop: 10, width:30}}>
+                        <Image
+                            style={{width: 28, height: 28, marginRight:'10%'}}
+                            resizeMode="contain"
+                            source={isLimitMember ? checkedIcon : uncheckedIcon}
+                        />
+                    </TouchableOpacity>
+
                   <Label style={{paddingLeft: '5%', marginTop:10}}>참석자수 제한</Label>
                     <Input
                       id="place"

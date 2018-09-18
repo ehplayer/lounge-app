@@ -163,8 +163,6 @@ export function createBoard(localState, propsMember) {
           });
         }
         member[sectionAuthName].push({authType:'S', boardId: docRef.id});
-        console.log(member[sectionAuthName])
-        console.log(sectionAuthName)
         await statusMessage(dispatch, 'loading', false);
         return resolve(dispatch({
           type: 'USER_DETAILS_UPDATE',
@@ -182,11 +180,8 @@ export function updateBoard(localState) {
   const {
     currentBoardItem,
     originalBoardItem,
-    imageUrl,
     imageBlob,
     member,
-    stepMemberList,
-    stepList,
   } = localState;
 
   return dispatch => new Promise(async (resolve, reject) => {
@@ -233,13 +228,6 @@ export function updateBoard(localState) {
           })
       });
     }
-
-    /*if((!originalBoardItem.stepMemberList && currentBoardItem.stepMemberList)
-      || (originalBoardItem.stepMemberList && currentBoardItem.stepMemberList && originalBoardItem.stepMemberList.length > currentBoardItem.stepMemberList.length)){
-      originalBoardItem.stepMemberList.forEach(member => {
-        console.log(currentBoardItem.stepMemberList.find(member))
-      });
-    }*/
 
     // 2. 스탭 추가된사람 추가, 제외된사람 제외
     if((!originalBoardItem.stepMemberList && currentBoardItem.stepMemberList)
@@ -529,7 +517,6 @@ export function getHomeScheduleList(member) {
     let beforeScheduleList = [];
     let afterScheduleList = [];
     const now = Date.now();
-    console.log(homeSchedule)
 
     member.univAuth.forEach(auth =>{
       if(homeSchedule[auth.boardId]){
@@ -696,7 +683,8 @@ export function addComment(param, commentText, member) {
       thumb: member.thumb,
       commentText: commentText,
       createDateTime: Date.now()
-    })
+    });
+
     await documentRef.update({
      comment: commentList
     });

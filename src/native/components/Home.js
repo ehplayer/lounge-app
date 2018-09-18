@@ -42,6 +42,7 @@ class HomeComponent extends React.Component {
     return Actions.notice({
       title: item.title,
       param: {
+        sectionType: item.sectionType,
         universe:this.props.member.universe,
         currentUnivId: item.currentUnivId,
         boardType: boardType,

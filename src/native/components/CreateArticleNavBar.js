@@ -1,8 +1,9 @@
-import {Platform, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
+import {Image, Platform, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import React from 'react'
 import {Actions} from 'react-native-router-flux'
 import {connect} from "react-redux";
-import Icon from 'react-native-vector-icons/Entypo';
+import ArrowLeft from '../../images/arrow_left.png';
+
 const styles = StyleSheet.create({
   container: {
     height: (Platform.OS === 'ios') ? 64 : 54,
@@ -15,16 +16,27 @@ const styles = StyleSheet.create({
 
   }
 })
+const bgColorMap = {
+    hall: '#4581d9',
+    schedule: '#535acb',
+    univ: '#2b66ae',
+    club: '#5b8b2b',
+}
 
 class CustomNavBar extends React.Component {
   render() {
-    const {boardItem} = this.props;
+    const {boardItem, param} = this.props;
+    const bgColor = bgColorMap[param.sectionType] ? bgColorMap[param.sectionType] : bgColorMap['univ'];
+
     return (
-        <View style={{ backgroundColor: '#2867ae', flexDirection: 'row'}}>
+        <View style={{ backgroundColor: bgColor, flexDirection: 'row'}}>
           <TouchableOpacity
             onPress={Actions.pop}
             style={[styles.navBarItem, { paddingLeft: 10, paddingBottom: 20, paddingTop: 20, width:40}]}>
-            <Icon name="chevron-thin-left" size={25} style={{color:'#ffffff', paddingRight:10}}/>
+              <Image
+                  style={{width: 16, height: 16, marginLeft:10}}
+                  resizeMode="contain"
+                  source={ArrowLeft}/>
           </TouchableOpacity>
           <View style={[styles.navBarItem]}>
             <Text style={{fontSize: 23, color: '#ffffff'}}>{boardItem ? boardItem.name : ''}</Text>
@@ -36,6 +48,8 @@ class CustomNavBar extends React.Component {
 
 const mapStateToProps = state => ({
   recipes: state.recipes || {},
+  home: state.home || {},
+  univ: state.univ || {},
   univNotice: state.univNotice || {},
   member: state.member || {},
   currentUnivId: state.currentUnivId || '전체',

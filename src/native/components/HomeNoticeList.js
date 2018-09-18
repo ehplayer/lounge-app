@@ -41,6 +41,7 @@ class NoticeList extends React.Component {
     return Actions.notice({
       title: item.title,
       param: {
+        sectionType: item.sectionType,
         universe:this.props.member.universe,
         currentUnivId:this.props.univ.currentUnivId,
         boardType: boardType,
@@ -53,7 +54,7 @@ class NoticeList extends React.Component {
     // Error
     if (error) return <Error content={error}/>;
     const {error, loading, univ} = this.props;
-    console.log(univ.noticeList)
+
     return (
       <Container>
         <Content style={{backgroundColor:'#ffffff'}}>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getBoardList, getHomeScheduleList, setError, getUnivNoticeList} from '../actions/univ';
+import { getHomeScheduleList } from '../actions/home';
 import {Actions} from "react-native-router-flux";
 class HomeScheduleList extends React.Component {
   static propTypes = {
@@ -24,7 +24,6 @@ class HomeScheduleList extends React.Component {
   componentWillReceiveProps (nextProps){
     if(!nextProps.member.name){
       Actions.login();
-      return;
     }
   }
 
@@ -35,7 +34,7 @@ class HomeScheduleList extends React.Component {
       <Layout
         error={home.error}
         loading={status.loading}
-        univ={home}
+        home={home}
         member={member}
         reFetch={this.props.getHomeNotice}
       />
@@ -50,9 +49,6 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = {
   getHomeScheduleList,
-  getUnivNoticeList,
-  getBoardList,
-  setError,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScheduleList);
