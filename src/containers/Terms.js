@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { addComment} from '../actions/univ';
 
-import { addComment } from '../actions/univ';
-class Notice extends Component {
+class TermsContainer extends Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({}),
     }),
-    setError: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -40,4 +39,4 @@ const mapDispatchToProps = {
   addComment,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Notice);
+export default connect(mapStateToProps, mapDispatchToProps)(TermsContainer);

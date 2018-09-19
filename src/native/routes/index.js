@@ -3,6 +3,7 @@ import {Drawer, Scene, Stack} from 'react-native-router-flux';
 
 import UnivContainer from '../../containers/Univ';
 import UnivComponent from '../components/Univ';
+import BoardComponent from '../components/Board';
 
 import HallContainer from '../../containers/Hall';
 import HallComponent from '../components/Hall';
@@ -70,7 +71,7 @@ import SchedulerSearchNavBar from '../components/navBar/SchedulerSearchNavBar';
 import SchedulerNavBar from '../components/navBar/SchedulerNavBar';
 import ScheduleNavBar from '../components/navBar/SchduleNavBar';
 
-import CreateArticleNavBar from '../components/CreateArticleNavBar';
+import CreateArticleNavBar from '../components/navBar/CreateArticleNavBar';
 import TextNavBar from '../components/navBar/TextNavBar';
 import OnlyLogoNavBar from '../components/navBar/OnlyLogoNavBar';
 import MenuIcon from '../../images/menu_burger.png'
@@ -156,10 +157,10 @@ const Index = (
       contentComponent={DrawerContent}
       drawerImage={MenuIcon}
     >
-      <Scene key="hall" navBar={MenuNavBar} component={HallContainer} Layout={HallComponent}/>
+      <Scene key="hall" navBar={MenuNavBar} component={HallContainer} Layout={BoardComponent}/>
       <Scene initial key="home" navBar={MenuNavBar} component={HomeContainer} Layout={HomeComponent}/>
-      <Scene key="univ" navBar={MenuNavBar} component={UnivContainer} Layout={UnivComponent}/>
-      <Scene key="club" navBar={MenuNavBar} component={ClubContainer} Layout={ClubComponent}/>
+      <Scene  key="univ" navBar={MenuNavBar} component={UnivContainer} Layout={BoardComponent}/>
+      <Scene key="club" navBar={MenuNavBar} component={ClubContainer} Layout={BoardComponent}/>
     </Drawer>
     <Scene
       back

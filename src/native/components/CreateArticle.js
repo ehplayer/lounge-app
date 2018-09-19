@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Image, StyleSheet, TouchableOpacity} from 'react-native';
-import checkedIcon from '../../images/checkO_blue.png'
+import checkedIconPurple from '../../images/checkO_blue.png'
+import checkedIconBlue from '../../images/checkO_blue.png'
+import checkedIconGreen from '../../images/checkO_green.png'
 import uncheckedIcon from '../../images/checkX.png'
 import DatePicker from 'react-native-datepicker'
 import {
@@ -33,6 +35,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#D8D8D8'
   }
 });
+const bgColorMap = {
+    hall: '#4581d9',
+    home: '#535acb',
+    univ: '#2b66ae',
+    club: '#5b8b2b',
+}
+const iconMap = {
+    hall: checkedIconPurple,
+    home: checkedIconPurple,
+    univ: checkedIconBlue,
+    club: checkedIconGreen,
+}
 
 class CreateArticle extends React.Component {
 
@@ -129,8 +143,10 @@ class CreateArticle extends React.Component {
   render() {
     const {loading, error, success} = this.props;
     const {imageUrlList, isSchedule, isNotice, isLimitMember} = this.state;
-    // Loading
     if (loading) return <Loading/>;
+
+    const checkedIcon = iconMap[this.props.sectionType];
+
     return (
       <Container>
         <Content>
@@ -311,7 +327,7 @@ class CreateArticle extends React.Component {
                   }]} onPress={Actions.pop}>
                     <Text>취소</Text>
                   </Button>
-                  <Button style={[{width: '30%', justifyContent: 'center', backgroundColor: '#4a90e2'}]} onPress={this.handleSubmit}>
+                  <Button style={[{width: '30%', justifyContent: 'center', backgroundColor: bgColorMap[this.props.sectionType]}]} onPress={this.handleSubmit}>
                     <Text>등록</Text>
                   </Button>
                 </View>

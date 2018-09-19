@@ -2,7 +2,7 @@ import {Image, Platform, StyleSheet, Text, TouchableOpacity, View} from 'react-n
 import React from 'react'
 import {Actions} from 'react-native-router-flux'
 import {connect} from "react-redux";
-import ArrowLeft from '../../images/arrow_left.png';
+import ArrowLeft from '../../../images/arrow_left.png';
 
 const styles = StyleSheet.create({
   container: {
@@ -23,10 +23,10 @@ const bgColorMap = {
     club: '#5b8b2b',
 }
 
-class CustomNavBar extends React.Component {
+class CreateArticleNavBar extends React.Component {
   render() {
-    const {boardItem, param} = this.props;
-    const bgColor = bgColorMap[param.sectionType] ? bgColorMap[param.sectionType] : bgColorMap['univ'];
+    const {boardItem} = this.props;
+    const bgColor = bgColorMap[this.props.sectionType] ? bgColorMap[this.props.sectionType] : bgColorMap['univ'];
 
     return (
         <View style={{ backgroundColor: bgColor, flexDirection: 'row'}}>
@@ -47,7 +47,6 @@ class CustomNavBar extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  recipes: state.recipes || {},
   home: state.home || {},
   univ: state.univ || {},
   univNotice: state.univNotice || {},
@@ -55,4 +54,4 @@ const mapStateToProps = state => ({
   currentUnivId: state.currentUnivId || '전체',
 });
 
-export default connect(mapStateToProps)(CustomNavBar);
+export default connect(mapStateToProps)(CreateArticleNavBar);

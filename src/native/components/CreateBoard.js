@@ -42,7 +42,6 @@ class CreateBoard extends React.Component {
   }
 
   handleChange = (name, val) => {
-    console.log(name, val)
     this.setState({
       ...this.state,
       [name]: val,

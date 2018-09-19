@@ -26,16 +26,15 @@ class CreateArticle extends Component {
       isLoading,
       errorMessage,
       successMessage,
-      recipes,
       boardType,
       boardItem,
     } = this.props;
 
     return (<Layout
       boardType={boardType}
+      sectionType={this.props.sectionType}
       boardItem={boardItem}
       member={member}
-      recipes={recipes}
       loading={isLoading}
       error={errorMessage}
       success={successMessage}
@@ -47,7 +46,6 @@ class CreateArticle extends Component {
 const mapStateToProps = state => ({
   member: state.member || {},
   recipes: state.recipes || {},
-  univ: state.univ || {},
   isLoading: state.status.loading || false,
   errorMessage: state.status.error || null,
   successMessage: state.status.success || null,

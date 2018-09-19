@@ -152,7 +152,7 @@ export function createBoard(localState, propsMember) {
     }
 
     //const docIdList = stepMemberList.map(item => item.docId);
-    return Firestore.collection(member.universe + (isClub ? 'club' : '')).add({ name : boardName, thumb, stepMemberList:stepMemberList, sectionType: isClub ? 'club' : 'univ'})
+    return Firestore.collection(member.universe + (isClub ? 'club' : 'univ')).add({ name : boardName, thumb, stepMemberList:stepMemberList, sectionType: isClub ? 'club' : 'univ'})
       .then(async (docRef) => {
         if(stepMemberList && stepMemberList.length > 0){
           stepMemberList.forEach(item => {
@@ -260,7 +260,7 @@ export function getUnivTotal(currentUnivId, member, sectionType) {
   const isClub = sectionType === 'club';
 
   if (isClub && (!member.clubAuth || member.clubAuth.length === 0)) return () => new Promise(resolve => resolve());
-  const universe = isHall ? 'hall' : member.universe + (isUniv ? '' : 'club');
+  const universe = isHall ? 'hall' : member.universe + sectionType;
 
   return dispatch => new Promise(async resolve => {
     await statusMessage(dispatch, 'loading', true);
@@ -319,12 +319,11 @@ export function getBoardList(currentUnivId, member, sectionType) {
   const isClub = sectionType === 'club';
 
   if (isClub && (!member.clubAuth || member.clubAuth.length === 0)) return () => new Promise(resolve => resolve());
-  const universe = isHall ? 'hall' : member.universe + (isUniv ? '' : 'club');
+  const universe = isHall ? 'hall' : member.universe + sectionType;
 
   return dispatch => new Promise(async resolve => {
     await statusMessage(dispatch, 'loading', true);
     let collectionReference = Firestore.collection(universe);
-
     let boardList = [];
     if(!isHall) {
       const boardListSnapshots = await collectionReference.get();
@@ -339,7 +338,6 @@ export function getBoardList(currentUnivId, member, sectionType) {
       currentUnivId = 'total';
       boardList.push({docId: 'total'})
     }
-
     await statusMessage(dispatch, 'loading', false);
     return resolve(dispatch({
       type: sectionType.toUpperCase() + '_TOTAL',
@@ -358,7 +356,7 @@ export function getNoticeList(currentUnivId, member, sectionType) {
   const isClub = sectionType === 'club';
 
   if (isClub && (!member.clubAuth || member.clubAuth.length === 0)) return () => new Promise(resolve => resolve());
-  const universe = isHall ? 'hall' : member.universe + (isUniv ? '' : 'club');
+  const universe = isHall ? 'hall' : member.universe + sectionType;
 
   return dispatch => new Promise(async resolve => {
 
@@ -389,7 +387,7 @@ export function getScheduleList(currentUnivId, member, sectionType) {
   const isClub = sectionType === 'club';
 
   if (isClub && (!member.clubAuth || member.clubAuth.length === 0)) return () => new Promise(resolve => resolve());
-  const universe = isHall ? 'hall' : member.universe + (isUniv ? '' : 'club');
+  const universe = isHall ? 'hall' : member.universe + sectionType;
 
   return dispatch => new Promise(async resolve => {
 
@@ -436,10 +434,11 @@ export function getArticleList(currentUnivId, member, sectionType) {
   const isUniv = sectionType === 'univ';
   const isHall = sectionType === 'hall';
   const isClub = sectionType === 'club';
+  const universe = isHall ? 'hall' : member.universe + sectionType;
 
-  const universe = member.universe + (isUniv ? '' : sectionType);
   return dispatch => new Promise(async resolve => {
     if (!currentUnivId || currentUnivId === 'default') currentUnivId = member[sectionType + 'Auth'][0].boardId;
+
     let documentReference = Firestore.collection(universe).doc(currentUnivId);
     const documentSnapshots = await documentReference.collection("article").orderBy("createDateTime", 'desc').limit(15).get()
       .catch(error => console.error(error));
@@ -458,6 +457,7 @@ export function getArticleList(currentUnivId, member, sectionType) {
     }));
   });
 }
+
 export function getArticleListMore(currentUnivId, member, sectionType, lastUnivArticle) {
   if (Firebase === null) return () => new Promise(resolve => resolve());
   const isUniv = sectionType === 'univ';

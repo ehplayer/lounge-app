@@ -26,7 +26,7 @@ import PencilIcon from '../../images/pencil.png';
 import ModalDropDown from 'react-native-modal-dropdown';
 
 
-class UnivComponent extends React.Component {
+class BoardComponent extends React.Component {
 
   static propTypes = {
     error: PropTypes.object,
@@ -87,13 +87,13 @@ class UnivComponent extends React.Component {
   }
 
   render() {
-    const {error, loading, document, member, moreFetch, sectionType, boardColor} = this.props;
+    const {error, loading, document, member, moreFetch, sectionType, boardColor, hideBoardSelectMenu} = this.props;
     const boardItem = document.boardList && (!this.state.currentUnivId ? document.boardList[0] : document.boardList.filter(item => item.docId === this.state.currentUnivId)[0])
     const now = moment().format("MM.DD");
-    if(document.boardList && document.boardList[document.boardList.length - 1].name !== '게시판 가입하기..') {
+
+    if(document.boardList && document.boardList.length > 0 && document.boardList[document.boardList.length - 1].name !== '게시판 가입하기..') {
       document.boardList.push({name:'게시판 가입하기..', thumb:'#'});
     }
-
     if (loading) return <Loading/>;
     if (error) return <Error content={error}/>;
 
@@ -105,24 +105,27 @@ class UnivComponent extends React.Component {
           data={document.articleList}
           ListHeaderComponent={
               <View>
-                  <Card transparent style={{marginBottom: 0, paddingBottom:0, height:70}}>
-                      <CardItem style={{margin: 0, paddingBottom:0}}>
-                          <Thumbnail source={{uri: boardItem && boardItem.thumb}} style={{width:44, height:44, borderRadius: 22}}/>
+                  {!hideBoardSelectMenu && <Card transparent style={{marginBottom: 0, paddingBottom: 0, height: 70}}>
+                      <CardItem style={{margin: 0, paddingBottom: 0}}>
+                          <Thumbnail source={{uri: boardItem && boardItem.thumb}}
+                                     style={{width: 44, height: 44, borderRadius: 22}}/>
                           <ModalDropDown ref="dropdown_2"
                                          style={{
                                              alignSelf: 'flex-end',
                                              width: '70%',
                                              right: 8,
-                                             marginLeft:20,
-                                             paddingLeft:0
+                                             marginLeft: 20,
+                                             paddingLeft: 0
                                          }}
-                                         textStyle={{marginVertical: 10,
+                                         textStyle={{
+                                             marginVertical: 10,
                                              marginHorizontal: 6,
                                              fontSize: 15,
                                              color: '#000000',
-                                             fontWeight:'100',
+                                             fontWeight: '100',
                                              textAlign: 'left',
-                                             textAlignVertical: 'center',}}
+                                             textAlignVertical: 'center',
+                                         }}
                                          dropdownStyle={{
                                              width: '100%',
                                              height: Dimensions.get('window').height,
@@ -134,16 +137,24 @@ class UnivComponent extends React.Component {
                                          renderButtonText={(rowData) => rowData.name}
                                          renderRow={this.renderRow.bind(this)}
                                          renderSeparator={(sectionID, rowID) => this.renderSeparator(sectionID, rowID, document.boardList.length)}
-                                         adjustFrame={(adjust) => {return {...adjust, left:0, top: adjust.top + (Platform.OS === 'ios' ? 25 : 0)};}}
+                                         adjustFrame={(adjust) => {
+                                             return {
+                                                 ...adjust,
+                                                 left: 0,
+                                                 top: adjust.top + (Platform.OS === 'ios' ? 25 : 0)
+                                             };
+                                         }}
                                          onSelect={(index, value) => this.onChangeBoard(value, index === document.boardList.length - 1 + "")}
                           />
                           <Image
-                              style={{width: 20, height: 20, marginLeft:0}}
+                              style={{width: 20, height: 20, marginLeft: 0}}
                               resizeMode="contain"
                               source={ArrowDown}/>
                       </CardItem>
                   </Card>
-                  <Separator style={{height: 10}}/>
+                  }
+                  {!hideBoardSelectMenu &&  <Separator style={{height: 10}}/>}
+
                   <Card transparent style={{marginBottom: 0, paddingBottom:0}}>
                       <CardItem style={{paddingBottom:0}}>
                           <Body>
@@ -256,7 +267,7 @@ class UnivComponent extends React.Component {
         </List>
         <ActionButton
           buttonColor={boardColor}
-          onPress={() => Actions.createArticle({boardType: member.universe + '', boardItem: boardItem})}
+          onPress={() => Actions.createArticle({boardType: member.universe + sectionType, boardItem: boardItem, sectionType: sectionType})}
           renderIcon={() => <Image
             style={{width: 28, height: 28}}
             resizeMode="contain"
@@ -269,4 +280,4 @@ class UnivComponent extends React.Component {
   }
 };
 
-export default UnivComponent;
+export default BoardComponent;

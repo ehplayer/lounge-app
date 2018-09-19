@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { setError, getUnivTotal, getUnivNoticeList, getArticleItem, addComment, removeComment} from '../actions/univ';
+import { getArticleItem, addComment, removeComment} from '../actions/univ';
 class Notice extends Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,
@@ -17,7 +17,6 @@ class Notice extends Component {
   };
   constructor(props) {
     super(props);
-    console.log(props.param.universe, props.param.currentUnivId, props.param.boardType, props.param.docId)
     this.props.getArticleItem(props.param.universe, props.param.currentUnivId, props.param.boardType, props.param.docId)
   }
 
@@ -42,12 +41,9 @@ const mapStateToProps = state => ({
   status: state.status || {},
 });
 const mapDispatchToProps = {
-  getUnivTotal,
-  getUnivNoticeList,
   getArticleItem,
   addComment,
   removeComment,
-  setError,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Notice);
