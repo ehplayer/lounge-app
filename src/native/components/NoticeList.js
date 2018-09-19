@@ -38,7 +38,6 @@ class NoticeList extends React.Component {
     this.props.reFetch(currentUnivId);
   };
   openArticle = (boardType, item) => {
-
     return Actions.notice({
       title: item.title,
       param: {

@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 })
 const bgColorMap = {
     hall: '#4581d9',
-    schedule: '#535acb',
+    home: '#535acb',
     univ: '#2b66ae',
     club: '#5b8b2b',
 }
@@ -26,7 +26,8 @@ const bgColorMap = {
 class CreateArticleNavBar extends React.Component {
   render() {
     const {boardItem} = this.props;
-    const bgColor = bgColorMap[this.props.sectionType] ? bgColorMap[this.props.sectionType] : bgColorMap['univ'];
+    const sectionType = this.props.sectionType || this.props.param.sectionType;
+    const bgColor = bgColorMap[sectionType] ? bgColorMap[sectionType] : bgColorMap['univ'];
 
     return (
         <View style={{ backgroundColor: bgColor, flexDirection: 'row'}}>

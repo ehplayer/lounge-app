@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getArticleItem, addComment, removeComment} from '../actions/univ';
+import { getArticleItem, addComment, removeComment, addJoiner, removeJoiner} from '../actions/univ';
 class Notice extends Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({}),
     }),
-    setError: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -17,11 +16,11 @@ class Notice extends Component {
   };
   constructor(props) {
     super(props);
-    this.props.getArticleItem(props.param.universe, props.param.currentUnivId, props.param.boardType, props.param.docId)
+    this.props.getArticleItem(props.param)
   }
 
   render = () => {
-    const { Layout, member, univ, addComment, param, removeComment, status} = this.props;
+    const { Layout, member, univ, addComment, param, removeComment, status, addJoiner, removeJoiner} = this.props;
     return (
       <Layout
         document={univ.article}
@@ -29,6 +28,8 @@ class Notice extends Component {
         member={member}
         addComment={addComment}
         removeComment={removeComment}
+        addJoiner={addJoiner}
+        removeJoiner={removeJoiner}
         param={param}
       />
     );
@@ -44,6 +45,8 @@ const mapDispatchToProps = {
   getArticleItem,
   addComment,
   removeComment,
+  addJoiner,
+  removeJoiner
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Notice);

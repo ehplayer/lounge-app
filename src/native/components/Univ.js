@@ -256,7 +256,7 @@ class UnivComponent extends React.Component {
         </List>
         <ActionButton
           buttonColor={boardColor}
-          onPress={() => Actions.createArticle({boardType: member.universe + '', boardItem: boardItem})}
+          onPress={() => Actions.createArticle({boardType: member.universe + sectionType, boardItem: boardItem})}
           renderIcon={() => <Image
             style={{width: 28, height: 28}}
             resizeMode="contain"

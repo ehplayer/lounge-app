@@ -38,12 +38,14 @@ class NoticeList extends React.Component {
   };
 
   openArticle = (boardType, item) => {
+    console.log(this.props)
+    console.log(item)
     return Actions.notice({
       title: item.title,
       param: {
         sectionType: item.sectionType,
         universe:this.props.member.universe,
-        currentUnivId:this.props.univ.currentUnivId,
+        currentUnivId:item.currentUnivId,
         boardType: boardType,
         docId: item.docId}})
   };
@@ -63,7 +65,7 @@ class NoticeList extends React.Component {
               numColumns={1}
               data={univ.noticeList}
               renderItem={({item}) => (
-                <ListItem style={{height: 70, marginRight:20, paddingRight:0}}>
+                <ListItem style={{height: 70, marginRight:20, paddingRight:0}} onPress={() => this.openArticle('notice', item)}>
                   <Left style={{justifyContent:'center', alignItems:'center', marginVertical:0, paddingVertical:0}}>
                   <Body style={{marginTop:5, marginLeft:0, paddingLeft:0}}>
                     <Text style={{fontSize:15, fontWeight:'normal', color:'#000000', marginLeft:0, marginBottom:2}} numberOfLines={1} ellipsizeMode='tail'>{item.boardName}</Text>

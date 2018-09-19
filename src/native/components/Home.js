@@ -43,7 +43,7 @@ class HomeComponent extends React.Component {
       title: item.title,
       param: {
         sectionType: item.sectionType,
-        universe:this.props.member.universe,
+        universe: this.props.member.universe,
         currentUnivId: item.currentUnivId,
         boardType: boardType,
         docId: item.docId}})

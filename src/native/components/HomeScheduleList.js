@@ -83,7 +83,11 @@ class HomeScheduleList extends React.Component {
                             <Left>
                                 <Body style={{marginTop:0}}>
                                 <Text numberOfLines={1} ellipsizeMode='tail' style={{fontSize:15, fontWeight:'100', color:'#000000'}}>{item.title}</Text>
-                                <Text numberOfLines={1} ellipsizeMode='tail' style={{fontSize:13, marginTop:5, color:'#9a9a9a', fontWeight:'100'}}>{item.boardName} 참석 16 {item.comment.length} {item.comment && item.comment.length !== 0? '댓글 ' + item.comment.length : ''}</Text>
+                                <Text numberOfLines={1} ellipsizeMode='tail' style={{fontSize:13, marginTop:5, color:'#9a9a9a', fontWeight:'100'}}>
+                                    {item.boardName}
+                                    {item.joinerList && item.joinerList.length !== 0 ? ' 참석 ' + item.joinerList.length : ''}
+                                    {item.comment && item.comment.length !== 1 ? ' 댓글 ' + item.comment.length : ''}
+                                </Text>
                                 </Body>
                                 <Thumbnail small source={{uri: item.boardThumb}} />
                             </Left>
@@ -116,7 +120,11 @@ class HomeScheduleList extends React.Component {
                                 <Left>
                                     <Body style={{marginTop:0}}>
                                     <Text numberOfLines={1} ellipsizeMode='tail' style={{fontSize:15, fontWeight:'100', color:'#9b9b9b'}}>{item.title}</Text>
-                                    <Text numberOfLines={1} ellipsizeMode='tail' style={{fontSize:13, marginTop:5, color:'#9a9a9a', fontWeight:'100'}}>{item.boardName} 참석 16 댓글4</Text>
+                                    <Text numberOfLines={1} ellipsizeMode='tail' style={{fontSize:13, marginTop:5, color:'#9a9a9a', fontWeight:'100'}}>
+                                        {item.boardName}
+                                        {item.joinerList && item.joinerList.length !== 0 ? ' 참석 ' + item.joinerList.length : ''}
+                                        {item.comment && item.comment.length !== 1 ? ' 댓글 ' + item.comment.length : ''}
+                                    </Text>
                                     </Body>
                                     <Thumbnail small source={{uri: item.boardThumb}} />
                                 </Left>

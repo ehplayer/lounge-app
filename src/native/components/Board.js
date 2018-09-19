@@ -50,8 +50,9 @@ class BoardComponent extends React.Component {
     return Actions.notice({
       title: item.title,
       param: {
+        sectionType: this.props.sectionType,
         universe:this.props.member.universe,
-        currentUnivId:this.props.univ.currentUnivId,
+        currentUnivId:this.props.document.currentUnivId,
         boardType: boardType,
         docId: item.docId}})
   };
@@ -213,7 +214,10 @@ class BoardComponent extends React.Component {
                                   <Left>
                                       <Body style={{alignContent: "center", marginTop: 10, paddingLeft:10}}>
                                       <Text style={{fontSize: 15, fontWeight:'100', marginBottom:5}}>{document.scheduleList[0].title}</Text>
-                                      <Text note style={{paddingTop: 5, color:boardColor, fontSize:13}}>{'참석 16'} {document.scheduleList[0].comment && document.scheduleList[0].comment.length !== 0? '댓글 ' + document.scheduleList[0].comment.length : ''}</Text>
+                                      <Text note style={{paddingTop: 5, color:boardColor, fontSize:13}}>
+                                          {'참석 ' + (document.scheduleList[0].joinerList && document.scheduleList[0].joinerList.length !== 0 ? document.scheduleList[0].joinerList.length : 0)}
+                                          {document.scheduleList[0].comment && document.scheduleList[0].comment.length !== 0? '댓글 ' + document.scheduleList[0].comment.length : ''}
+                                      </Text>
                                       </Body>
                                   </Left>
                               </ListItem>

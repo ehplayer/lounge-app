@@ -3,24 +3,23 @@ import PropTypes from 'prop-types';
 import {FlatList, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import moment from 'moment';
 import {
-  Body,
-  Button,
-  Card,
-  CardItem,
-  Container,
-  Content,
-  Form,
-  Input, Label,
-  Left,
-  Right,
-  Text,
-  Thumbnail,
-  View
+    Body,
+    Button,
+    Card,
+    CardItem,
+    Container,
+    Content,
+    Form,
+    Input,
+    Left,
+    Right,
+    Text,
+    Thumbnail,
+    View
 } from 'native-base';
 import trashIcon from '../../images/trash.png'
 import Loading from "./Loading";
 import Modal from "react-native-modal";
-import {Actions} from "react-native-router-flux";
 
 const styles = StyleSheet.create({
   image: {
@@ -39,6 +38,12 @@ const styles = StyleSheet.create({
   },
 
 });
+const bgColorMap = {
+    hall: '#4581d9',
+    home: '#535acb',
+    univ: '#2b66ae',
+    club: '#5b8b2b',
+}
 
 class Notice extends React.Component {
 
@@ -77,6 +82,12 @@ class Notice extends React.Component {
   removeComment = (item) => {
     this.props.removeComment(item, this.props.param, this.props.member);
   };
+  addJoiner = () => {
+      this.props.addJoiner(this.props.param, this.props.member);
+  };
+  removeJoiner = () => {
+      this.props.removeJoiner(this.props.param, this.props.member);
+  };
   renderButton = (text, onPress) => (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.button}>
@@ -88,7 +99,12 @@ class Notice extends React.Component {
   render() {
     const {loading, error, success, document, member} = this.props;
     if (loading || !document || !document.author) return <Loading/>;
-
+    const sectionType = this.props.sectionType || this.props.param.sectionType;
+    const bgColor = bgColorMap[sectionType] ? bgColorMap[sectionType] : bgColorMap['univ'];
+    let isJoined = false;
+    if(document.joinerList && document.joinerList.find(item => item.docId === member.docId)){
+      isJoined = true;
+    }
     return (
       <Container>
         <Content>
@@ -108,9 +124,11 @@ class Notice extends React.Component {
                   <Text style={{fontSize:25}}>{document.title}</Text>
                 </Body>
               </CardItem>
-              <CardItem cardBody>
-                <Image source={{uri: document.urlList && document.urlList[0]}} style={{height: 200, width: null, flex: 1}}/>
-              </CardItem>
+                {(document.urlList && document.urlList[0]) &&
+                  <CardItem cardBody>
+                    <Image source={{uri: document.urlList && document.urlList[0]}} style={{height: 200, width: null, flex: 1}}/>
+                  </CardItem>
+                }
               <CardItem style={{paddingBottom:40}}>
                 <Body>
                   <Text>{document.content}</Text>
@@ -137,12 +155,13 @@ class Notice extends React.Component {
               <CardItem style={{marginBottom: 50, paddingTop:0, height:50}}>
                 <Left style={{width:'50%',paddingTop:0, marginTop:0, borderWidth:1, flexDirection:'row', borderTopWidth:0.5, borderColor:'#cccccc'}}>
                   <Button transparent style={{height:40, justifyContent:'center', width:'100%'}}>
-                    <Text style={{paddingRight:15, color:'#2867ae'}}><Text style={{fontSize:15, color:'#2867ae'}}>참석</Text> <Text style={{color:'#2867ae'}}>{16}</Text> <Text style={{color:'#2867ae'}}>{'>'}</Text></Text>
+                    <Text style={{paddingRight:15, color:bgColor}}><Text style={{fontSize:15, color:bgColor}}>참석</Text> <Text style={{color:bgColor}}>{document.joinerList ? document.joinerList.length : 0}</Text> <Text style={{color:bgColor}}>{'>'}</Text></Text>
                   </Button>
                 </Left>
                 <Left style={{width:'50%',paddingTop:0, marginTop:0, borderWidth:1, flexDirection:'row', borderTopWidth:0.5, borderColor:'#cccccc'}}>
-                  <Button transparent style={{height:40, justifyContent:'center', backgroundColor:'#2867ae', width:'100%', borderRadius:0}}>
-                    <Text style={{paddingRight:15, color:'#ffffff'}}>참석하기</Text>
+                  <Button transparent style={{height:40, justifyContent:'center', backgroundColor:bgColor, width:'100%', borderRadius:0}}
+                          onPress={isJoined ? this.removeJoiner : this.addJoiner }>
+                    <Text style={{paddingRight:15, color:'#ffffff'}}>{isJoined ? '참석취소':'참석하기'}</Text>
                   </Button>
                 </Left>
               </CardItem>
@@ -164,7 +183,6 @@ class Notice extends React.Component {
                     <Right>
                       <TouchableOpacity onPress={() => {
                         this.setState({ visibleModal: true, removeItem:item});
-                        //this.removeComment(item)
                       }}>
                       <Text note style={{paddingBottom:5}}>{moment(item.createDateTime).format("MM/DD HH:mm")}</Text>
                       {item.docId === member.docId &&
@@ -190,7 +208,7 @@ class Notice extends React.Component {
                 <Button style={{width:120, height:50, justifyContent:'center', borderRadius:0, marginRight:5, backgroundColor:'#dddddd'}} onPress={() => this.setState({visibleModal: false})}>
                   <Text>취소</Text>
                 </Button>
-                <Button style={{width:120, height:50, justifyContent:'center', borderRadius:0, marginLeft:5, backgroundColor: '#2867ae'}} onPress={() => {
+                <Button style={{width:120, height:50, justifyContent:'center', borderRadius:0, marginLeft:5, backgroundColor: bgColor}} onPress={() => {
                   this.removeComment(this.state.removeItem);
                   this.setState({visibleModal: false})
                 }}>
@@ -206,7 +224,7 @@ class Notice extends React.Component {
                   </Body>
                 </Left>
                 <Right style={{marginRight:0}}>
-                  <Button onPress={this.addComment} style={{backgroundColor: '#2867ae', borderRadius: null, height:50}}><Text>등록</Text></Button>
+                  <Button onPress={this.addComment} style={{backgroundColor: bgColor, borderRadius: null, height:50}}><Text>등록</Text></Button>
                 </Right>
               </CardItem>
             </Card>
