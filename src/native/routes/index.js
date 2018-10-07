@@ -87,7 +87,6 @@ const Index = (
       Layout={LoginComponent}
     />
     <Scene
-      //initial
       key="terms"
       navBar={OnlyLogoNavBar}
       component={TermsContainer}
@@ -95,8 +94,11 @@ const Index = (
     />
 
     <Scene
-      hideNavBar
+    initial
       key="signup"
+      title="회원가입"
+      titleColorArray={['#394eb7','#6965dc']}
+      navBar={TextNavBar}
       component={SignUpContainer}
       Layout={SignUpComponent}
     />
@@ -152,7 +154,7 @@ const Index = (
 
     <Drawer
       key="drawer"
-      initial
+      //initial
       hideNavBar
       contentComponent={DrawerContent}
       drawerImage={MenuIcon}

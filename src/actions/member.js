@@ -2,51 +2,6 @@ import ErrorMessages from '../constants/errors';
 import statusMessage from './status';
 import {Firebase, FirebaseStorage, Firestore} from '../lib/firebase';
 
-/**
- * Sign Up to Firebase
- */
-export function signUp(formData) {
-  const {
-    school,
-    name,
-    email,
-    password,
-    password2,
-    phone,
-    studentNum,
-  } = formData;
-
-  return dispatch => new Promise(async (resolve, reject) => {
-    // Validation checks
-    if (!school) return reject({ message: ErrorMessages.missingSchool });
-    if (!name) return reject({ message: ErrorMessages.missingName });
-    if (!email) return reject({ message: ErrorMessages.missingEmail });
-    if (!password) return reject({ message: ErrorMessages.missingPassword });
-    if (!password2) return reject({ message: ErrorMessages.missingPassword });
-    if (!phone) return reject({ message: ErrorMessages.missingPhone });
-    if (!studentNum) return reject({ message: ErrorMessages.missingStudentNum });
-    if (password !== password2) return reject({ message: ErrorMessages.passwordsDontMatch });
-
-    await statusMessage(dispatch, 'loading', true);
-
-    // Go to Firebase
-    return Firebase.auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then((res) => {
-        // Send user details to Firebase database
-        if (res && res.uid) {
-          // FirebaseRef.child(`users/${res.uid}`).set({
-          //   school,
-          //   name,
-          //   phone,
-          //   studentNum,
-          //   signedUp: Firebase.database.ServerValue.TIMESTAMP,
-          //   lastLoggedIn: Firebase.database.ServerValue.TIMESTAMP,
-          // }).then(() => statusMessage(dispatch, 'loading', false).then(resolve));
-        }
-      }).catch(reject);
-  }).catch(async (err) => { await statusMessage(dispatch, 'error', err.message); throw err.message; });
-}
 
 /**
  * Get this User's Details
@@ -258,6 +213,73 @@ export function updateProfile(formData) {
       }).catch(reject);
   }).catch(async (err) => { await statusMessage(dispatch, 'error', err.message); throw err.message; });
 }
+
+export function createProfile(formData) {
+    const {
+        email,
+        phone,
+        studentNum,
+        className,
+        mbaType,
+        company,
+        isGraduation,
+        isProfileOpen,
+        imageUrl,
+        imageBlob,
+        password,
+    } = formData;
+    let thumb = formData.thumb;
+    console.log()
+    return dispatch => new Promise(async (resolve, reject) => {
+        await statusMessage(dispatch, 'loading', true);
+        return Firebase.auth()
+            .createUserWithEmailAndPassword(email, password)
+            .then((res) => {
+                console.log(res.uid)
+                if(imageUrl && imageBlob){
+                    thumb = FirebaseStorage.child('users/' + res.uid + '/' + imageBlob._55._data.name)
+                        .put(imageBlob._55)
+                        .then(async snapshot => await snapshot.ref.getDownloadURL());
+                    thumb = thumb.replace(imageBlob._55._data.name, 'thumb_' + imageBlob._55._data.name)
+                }
+                Firestore.collection("users").doc(res.uid).add({ email, phone, studentNum, className, mbaType, company, isGraduation, isProfileOpen, thumb})
+            }).catch(reject);
+    }).catch(async (err) => { await statusMessage(dispatch, 'error', err.message); throw err.message; });
+}
+
+
+export function signUp(formData) {
+    const {
+        school,
+        name,
+        email,
+        password,
+        password2,
+        phone,
+        studentNum,
+    } = formData;
+
+    return dispatch => new Promise(async (resolve, reject) => {
+        await statusMessage(dispatch, 'loading', true);
+        // Go to Firebase
+        return Firebase.auth()
+            .createUserWithEmailAndPassword(email, password)
+            .then((res) => {
+                // Send user details to Firebase database
+                if (res && res.uid) {
+                    // FirebaseRef.child(`users/${res.uid}`).set({
+                    //   school,
+                    //   name,
+                    //   phone,
+                    //   studentNum,
+                    //   signedUp: Firebase.database.ServerValue.TIMESTAMP,
+                    //   lastLoggedIn: Firebase.database.ServerValue.TIMESTAMP,
+                    // }).then(() => statusMessage(dispatch, 'loading', false).then(resolve));
+                }
+            }).catch(reject);
+    }).catch(async (err) => { await statusMessage(dispatch, 'error', err.message); throw err.message; });
+}
+
 
 export function changePassword(formData) {
   const {

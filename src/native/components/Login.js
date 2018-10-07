@@ -118,7 +118,7 @@ class Login extends Component {
 
               <Button transparent>
                 {/*<Icon name="check" size={40} color='#ffffff' onPress={v => this.handleChange('keepLogin', v)}/>*/}
-                <Text style={{color: '#ffffff', alignItems: 'center', paddingLeft:0}}>로그인 상태 유지</Text>
+                {/*<Text style={{color: '#ffffff', alignItems: 'center', paddingLeft:0}}>로그인 상태 유지</Text>*/}
               </Button>
             </View>
             </Body>
@@ -134,7 +134,7 @@ class Login extends Component {
             <Body style={{alignItems: 'center'}}>
             <View style={{marginBottom:0, paddingBottom:0}}>
               <Button bordered style={{borderColor: '#ffffff', marginBottom:0, paddingBottom:0}} onPress={this.handleSubmit}>
-                <Text style={{color: '#ffffff', alignItems: 'center'}}>로그인</Text>
+                  <Text style={{color: '#ffffff', alignItems: 'center'}}>로그인</Text>
               </Button>
             </View>
             </Body>
@@ -142,6 +142,9 @@ class Login extends Component {
           <ListItem noBorder >
             <Body style={{alignItems: 'center', paddingBottom:100}}>
             <View style={{flexDirection: 'row'}}>
+              <Button transparent onPress={Actions.signup} style={{paddingTop:0}}>
+                  <Text style={{color: '#ffffff', alignItems: 'center'}}>회원가입</Text>
+              </Button>
               <Button transparent onPress={Actions.forgotPassword} style={{paddingTop:0}}>
                 <Text style={{color: '#ffffff', alignItems: 'center'}}>아이디 찾기</Text>
               </Button>

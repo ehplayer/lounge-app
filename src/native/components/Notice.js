@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
     borderColor: "rgba(0, 0, 0, 0.1)",
     height:260
   },
-
 });
 const bgColorMap = {
     hall: '#4581d9',
