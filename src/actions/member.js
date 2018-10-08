@@ -215,7 +215,7 @@ export function updateProfile(formData) {
 }
 
 export function createProfile(formData) {
-    const {
+    let {
         email,
         phone,
         studentNum,
@@ -227,24 +227,36 @@ export function createProfile(formData) {
         imageUrl,
         imageBlob,
         password,
+        universe,
     } = formData;
+    className = className || '';
+    mbaType = mbaType || '';
+    company = company || '';
+    universe = universe || 'yonsei';
+
     let thumb = formData.thumb;
-    console.log()
     return dispatch => new Promise(async (resolve, reject) => {
-        await statusMessage(dispatch, 'loading', true);
+
         return Firebase.auth()
             .createUserWithEmailAndPassword(email, password)
             .then((res) => {
-                console.log(res.uid)
+                console.log(res)
+                console.log(res.user.uid)
+                const uid = res.user.uid;
                 if(imageUrl && imageBlob){
-                    thumb = FirebaseStorage.child('users/' + res.uid + '/' + imageBlob._55._data.name)
+                    thumb = FirebaseStorage.child('users/' + uid + '/' + imageBlob._55._data.name)
                         .put(imageBlob._55)
                         .then(async snapshot => await snapshot.ref.getDownloadURL());
                     thumb = thumb.replace(imageBlob._55._data.name, 'thumb_' + imageBlob._55._data.name)
                 }
-                Firestore.collection("users").doc(res.uid).add({ email, phone, studentNum, className, mbaType, company, isGraduation, isProfileOpen, thumb})
+                console.log({ email, phone, studentNum, universe, isGraduation,
+                    className, mbaType, company , isProfileOpen, thumb})
+                Firestore.collection("users").doc(uid).set({ email, phone, studentNum, universe, isGraduation,
+                                                        className, mbaType, company , isProfileOpen, thumb})
+                    .then(() => statusMessage(dispatch, 'loading', false).then(resolve));
+
             }).catch(reject);
-    }).catch(async (err) => { await statusMessage(dispatch, 'error', err.message); throw err.message; });
+    }).catch(async (err) => { await statusMessage(dispatch, 'error', err.message); throw err; });
 }
 
 

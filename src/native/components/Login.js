@@ -140,7 +140,7 @@ class Login extends Component {
             </Body>
           </ListItem>
           <ListItem noBorder >
-            <Body style={{alignItems: 'center', paddingBottom:100}}>
+            <Body style={{alignItems: 'center', paddingBottom:200}}>
             <View style={{flexDirection: 'row'}}>
               <Button transparent onPress={Actions.signup} style={{paddingTop:0}}>
                   <Text style={{color: '#ffffff', alignItems: 'center'}}>회원가입</Text>

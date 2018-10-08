@@ -94,7 +94,7 @@ const Index = (
     />
 
     <Scene
-    initial
+    //initial
       key="signup"
       title="회원가입"
       titleColorArray={['#394eb7','#6965dc']}

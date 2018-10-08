@@ -27,6 +27,13 @@ const styles = StyleSheet.create({
     },
 });
 
+
+const errorMessageMap = {
+    'auth/invalid-email': '잘못된 이메일 형식입니다.',
+    'auth/email-already-in-use': '이미 가입된 이메일입니다.',
+    'auth/weak-password': '비밀번호는 6자리 이상이어야합니다.'
+};
+
 class SignUp extends React.Component {
     static propTypes = {
         error: PropTypes.string,
@@ -109,7 +116,12 @@ class SignUp extends React.Component {
 
         this.props.onFormSubmit(this.state)
             .then(() => Actions.pop())
-            .catch(e => console.log(`Error: ${e}`));
+            .catch(e => {
+                console.log(e.code)
+                console.log(e.message)
+                this.handleChange('formErrorMessage', errorMessageMap[e.code] || '오류가 발생하였습니다.');
+                this.handleChange('visibleModal', true);
+            });
     }
     renderRow(boardItem) {
         return (
@@ -129,7 +141,7 @@ class SignUp extends React.Component {
             {name:'이화여대', value:'ewha'},
             {name:'한양대', value:'hanyang'},
         ];
-        console.log(this.state.formErrorMessage)
+
         return (
             <Container>
                 <Content style={{backgroundColor: '#ffffff'}}>
