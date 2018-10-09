@@ -96,16 +96,19 @@ class SignUp extends React.Component {
 
     handleSubmit = () => {
         let errorMessage = '';
-        if(!this.state.email || this.state.email == ''){
+        if(!this.state.email || this.state.email === ''){
             errorMessage = '이메일을 입력해주세요';
             this.handleChange('emailError', true);
-        } else if(!this.state.password || this.state.password == ''){
+        } else if(!this.state.password || this.state.password === ''){
             errorMessage = '비밀번호를 입력해주세요';
             this.handleChange('passwordError', true);
-        } else if(!this.state.passwordCheck || this.state.passwordCheck == ''){
+        } else if(!this.state.name || this.state.name === ''){
+            errorMessage = '이름을 입력해주세요';
+            this.handleChange('passwordCheckError', true);
+        } else if(!this.state.passwordCheck || this.state.passwordCheck === ''){
             errorMessage = '비밀번호 확인을 입력해주세요';
             this.handleChange('passwordCheckError', true);
-        } else if(this.state.password != this.state.passwordCheck){
+        } else if(this.state.password !== this.state.passwordCheck){
             errorMessage = '비밀번호 확인이 다릅니다.';
             this.handleChange('passwordCheckError', true);
         }
@@ -117,8 +120,6 @@ class SignUp extends React.Component {
         this.props.onFormSubmit(this.state)
             .then(() => Actions.pop())
             .catch(e => {
-                console.log(e.code)
-                console.log(e.message)
                 this.handleChange('formErrorMessage', errorMessageMap[e.code] || '오류가 발생하였습니다.');
                 this.handleChange('visibleModal', true);
             });
@@ -141,6 +142,7 @@ class SignUp extends React.Component {
             {name:'이화여대', value:'ewha'},
             {name:'한양대', value:'hanyang'},
         ];
+        if (loading) return <Loading/>;
 
         return (
             <Container>
@@ -164,7 +166,6 @@ class SignUp extends React.Component {
                                 </Button>
                             </Right>
                         </View>
-                        <Text style={{fontSize:20, paddingTop:10}}>{this.props.member.name}</Text>
                         </Body>
                     </ListItem>
                     <Form>
@@ -194,6 +195,14 @@ class SignUp extends React.Component {
                                 <Text style={{paddingLeft: '5%', width: '30%', color: this.state.passwordCheckError ? 'red' : '#000000'}}>비밀번호 확인</Text>
                                 <Body>
                                 <Input secureTextEntry={true} style={{borderBottomWidth:1, height:22}} value={this.state.passwordCheck} onChangeText={v => this.handleChange('passwordCheck', v)}/>
+                                </Body>
+                            </Left>
+                        </ListItem>
+                        <ListItem noBorder style={{marginTop:10, marginRight:10}}>
+                            <Left>
+                                <Text style={{paddingLeft: '5%', width: '30%', color: this.state.nameError ? 'red' : '#000000'}}>이름</Text>
+                                <Body style={{flexDirection: 'row'}}>
+                                <Input style={{borderBottomWidth:1, height:22}} value={this.state.name} onChangeText={v => this.handleChange('name', v)}/>
                                 </Body>
                             </Left>
                         </ListItem>

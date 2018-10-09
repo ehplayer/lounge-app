@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { addComment} from '../actions/univ';
+import { updateTerms} from '../actions/member';
 
 class TermsContainer extends Component {
   static propTypes = {
@@ -19,12 +19,12 @@ class TermsContainer extends Component {
   }
 
   render = () => {
-    const { Layout, member, univ, addComment, param } = this.props;
+    const { Layout, member, univ, updateTerms, param } = this.props;
     return (
       <Layout
         document={univ.article}
         member={member}
-        addComment={addComment}
+        updateTerms={updateTerms}
         param={param}
       />
     );
@@ -36,7 +36,7 @@ const mapStateToProps = state => ({
   univ: state.univ || {},
 });
 const mapDispatchToProps = {
-  addComment,
+    updateTerms,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TermsContainer);

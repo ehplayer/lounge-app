@@ -52,6 +52,7 @@ class Terms extends React.Component {
 
   handleSubmit = () => {
       if(this.state.checkedTermsService && this.state.checkedTermsUser){
+        this.props.updateTerms();
         return Actions.home();
       }
   };

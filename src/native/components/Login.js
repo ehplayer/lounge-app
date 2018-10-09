@@ -49,7 +49,7 @@ class Login extends Component {
     this.props.onFormSubmit(this.state)
       .then((result) => {
 
-        if(result && !result.termsCheck) {
+        if(!this.props.member.termsCheck) {
           Actions.terms()
           return;
         }

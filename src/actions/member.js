@@ -178,6 +178,25 @@ export function resetPassword(formData) {
       .catch(reject);
   }).catch(async (err) => { await statusMessage(dispatch, 'error', err.message); throw err.message; });
 }
+/**
+ * Update Profile
+ */
+export function updateTerms(formData) {
+    return dispatch => new Promise(async (resolve, reject) => {
+        const UID = Firebase.auth().currentUser.uid;
+        if (!UID) return reject({ message: ErrorMessages.missingFirstName });
+
+        return Firestore.collection("users").doc(UID).set({ termsCheck:true}, {merge:true})
+            .then(async () => {
+                return resolve(dispatch({
+                    type: 'USER_DETAILS_UPDATE',
+                    data: {
+                        termsCheck:true
+                    },
+                }));
+            }).catch(reject);
+    }).catch(async (err) => { await statusMessage(dispatch, 'error', err.message); throw err.message; });
+}
 
 /**
  * Update Profile
@@ -217,6 +236,7 @@ export function updateProfile(formData) {
 export function createProfile(formData) {
     let {
         email,
+        name,
         phone,
         studentNum,
         className,
@@ -235,13 +255,12 @@ export function createProfile(formData) {
     universe = universe || 'yonsei';
 
     let thumb = formData.thumb;
-    return dispatch => new Promise(async (resolve, reject) => {
 
+    return dispatch => new Promise(async (resolve, reject) => {
+        await statusMessage(dispatch, 'loading', true);
         return Firebase.auth()
             .createUserWithEmailAndPassword(email, password)
             .then((res) => {
-                console.log(res)
-                console.log(res.user.uid)
                 const uid = res.user.uid;
                 if(imageUrl && imageBlob){
                     thumb = FirebaseStorage.child('users/' + uid + '/' + imageBlob._55._data.name)
@@ -249,14 +268,15 @@ export function createProfile(formData) {
                         .then(async snapshot => await snapshot.ref.getDownloadURL());
                     thumb = thumb.replace(imageBlob._55._data.name, 'thumb_' + imageBlob._55._data.name)
                 }
-                console.log({ email, phone, studentNum, universe, isGraduation,
-                    className, mbaType, company , isProfileOpen, thumb})
-                Firestore.collection("users").doc(uid).set({ email, phone, studentNum, universe, isGraduation,
-                                                        className, mbaType, company , isProfileOpen, thumb})
+
+                Firestore.collection("users").doc(uid).set({ email, phone, name, studentNum, universe, isGraduation,
+                                                        className, mbaType, company, isProfileOpen, thumb,
+                                                            'memberType': 'U',
+                                                            'authWating': true           })
                     .then(() => statusMessage(dispatch, 'loading', false).then(resolve));
 
             }).catch(reject);
-    }).catch(async (err) => { await statusMessage(dispatch, 'error', err.message); throw err; });
+    }).catch(async (err) => { await statusMessage(dispatch, 'loading', false); throw err; });
 }
 
 
