@@ -15,6 +15,7 @@ export default {
   missingPassword: '패스워드를 입력해주세요',
   missingPhone: '폰번호를 입력해주세요',
   missingStudentNum: '학번을 선택해주세요',
+  'auth/user-not-found': '아이디 또는 비밀번호가 일치하지 않습니다.',
   'auth/wrong-password': '아이디 또는 비밀번호가 일치하지 않습니다.',
   'auth/invalid-email': '이메일의 형식이 올바르지 않습니다.',
 

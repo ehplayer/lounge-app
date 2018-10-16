@@ -48,10 +48,16 @@ class Login extends Component {
   handleSubmit = () => {
     this.props.onFormSubmit(this.state)
       .then((result) => {
-
+        if(!result){
+          return;
+        }
         if(!this.props.member.termsCheck) {
           Actions.terms()
           return;
+        }
+        if(this.props.member.authWating) {
+            Actions.authWaiting();
+            return;
         }
 
         if(result) Actions.home()

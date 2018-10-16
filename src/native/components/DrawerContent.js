@@ -42,18 +42,19 @@ class DrawerContent extends React.Component {
   };
 
   render() {
-
+    const { member } = this.props;
+    const isMaster = member.memberType === 'M';
     return (
       <Container>
         <Content>
           <List numColumns={2}>
             <ListItem onPress={Actions.profileHome}>
               <Left>
-                <Thumbnail source={{uri: this.props.member.thumb}}/>
+                <Thumbnail source={{uri: member.thumb}}/>
                 <Body>
-                <Text>{this.props.member.name}</Text>
-                <Text note>{this.props.member.email}</Text>
-                <Text note>{this.props.member.company}</Text>
+                <Text>{member.name}</Text>
+                <Text note>{member.email}</Text>
+                <Text note>{member.company}</Text>
                 </Body>
               </Left>
             </ListItem>
@@ -82,54 +83,60 @@ class DrawerContent extends React.Component {
                 </Button>
               </Left>
             </ListItem>
-            <ListItem style={{borderBottomWidth:1, paddingLeft:0, marginLeft:0}}>
-              <Left>
-                <Button transparent style={{width:'100%'}} onPress={Actions.createBoard}>
-                <Body style={{alignItems: 'center'}}>
-                  <Image
-                    style={{height:45, width:'100%'}}
-                    resizeMode="contain"
-                    source={newIcon}
-                  />
-                </Body>
-                </Button>
-              </Left>
-              <Left style={{borderLeftWidth:1, borderColor:'#cccccc'}}>
-                <Button transparent style={{width:'100%'}} onPress={Actions.manageBoard}>
-                <Body style={{alignItems: 'center', margin: 0, padding:0}}>
-                  <Image
-                    style={{height:45, width:'100%'}}
-                    resizeMode="contain"
-                    source={manageIcon}
-                  />
-                </Body>
-                </Button>
-              </Left>
-            </ListItem>
-            <ListItem style={{borderBottomWidth:1, paddingLeft:0, marginLeft:0}}>
-              <Left>
-                <Button transparent style={{width:'100%'}} onPress={Actions.scheduler}>
-                <Body style={{alignItems: 'center'}}>
-                  <Image
-                    style={{height:45, width:'100%'}}
-                    resizeMode="contain"
-                    source={approveIcon}
-                  />
-                </Body>
-                </Button>
-              </Left>
-              <Left onPress={Actions.scheduler} style={{borderLeftWidth:1, borderColor:'#cccccc'}}>
-                <Button transparent style={{width:'100%'}} onPress={Actions.scheduler}>
-                <Body style={{alignItems: 'center', margin: 0, padding:0}}>
-                <Image
-                  style={{height:45, width:'100%'}}
-                  resizeMode="contain"
-                  source={serviceApproveIcon}
-                />
-                </Body>
-                </Button>
-              </Left>
-            </ListItem>
+            {/* only admin user menu*/}
+            {isMaster &&
+              <ListItem style={{borderBottomWidth: 1, paddingLeft: 0, marginLeft: 0}}>
+                  <Left>
+                      <Button transparent style={{width: '100%'}} onPress={Actions.createBoard}>
+                          <Body style={{alignItems: 'center'}}>
+                          <Image
+                              style={{height: 45, width: '100%'}}
+                              resizeMode="contain"
+                              source={newIcon}
+                          />
+                          </Body>
+                      </Button>
+                  </Left>
+                  <Left style={{borderLeftWidth: 1, borderColor: '#cccccc'}}>
+                      <Button transparent style={{width: '100%'}} onPress={Actions.manageBoard}>
+                          <Body style={{alignItems: 'center', margin: 0, padding: 0}}>
+                          <Image
+                              style={{height: 45, width: '100%'}}
+                              resizeMode="contain"
+                              source={manageIcon}
+                          />
+                          </Body>
+                      </Button>
+                  </Left>
+              </ListItem>
+              }
+              {isMaster &&
+                <ListItem style={{borderBottomWidth:1, paddingLeft:0, marginLeft:0}}>
+                  <Left>
+                    <Button transparent style={{width:'100%'}} onPress={Actions.scheduler}>
+                    <Body style={{alignItems: 'center'}}>
+                      <Image
+                        style={{height:45, width:'100%'}}
+                        resizeMode="contain"
+                        source={approveIcon}
+                      />
+                    </Body>
+                    </Button>
+                  </Left>
+                  <Left onPress={Actions.scheduler} style={{borderLeftWidth:1, borderColor:'#cccccc'}}>
+                    <Button transparent style={{width:'100%'}} onPress={Actions.scheduler}>
+                    <Body style={{alignItems: 'center', margin: 0, padding:0}}>
+                    <Image
+                      style={{height:45, width:'100%'}}
+                      resizeMode="contain"
+                      source={serviceApproveIcon}
+                    />
+                    </Body>
+                    </Button>
+                  </Left>
+                </ListItem>
+
+              }
           </List>
         </Content>
       </Container>

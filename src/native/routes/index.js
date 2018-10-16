@@ -103,7 +103,13 @@ const Index = (
       Layout={SignUpComponent}
     />
 
-    <Scene key="authWating" component={MemberContainer} Layout={AuthWatingComponent}/>
+    <Scene
+        key="authWaiting"
+        title=""
+        titleColorArray={['#394eb7','#4a57ba']}
+        navBar={TextNavBar}
+        component={MemberContainer}
+        Layout={AuthWatingComponent}/>
 
 
     <Scene

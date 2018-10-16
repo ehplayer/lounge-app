@@ -233,6 +233,7 @@ export function updateProfile(formData) {
   }).catch(async (err) => { await statusMessage(dispatch, 'error', err.message); throw err.message; });
 }
 
+
 export function createProfile(formData) {
     let {
         email,
@@ -260,19 +261,27 @@ export function createProfile(formData) {
         await statusMessage(dispatch, 'loading', true);
         return Firebase.auth()
             .createUserWithEmailAndPassword(email, password)
-            .then((res) => {
+            .then(async (res) => {
                 const uid = res.user.uid;
                 if(imageUrl && imageBlob){
-                    thumb = FirebaseStorage.child('users/' + uid + '/' + imageBlob._55._data.name)
+                    thumb = await FirebaseStorage.child('users/' + uid + '/' + imageBlob._55._data.name)
                         .put(imageBlob._55)
-                        .then(async snapshot => await snapshot.ref.getDownloadURL());
+                        .then(async snapshot => await snapshot.ref.getDownloadURL())
+                        .catch(async (err) => { console.log(err); throw err; });
                     thumb = thumb.replace(imageBlob._55._data.name, 'thumb_' + imageBlob._55._data.name)
+
+                }
+                if(!thumb || thumb === ''){
+                    thumb = 'https://firebasestorage.googleapis.com/v0/b/club-mba.appspot.com/o/image%2Fthumb_gray.jpg?alt=media&token=821900e5-3630-4295-ac7d-eda9c6eb0e12';
                 }
 
                 Firestore.collection("users").doc(uid).set({ email, phone, name, studentNum, universe, isGraduation,
                                                         className, mbaType, company, isProfileOpen, thumb,
                                                             'memberType': 'U',
-                                                            'authWating': true           })
+                                                            'authWating': true,
+                                                            'univAuth': [{authType: 'U', boardId:'total'}],
+                                                            'clubAuth': []
+                                                            })
                     .then(() => statusMessage(dispatch, 'loading', false).then(resolve));
 
             }).catch(reject);

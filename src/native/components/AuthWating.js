@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View } from 'react-native';
-import { Container, Content, List, ListItem, Body, Left, Text, Icon } from 'native-base';
-import { Actions } from 'react-native-router-flux';
-import Header from './Header';
+import {Dimensions, Image} from 'react-native';
+import {Container, Content, List} from 'native-base';
+import AuthWaitingImage from "../../images/authWaiting.png";
 
 class AuthWating extends React.Component {
   static propTypes = {
@@ -20,35 +19,10 @@ class AuthWating extends React.Component {
 
     return (
       <Container>
-        <Content>
-          <List>
-              <View>
-                <Content padder>
-                  <Header
-                    title={`안녕하세요 ${member.name}님`}
-                    content={`승인후 사용가능 auth : ${member.auth}`}
-                  />
-                </Content>
-    
-                <ListItem onPress={Actions.updateProfile} icon>
-                  <Left>
-                    <Icon name="person-add" />
-                  </Left>
-                  <Body>
-                    <Text>Update My Profile</Text>
-                  </Body>
-                </ListItem>
-                <ListItem onPress={logout} icon>
-                  <Left>
-                    <Icon name="power" />
-                  </Left>
-                  <Body>
-                    <Text>Logout</Text>
-                  </Body>
-                </ListItem>
-              </View>
-          </List>
-        </Content>
+              <Image
+                  style={{width: Dimensions.get('window').width, height: Dimensions.get('window').height, margin:0, padding:0}}
+                  resizeMode="cover"
+                  source={AuthWaitingImage}/>
       </Container>
     )
   }
