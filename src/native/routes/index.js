@@ -54,6 +54,9 @@ import CreateBoardComponent from '../components/CreateBoard';
 import ManageBoardContainer from '../../containers/ManageBoard';
 import ManageBoardComponent from '../components/ManageBoard';
 
+import ManageUserContainer from '../../containers/ManageUser';
+import ManageUserComponent from '../components/ManageUser';
+
 import BoardListContainer from '../../containers/BoardList';
 import BoardListComponent from '../components/BoardList';
 
@@ -62,7 +65,7 @@ import ProfileContainer from '../../containers/Profile';
 import ProfileComponent from '../components/Profile';
 import HomeComponent from '../components/Home';
 import HomeContainer from '../../containers/Home';
-import AuthWatingComponent from '../components/AuthWating';
+import AuthWaitingComponent from '../components/AuthWating';
 
 import DrawerContent from '../components/DrawerContent';
 
@@ -109,7 +112,7 @@ const Index = (
         titleColorArray={['#394eb7','#4a57ba']}
         navBar={TextNavBar}
         component={MemberContainer}
-        Layout={AuthWatingComponent}/>
+        Layout={AuthWaitingComponent}/>
 
 
     <Scene
@@ -160,14 +163,14 @@ const Index = (
 
     <Drawer
       key="drawer"
-      //initial
+      initial
       hideNavBar
       contentComponent={DrawerContent}
       drawerImage={MenuIcon}
     >
       <Scene key="hall" navBar={MenuNavBar} component={HallContainer} Layout={BoardComponent}/>
       <Scene initial key="home" navBar={MenuNavBar} component={HomeContainer} Layout={HomeComponent}/>
-      <Scene  key="univ" navBar={MenuNavBar} component={UnivContainer} Layout={BoardComponent}/>
+      <Scene key="univ" navBar={MenuNavBar} component={UnivContainer} Layout={BoardComponent}/>
       <Scene key="club" navBar={MenuNavBar} component={ClubContainer} Layout={BoardComponent}/>
     </Drawer>
     <Scene
@@ -214,6 +217,17 @@ const Index = (
       navBar={TextNavBar}
       component={ManageBoardContainer}
       Layout={ManageBoardComponent}
+    />
+
+    <Scene
+      back
+      key="manageUser"
+      title="서비스 사용 승인"
+      //initial
+      titleColorArray={['#394eb7','#6965dc']}
+      navBar={TextNavBar}
+      component={ManageUserContainer}
+      Layout={ManageUserComponent}
     />
 
     <Scene

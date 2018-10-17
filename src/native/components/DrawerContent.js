@@ -123,8 +123,8 @@ class DrawerContent extends React.Component {
                     </Body>
                     </Button>
                   </Left>
-                  <Left onPress={Actions.scheduler} style={{borderLeftWidth:1, borderColor:'#cccccc'}}>
-                    <Button transparent style={{width:'100%'}} onPress={Actions.scheduler}>
+                  <Left onPress={Actions.manageUser} style={{borderLeftWidth:1, borderColor:'#cccccc'}}>
+                    <Button transparent style={{width:'100%'}} onPress={Actions.manageUser}>
                     <Body style={{alignItems: 'center', margin: 0, padding:0}}>
                     <Image
                       style={{height:45, width:'100%'}}
