@@ -49,6 +49,7 @@ export function getMemberData() {
     });
   });
 }
+
 export function getMemberListData(member) {
   if (Firebase === null) return () => new Promise(resolve => resolve());
 
@@ -69,6 +70,43 @@ export function getMemberListData(member) {
         });
       }));
   });
+}
+
+export function getAuthRequestMemberListData(member) {
+    if (Firebase === null) return () => new Promise(resolve => resolve());
+
+    // Ensure token is up to date
+    return dispatch => new Promise(async (resolve) => {
+        return resolve(Firestore.collection("users").where('authWaiting', '==', true).limit(10).get()
+            .then(async userListSnapshots => {
+                let userList = [];
+                userListSnapshots.docs.forEach(doc => {
+                    userList.push({...doc.data(), docId: doc.id});
+                });
+
+                return dispatch({
+                    type: 'SCHEDULER_OWNER_UPDATE',
+                    userList: userList,
+                });
+            }));
+    });
+}
+
+export function getOtherUserData(docId) {
+    if (Firebase === null) return () => new Promise(resolve => resolve());
+
+    return dispatch => new Promise(async resolve => {
+        await statusMessage(dispatch, 'loading', true);
+        const documentSnapshots = await Firestore.collection('users').doc(docId).get();
+        await statusMessage(dispatch, 'loading', false);
+
+        return resolve(dispatch({
+            type: 'GET_OTHER_USER',
+            data: {
+                user: {...documentSnapshots.data(), docId: documentSnapshots.id}
+            }
+        }));
+    });
 }
 
 export function getSearchMemberList(name) {
@@ -278,7 +316,7 @@ export function createProfile(formData) {
                 Firestore.collection("users").doc(uid).set({ email, phone, name, studentNum, universe, isGraduation,
                                                         className, mbaType, company, isProfileOpen, thumb,
                                                             'memberType': 'U',
-                                                            'authWating': true,
+                                                            'authWaiting': true,
                                                             'univAuth': [{authType: 'U', boardId:'total'}],
                                                             'clubAuth': []
                                                             })

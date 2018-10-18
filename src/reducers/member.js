@@ -71,6 +71,15 @@ export default function userReducer(state = initialState, action) {
         stepMemberList: []
       };
     }
+
+    case 'GET_OTHER_USER': {
+        return {
+            ...state,
+            loading: false,
+            error: null,
+            user : action.data.user,
+        };
+    }
     case 'USER_ERROR': {
       if (action.data) {
         return {

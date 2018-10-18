@@ -63,6 +63,10 @@ import BoardListComponent from '../components/BoardList';
 import MemberContainer from '../../containers/Member';
 import ProfileContainer from '../../containers/Profile';
 import ProfileComponent from '../components/Profile';
+
+import OtherProfileContainer from '../../containers/OtherProfile';
+import OtherProfileComponent from '../components/OtherProfile';
+
 import HomeComponent from '../components/Home';
 import HomeContainer from '../../containers/Home';
 import AuthWaitingComponent from '../components/AuthWating';
@@ -141,6 +145,14 @@ const Index = (
       component={UpdateProfileContainer} Layout={ProfileComponent}/>
 
     <Scene
+      back
+      key="otherProfile"
+      title="프로필"
+      titleColorArray={['#394eb7','#6965dc']}
+      navBar={TextNavBar}
+      component={OtherProfileContainer} Layout={OtherProfileComponent}/>
+
+      <Scene
       back
       key="scheduler"
       title="원우수첩"
@@ -223,7 +235,7 @@ const Index = (
       back
       key="manageUser"
       title="서비스 사용 승인"
-      //initial
+      initial
       titleColorArray={['#394eb7','#6965dc']}
       navBar={TextNavBar}
       component={ManageUserContainer}

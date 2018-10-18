@@ -2,21 +2,22 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { logout, getMemberData } from '../actions/member';
+import { logout, getOtherUserData } from '../actions/member';
 
-class Profile extends Component {
+class OtherProfile extends Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,
     memberLogout: PropTypes.func.isRequired,
-    getMemberData: PropTypes.func.isRequired,
+  getOtherUserData: PropTypes.func.isRequired,
     member: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
       error: PropTypes.string,
     }).isRequired,
   }
 
-  componentDidMount = () => {
-    this.props.getMemberData();
+  constructor(props) {
+      super(props);
+      this.props.getOtherUserData(props.docId);
   }
 
   render = () => {
@@ -31,8 +32,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  memberLogout: logout,
-  getMemberData,
+    memberLogout: logout,
+    getOtherUserData,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(OtherProfile);

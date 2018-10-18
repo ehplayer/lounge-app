@@ -48,8 +48,6 @@ class NoticeList extends React.Component {
 
   render = () => {
     const { Layout, univ, match, member, status} = this.props;
-    console.log(univ)
-
     return (
       <Layout
         error={univ.error}

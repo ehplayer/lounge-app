@@ -1,19 +1,19 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {getMemberListData, logout} from '../actions/member';
+import {getMemberListData, logout, getAuthRequestMemberListData} from '../actions/member';
 
 class Scheduler extends Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,
-    getMemberListData: PropTypes.func.isRequired,
+    getAuthRequestMemberListData: PropTypes.func.isRequired,
     loading: PropTypes.bool,
     error: PropTypes.string,
   }
 
   constructor(props) {
     super(props);
-    this.props.getMemberListData(props.member);
+    this.props.getAuthRequestMemberListData(props.member);
   };
 
   render = () => {
@@ -31,7 +31,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   memberLogout: logout,
-  getMemberListData,
+  getAuthRequestMemberListData,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Scheduler);

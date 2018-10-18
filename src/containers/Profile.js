@@ -20,7 +20,6 @@ class Profile extends Component {
   }
 
   logout = () => {
-    console.log("run logout")
     this.props.univLogout();
     this.props.memberLogout();
   };

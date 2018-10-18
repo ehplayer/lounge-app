@@ -55,7 +55,7 @@ class Login extends Component {
           Actions.terms()
           return;
         }
-        if(this.props.member.authWating) {
+        if(this.props.member.authWaiting) {
             Actions.authWaiting();
             return;
         }

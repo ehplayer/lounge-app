@@ -21,12 +21,11 @@ import {Actions} from 'react-native-router-flux';
 import Loading from './Loading';
 import {Image} from "react-native";
 
-class ProfileHome extends React.Component {
+class OtherProfileComponent extends React.Component {
   static propTypes = {
     error: PropTypes.string,
     success: PropTypes.string,
-    loading: PropTypes.bool.isRequired,
-    onFormSubmit: PropTypes.func.isRequired,
+    loading: PropTypes.bool,
     member: PropTypes.shape({
       name: PropTypes.string,
       email: PropTypes.string,
@@ -51,14 +50,15 @@ class ProfileHome extends React.Component {
     const {loading, error, success, member, logout} = this.props;
     // Loading
     if (loading) return <Loading/>;
+    const user = member.user;
     return (
       <Container>
         <Content style={{backgroundColor: '#ffffff'}}>
           <ListItem>
             <Body style={{alignItems: 'center'}}>
             <Thumbnail large
-                       source={{uri: member.thumb}}/>
-            <Text style={{fontSize:20, paddingTop:10}}>{this.props.member.name}</Text>
+                       source={{uri: user.thumb}}/>
+            <Text style={{fontSize:20, paddingTop:10}}>{user.name}</Text>
             </Body>
           </ListItem>
           <Form>
@@ -66,7 +66,7 @@ class ProfileHome extends React.Component {
               <Left style={{alignItems:'center'}}>
                 <Text style={{paddingLeft: '5%', width: '25%'}}>ID</Text>
                 <Body style={{flexDirection: 'row'}}>
-                  <Text>{member.email}</Text>
+                  <Text>{user.email}</Text>
                 </Body>
                 <Button transparent onPress={logout}
                         style={{borderWidth:1,borderColor:'#cccccc', width:75, height:30, justifyContent:'center'}}>
@@ -78,9 +78,9 @@ class ProfileHome extends React.Component {
               <Left>
                 <Text style={{paddingLeft: '5%', width: '25%'}}>핸드폰</Text>
                 <Body style={{flexDirection: 'row'}}>
-                <Text>{member.phone && member.phone.slice(0,3) + ' - '}</Text>
-                <Text >{member.phone && member.phone.slice(3,7) + ' - '}</Text>
-                <Text >{member.phone && member.phone.slice(7,11)}</Text>
+                <Text>{user.phone && user.phone.slice(0,3) + ' - '}</Text>
+                <Text >{user.phone && user.phone.slice(3,7) + ' - '}</Text>
+                <Text >{user.phone && user.phone.slice(7,11)}</Text>
                 </Body>
               </Left>
             </ListItem>
@@ -88,7 +88,7 @@ class ProfileHome extends React.Component {
               <Left>
                 <Text style={{paddingLeft: '5%', width: '25%'}}>학번</Text>
                 <Body style={{flexDirection: 'row'}}>
-                <Text>{member.studentNum}</Text>
+                <Text>{user.studentNum}</Text>
                 </Body>
               </Left>
             </ListItem>
@@ -96,7 +96,7 @@ class ProfileHome extends React.Component {
               <Left>
                 <Text style={{paddingLeft: '5%', width: '25%'}}>기수</Text>
                 <Body style={{flexDirection: 'row'}}>
-                <Text >{member.className}</Text>
+                <Text >{user.className}</Text>
                 </Body>
               </Left>
             </ListItem>
@@ -104,7 +104,7 @@ class ProfileHome extends React.Component {
               <Left>
                 <Text style={{paddingLeft: '5%', width: '25%'}}>MBA과정</Text>
                 <Body style={{flexDirection: 'row'}}>
-                <Text>{member.mbaType}</Text>
+                <Text>{user.mbaType}</Text>
                 </Body>
               </Left>
             </ListItem>
@@ -112,47 +112,10 @@ class ProfileHome extends React.Component {
               <Left>
                 <Text style={{paddingLeft: '5%', width: '25%'}}>직장</Text>
                 <Body style={{flexDirection: 'row'}}>
-                <Text >{member.company}</Text>
+                <Text >{user.company}</Text>
                 </Body>
               </Left>
             </ListItem>
-            <ListItem noBorder>
-              <Left>
-                <Text style={{paddingLeft: '5%', height:45, width: '25%'}}>싱글여부</Text>
-                <Body>
-                <Button transparent >
-                  <Image
-                    style={{width: 28, height: 28, marginRight:10}}
-                    resizeMode="contain"
-                    source={member.isSingle ? checkedIcon : uncheckedIcon}
-                  />
-                </Button>
-                <Text style={{color:'#999999', fontSize:13}}> * 싱글여부는 비공개이며</Text>
-                <Text style={{color:'#999999', fontSize:13}}> 추후 관련 이벤트 진행 시 사용됩니다.</Text>
-                </Body>
-              </Left>
-            </ListItem>
-            <ListItem noBorder>
-              <Left>
-                <Text style={{paddingLeft: '5%', height:45, width: '25%'}}>공개여부</Text>
-                <Body>
-                <Button transparent >
-                    <Image
-                      style={{width: 28, height: 28, marginRight:10}}
-                      resizeMode="contain"
-                      source={member.isProfileOpen ? checkedIcon : uncheckedIcon}
-                    />
-                  </Button>
-                  <Text style={{color:'#999999', fontSize:13}}> * 싱글여부는 비공개이며</Text>
-                  <Text style={{color:'#999999', fontSize:13}}> 추후 관련 이벤트 진행 시 사용됩니다.</Text>
-                </Body>
-              </Left>
-            </ListItem>
-            <Body style={{alignItems: 'center'}}>
-            <Button style={{width:100, justifyContent:'center', backgroundColor:'#394eb7'}} onPress={Actions.updateProfile}>
-              <Text>수정</Text>
-            </Button>
-            </Body>
           </Form>
         </Content>
       </Container>
@@ -160,4 +123,4 @@ class ProfileHome extends React.Component {
   }
 }
 
-export default ProfileHome;
+export default OtherProfileComponent;
