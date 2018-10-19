@@ -91,6 +91,19 @@ export function getAuthRequestMemberListData(member) {
             }));
     });
 }
+export function approveUser(userMap) {
+    if (Firebase === null) return () => new Promise(resolve => resolve());
+
+    return dispatch => new Promise(async (resolve) => {
+        console.log(userMap)
+        userMap.forEach((item) => {
+            console.log(item)
+            Firestore.collection("users").doc(item.docId).set({authWaiting:false}, {merge:true})
+        });
+
+        resolve();
+    });
+}
 
 export function getOtherUserData(docId) {
     if (Firebase === null) return () => new Promise(resolve => resolve());

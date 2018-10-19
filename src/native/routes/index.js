@@ -89,7 +89,6 @@ const Index = (
       hideNavBar
       initial
       key="login"
-      back={false}
       component={LoginContainer}
       Layout={LoginComponent}
     />
@@ -235,7 +234,6 @@ const Index = (
       back
       key="manageUser"
       title="서비스 사용 승인"
-      initial
       titleColorArray={['#394eb7','#6965dc']}
       navBar={TextNavBar}
       component={ManageUserContainer}

@@ -17,7 +17,7 @@ class Scheduler extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            checkMap:{}
+            checkMap: new Map()
         };
     }
 
@@ -25,23 +25,27 @@ class Scheduler extends React.Component {
         Actions.otherProfile({docId: item.docId})
     };
     checkMember = (item) => {
-        if(this.state.checkMap[item.docId]){
-            this.state.checkMap[item.docId] = false;
+        const {checkMap} = this.state;
+        if(checkMap.has(item.docId)){
+            checkMap.delete(item.docId)
         } else {
-            this.state.checkMap[item.docId] = item;
+            checkMap.set(item.docId, item);
         }
-
-        this.state.checkMap[item.docId] = this.state.checkMap[item.docId] ? item : false;
-
         this.setState({
             ...this.state,
-            checkMap: this.state.checkMap,
+            checkMap: checkMap,
         });
+    };
+
+    approveMember = () => {
+        this.props.approveUser(this.state.checkMap)
+            .then(() => Actions.pop());
     };
 
     render() {
         const {loading, error, userList} = this.props;
         if (loading) return <Loading/>;
+
         return (
             <Container>
                 <Content>
@@ -50,15 +54,31 @@ class Scheduler extends React.Component {
                             <Body>
                             <FlatList
                                 data={userList}
-                                ListHeaderComponent={() => <ListItem onPress={() => this.showMemberInfo(item)} style={{
-                                    height: 50,
-                                    marginLeft: 0,
-                                    marginRight: 0
-                                }}><Text style={{width: '95%'}}
-                                         onPress={Actions.schedule}>원우 목록</Text></ListItem>}
+                                ListHeaderComponent={() =>
+                                    <ListItem style={{
+                                            height: 50,
+                                            marginLeft: 0,
+                                            marginRight: 0,
+                                        }}>
+                                        <Text style={{width: '85%'}}>신청자 목록</Text>
+                                        <Left>
+                                            <Button transparent
+                                                    onPress={this.approveMember}
+                                                    style={{
+                                                        height: 34,
+                                                        width:60,
+                                                        backgroundColor: '#ffffff',
+                                                        borderColor: '#394eb7',
+                                                        borderWidth: 0.5,
+                                                        borderRadius: 15,
+                                            }} >
+                                                <Text style={{color: '#394eb7'}}>승인</Text>
+                                            </Button>
+                                        </Left>
+                                    </ListItem>}
                                 ListEmptyComponent={() =>
                                     <ListItem noBorder style={{height: 70, justifyContent: 'center'}}>
-                                        <Text style={{color: '#cccccc'}}>검색결과가 없습니다.</Text>
+                                        <Text style={{color: '#cccccc'}}>신청자가 없습니다.</Text>
                                     </ListItem>}
                                 renderItem={({item, index}) => (
                                     <ListItem avatar onPress={() => this.showMemberInfo(item)} style={{
@@ -71,8 +91,8 @@ class Scheduler extends React.Component {
                                         <Left style={{borderBottomWidth: 0}}>
                                             <Thumbnail small source={{uri: item.thumb}}/>
                                         </Left>
-                                        <Body style={{borderBottomWidth: 0, justifyContent: 'center', width: '15%'}}>
-                                        <Text>{item.name}</Text>
+                                        <Body style={{borderBottomWidth: 0, justifyContent: 'center', width: '20%'}}>
+                                        <Text style={{width:100}}>{item.name}</Text>
                                         </Body>
                                         <Body style={{borderBottomWidth: 0, margin: 0, padding:0}}>
                                             <Text style={{width:100}} note>{item.phone}</Text>
@@ -82,7 +102,7 @@ class Scheduler extends React.Component {
                                             <Image
                                                 style={{width: 35, height: 35}}
                                                 resizeMode="contain"
-                                                source={this.state.checkMap[item.docId] ? checkedIcon : uncheckedIcon}
+                                                source={this.state.checkMap.get(item.docId) ? checkedIcon : uncheckedIcon}
                                             />
                                         </Button>
                                         </Body>
