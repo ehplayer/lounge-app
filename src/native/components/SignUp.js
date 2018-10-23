@@ -161,7 +161,7 @@ class SignUp extends React.Component {
                             </Body>
                             <Right >
                                 <Button transparent onPress={this.pickImage}
-                                        style={{borderWidth:1,borderColor:'#cccccc', width:75, height:30, justifyContent:'center'}}>
+                                        style={{borderWidth:1,borderColor:'#cccccc', width:80, height:30, justifyContent:'center'}}>
                                     <Text style={{fontSize:12, color:'#999999', margin:0, padding:0, }}>사진변경</Text>
                                 </Button>
                             </Right>

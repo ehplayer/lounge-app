@@ -124,9 +124,29 @@ class Notice extends React.Component {
                 </Body>
               </CardItem>
                 {(document.urlList && document.urlList[0]) &&
-                  <CardItem cardBody>
-                    <Image source={{uri: document.urlList && document.urlList[0]}} style={{height: 200, width: null, flex: 1}}/>
+                  <CardItem cardBody style={{paddingBottom:10}}>
+                    <Image resizeMode={'contain'} source={{uri: document.urlList[0]}} style={{height: 300, flex: 1}}/>
                   </CardItem>
+                }
+                {(document.urlList && document.urlList[1]) &&
+                <CardItem cardBody style={{paddingBottom:10}}>
+                    <Image resizeMode={'contain'} source={{uri: document.urlList[1]}} style={{height: 300, flex: 1}}/>
+                </CardItem>
+                }
+                {(document.urlList && document.urlList[2]) &&
+                <CardItem cardBody style={{paddingBottom:10}}>
+                    <Image resizeMode={'contain'} source={{uri: document.urlList[2]}} style={{height: 300, flex: 1}}/>
+                </CardItem>
+                }
+                {(document.urlList && document.urlList[3]) &&
+                <CardItem cardBody style={{paddingBottom:10}}>
+                    <Image resizeMode={'contain'} source={{uri: document.urlList[3]}} style={{height: 300,flex: 1}}/>
+                </CardItem>
+                }
+                {(document.urlList && document.urlList[4]) &&
+                <CardItem cardBody style={{paddingBottom:10}}>
+                    <Image resizeMode={'contain'} source={{uri: document.urlList[4]}} style={{height: 300,flex: 1}}/>
+                </CardItem>
                 }
               <CardItem style={{paddingBottom:40}}>
                 <Body>
