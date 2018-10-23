@@ -54,12 +54,10 @@ class Login extends Component {
                     return;
                 }
                 if (!this.props.member.termsCheck) {
-                    Actions.terms()
-                    return;
+                    return Actions.terms();
                 }
                 if (this.props.member.authWaiting) {
-                    Actions.authWaiting();
-                    return;
+                    return Actions.authWaiting();
                 }
 
                 if (result) Actions.home()

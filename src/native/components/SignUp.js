@@ -134,6 +134,9 @@ class SignUp extends React.Component {
             </TouchableHighlight>
         );
     }
+    onInputFocus = (test) => {
+        console.log(test)
+    }
 
     render() {
         const {loading, error, success, member} = this.props;
@@ -161,7 +164,7 @@ class SignUp extends React.Component {
                             </Body>
                             <Right >
                                 <Button transparent onPress={this.pickImage}
-                                        style={{borderWidth:1,borderColor:'#cccccc', width:75, height:30, justifyContent:'center'}}>
+                                        style={{borderWidth:1,borderColor:'#cccccc', width:80, height:30, justifyContent:'center'}}>
                                     <Text style={{fontSize:12, color:'#999999', margin:0, padding:0, }}>사진변경</Text>
                                 </Button>
                             </Right>
@@ -178,7 +181,7 @@ class SignUp extends React.Component {
                             <Left>
                                 <Text style={{paddingLeft: '5%', width: '30%', color: this.state.emailError ? 'red' : '#000000'}}>ID(email)</Text>
                                 <Body>
-                                    <Input style={{borderBottomWidth:1, height:22}} value={this.state.email} onChangeText={v => this.handleChange('email', v)}/>
+                                    <Input style={{borderBottomWidth:1, height:22}} value={this.state.email} onChangeText={v => this.handleChange('email', v)} onFocus={v => this.onInputFocus(v)}/>
                                 </Body>
                             </Left>
                         </ListItem>
