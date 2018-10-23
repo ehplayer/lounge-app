@@ -27,9 +27,9 @@ class HomeContainer extends React.Component {
     super(props);
 
     if(!props.member.name){
-      Actions.login();
-      return;
+      return Actions.login();
     }
+
    this.fetchTotalHome(props.member);
   };
 

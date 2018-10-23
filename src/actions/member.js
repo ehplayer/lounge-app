@@ -23,16 +23,6 @@ function getUserData(dispatch) {
       data: {...doc.data(),docId:doc.id},
     });
   });
-
-  // const ref = FirebaseRef.child(`users/${UID}`);
-  // return ref.on('value', (snapshot) => {
-  //   const userData = snapshot.val() || [];
-
-  //   return dispatch({
-  //     type: 'USER_DETAILS_UPDATE',
-  //     data: userData,
-  //   });
-  // });
 }
 
 export function getMemberData() {
@@ -95,9 +85,7 @@ export function approveUser(userMap) {
     if (Firebase === null) return () => new Promise(resolve => resolve());
 
     return dispatch => new Promise(async (resolve) => {
-        console.log(userMap)
         userMap.forEach((item) => {
-            console.log(item)
             Firestore.collection("users").doc(item.docId).set({authWaiting:false}, {merge:true})
         });
 
@@ -184,9 +172,7 @@ export function login(formData) {
     // Validation checks
     if (!email) return reject({ message: ErrorMessages.missingEmail });
     if (!password) return reject({ message: ErrorMessages.missingPassword });
-
     await Firebase.auth().setPersistence(Firebase.auth.Auth.Persistence.LOCAL);
-
     const res = await Firebase.auth().signInWithEmailAndPassword(email, password).catch(async err =>{
       await statusMessage(dispatch, 'loading', false);
       return reject({ message: ErrorMessages[err.code]});
@@ -210,21 +196,56 @@ export function login(formData) {
   }).catch(async (err) => { await statusMessage(dispatch, 'error', err.message);});
 }
 
+export function findEmail(formData) {
+    const { name, studentNum, phone } = formData;
+    if (Firebase === null) return () => new Promise(resolve => resolve());
+
+    return dispatch => new Promise( async (resolve) => {
+
+        const documentSnapshots = await Firestore.collection("users")
+                                        .where('name', '==', name)
+                                        .where('studentNum', '==', studentNum)
+                                        .where('phone', '==', phone).get().catch(err => console.log(err));
+        let docList = [];
+        documentSnapshots.docs.forEach(doc => {
+            docList.push({...doc.data(), docId: doc.id});
+        });
+
+        return resolve(dispatch({
+            type: 'UPDATE_MEMBER_STATE',
+            data:{
+                findEmail: docList[0] ? docList[0] : {},
+            }
+
+        }));
+    });
+}export function clearFindEmail() {
+    if (Firebase === null) return () => new Promise(resolve => resolve());
+
+    return dispatch => new Promise( async (resolve) => {
+        return resolve(dispatch({
+            type: 'UPDATE_MEMBER_STATE',
+            data:{
+                findEmail: undefined,
+            }
+
+        }));
+    });
+}
+
 /**
  * Reset Password
  */
 export function resetPassword(formData) {
-  const { email } = formData;
+  const { passwordEmail } = formData;
 
   return dispatch => new Promise(async (resolve, reject) => {
     // Validation checks
-    if (!email) return reject({ message: ErrorMessages.missingEmail });
-
-    await statusMessage(dispatch, 'loading', true);
+    if (!passwordEmail) return reject({ message: ErrorMessages.missingEmail });
 
     // Go to Firebase
     return Firebase.auth()
-      .sendPasswordResetEmail(email)
+      .sendPasswordResetEmail(passwordEmail)
       .then(() => statusMessage(dispatch, 'loading', false).then(resolve(dispatch({ type: 'USER_RESET' }))))
       .catch(reject);
   }).catch(async (err) => { await statusMessage(dispatch, 'error', err.message); throw err.message; });
