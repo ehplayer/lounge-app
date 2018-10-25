@@ -51,7 +51,6 @@ class Scheduler extends React.Component {
                 <Content>
                     <Card transparent style={{marginTop: 0}}>
                         <CardItem style={{margin: 0, padding: 0}}>
-                            <Body>
                             <FlatList
                                 data={userList}
                                 ListHeaderComponent={() =>
@@ -86,18 +85,18 @@ class Scheduler extends React.Component {
                                         marginLeft: 0,
                                         marginRight: 0,
                                         borderBottomWidth: (index === userList.length - 1 ? 0 : 1),
-                                        borderBottomColor: '#dddddd'
+                                        borderBottomColor: '#dddddd',
                                     }}>
                                         <Left style={{borderBottomWidth: 0}}>
                                             <Thumbnail small source={{uri: item.thumb}}/>
                                         </Left>
-                                        <Body style={{borderBottomWidth: 0, justifyContent: 'center', width: '20%'}}>
-                                        <Text style={{width:100}}>{item.name}</Text>
+                                        <Body style={{borderBottomWidth: 0, justifyContent: 'center', width: '25%', overflow: "hidden"}}>
+                                        <Text style={{width:100, }}>{item.name}</Text>
                                         </Body>
-                                        <Body style={{borderBottomWidth: 0, margin: 0, padding:0}}>
+                                        <Body style={{borderBottomWidth: 0, margin: 0, padding:0, width: '25%'}}>
                                             <Text style={{width:100}} note>{item.phone}</Text>
                                         </Body>
-                                        <Body style={{borderBottomWidth: 0, paddingLeft: 100}}>
+                                        <Right style={{borderBottomWidth: 0, width:'20%'}}>
                                         <Button transparent onPress={() => this.checkMember(item)}>
                                             <Image
                                                 style={{width: 35, height: 35}}
@@ -105,13 +104,12 @@ class Scheduler extends React.Component {
                                                 source={this.state.checkMap.get(item.docId) ? checkedIcon : uncheckedIcon}
                                             />
                                         </Button>
-                                        </Body>
+                                        </Right>
 
                                     </ListItem>
                                 )}
                                 keyExtractor={(item) => item.docId}
                             />
-                            </Body>
                         </CardItem>
                     </Card>
                 </Content>

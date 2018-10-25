@@ -126,46 +126,42 @@ class BoardListComponent extends React.Component {
             </CardItem>
           </Card>
           <Separator style={{height: 10}}/>
-          <Card transparent style={{marginTop: 0}}>
-            <CardItem style={{margin:0, padding:0}}>
-              <Body>
-              <FlatList
-                data={clubBoardList}
-                ListHeaderComponent={() => <ListItem style={{height: 50, marginLeft:0, marginRight:0}}><Text style={{width: '95%'}}
-                                                                                                             onPress={Actions.schedule}>Club 목록</Text></ListItem>}
-                ListEmptyComponent={() =>
-                  <ListItem noBorder style={{height:70, justifyContent:'center'}}>
-                    <Text style={{color:'#cccccc'}}>검색결과가 없습니다.</Text>
-                  </ListItem> }
-                renderItem={({item, index}) => (
-                  <ListItem avatar style={{height:70, marginLeft:0, marginRight:0, borderBottomWidth:(index === clubBoardList.length -1 ? 0 : 1), borderBottomColor:'#dddddd'}}>
-                    <Left style={{borderBottomWidth:0}}>
-                      {item.thumb && item.thumb !== '#' ?
-                        <Thumbnail source={{uri: item.thumb}}/>
-                        :
-                        <Button style={{width:54, height:54, borderRadius: 54, backgroundColor:'#cccccc'}}/>
-                      }
-                    </Left>
-                    <Body style={{borderBottomWidth:0, justifyContent:'center', width:'50%'}}>
-                    <Text>{item.name}</Text>
-                    </Body>
-                    <Right style={{borderBottomWidth:0, width:'30%'}}>
-                      <Body >
-                      <Button transparent  onPress={() => this.props.removeStepMemberList(index)}
-                              style={styles.button}>
-                        {this.isJoined(item, 'clubAuth')
-                          ?<Text style={{color:'#333333'}}>가입됨</Text>
-                          :<Text style={{color:'#394eb7'}}>가입</Text>}
-                      </Button>
-                      </Body>
-                    </Right>
-                  </ListItem>
-                )}
-                keyExtractor={(item) => item.docId}
-              />
-              </Body>
-            </CardItem>
-          </Card>
+            <Card transparent style={{marginTop: 0}}>
+                <CardItem style={{margin:0, padding:0}}>
+                    <FlatList
+                        data={clubBoardList}
+                        ListHeaderComponent={() => <ListItem style={{height: 50, marginLeft:0, marginRight:0}}><Text style={{width: '95%'}}
+                                                                                                                     onPress={Actions.schedule}>CLUB 목록</Text></ListItem>}
+                        ListEmptyComponent={() =>
+                            <ListItem noBorder style={{height:70, justifyContent:'center'}}>
+                                <Text style={{color:'#cccccc'}}>검색결과가 없습니다.</Text>
+                            </ListItem> }
+                        renderItem={({item, index}) => (
+                            <ListItem avatar style={{height:70, marginLeft:0, marginRight:0, borderBottomWidth:(index === clubBoardList.length -1 ? 0 : 1), borderBottomColor:'#dddddd'}}>
+                                <Left style={{borderBottomWidth:0}}>
+                                    {item.thumb && item.thumb !== '#' ?
+                                        <Thumbnail source={{uri: item.thumb}}/>
+                                        :
+                                        <Button style={{width:54, height:54, borderRadius: 40, backgroundColor:'#cccccc'}}/>
+                                    }
+                                </Left>
+                                <Body style={{borderBottomWidth:0, justifyContent:'center', width:'50%'}}>
+                                <Text>{item.name}</Text>
+                                </Body>
+                                <Right style={{borderBottomWidth:0, width:'40%'}}>
+                                    <Body>
+                                    {this.isJoined(item, 'clubAuth')
+                                        ?<Button transparent disabled style={styles.joinedButton}><Text style={{color:'#333333'}}>가입됨</Text></Button>
+                                        : this.isJoinWaiting(item, 'club') ? <Button transparent disabled style={styles.joinedButton}><Text style={{color:'#333333'}}>대기중</Text></Button>
+                                            :<Button transparent onPress={() => this.join('club', item)} style={styles.joiningButton}><Text style={{color:'#394eb7'}}>가입</Text></Button>}
+                                    </Body>
+                                </Right>
+                            </ListItem>
+                        )}
+                        keyExtractor={(item) => item.docId}
+                    />
+                </CardItem>
+            </Card>
         </Content>
       </Container>
     );
