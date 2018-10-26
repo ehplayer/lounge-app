@@ -342,8 +342,9 @@ export function getBoardList(currentUnivId, member, sectionType) {
                 });
             });
         } else {
-            currentUnivId = 'total';
-            boardList.push({docId: 'total'})
+            const boardListSnapshots = await collectionReference.doc('total').get();
+            const data = boardListSnapshots.data();
+            boardList.push({...data, docId: 'total'});
         }
         await statusMessage(dispatch, 'loading', false);
         return resolve(dispatch({
@@ -423,7 +424,7 @@ export function getArticleItem(param) {
 
     return dispatch => new Promise(async resolve => {
         await statusMessage(dispatch, 'loading', true);
-        const documentSnapshots = await Firestore.collection(universe + sectionType)
+        const documentSnapshots = await Firestore.collection(sectionType === 'hall' ? 'hall' : universe + sectionType)
             .doc(currentUnivId).collection(boardType)
             .doc(docId).get();
         await statusMessage(dispatch, 'loading', false);
@@ -457,7 +458,7 @@ export function getArticleList(currentUnivId, member, sectionType) {
         });
 
         return resolve(dispatch({
-            type: isUniv ? 'GET_UNIV_ARTICLE_LIST' : 'GET_CLUB_ARTICLE_LIST',
+            type: `GET_${sectionType.toUpperCase()}_ARTICLE_LIST`,
             data: {
                 articleList: dataList,
                 currentUnivId: currentUnivId,
@@ -502,7 +503,6 @@ export function getUnivNoticeList(univ, member) {
             documentSnapshots.docs.forEach(doc => {
                 dataList.push({...doc.data(), docId: doc.id});
             });
-            console.log(dataList)
             return resolve(dispatch({
                 type: 'NOTICE_LIST_REPLACE',
                 data: {
@@ -750,7 +750,7 @@ export function addJoiner(param, member) {
     return dispatch => new Promise(async (resolve, reject) => {
         await statusMessage(dispatch, 'loading', true);
 
-        const documentRef = await Firestore.collection(param.universe + param.sectionType).doc(param.currentUnivId).collection(param.boardType).doc(param.docId);
+        const documentRef = await Firestore.collection(param.sectionType === 'hall' ? 'hall' : param.universe + param.sectionType).doc(param.currentUnivId).collection(param.boardType).doc(param.docId);
         const documentSnapShat = await documentRef.get();
         const boardItem = documentSnapShat.data();
         const joinerList = boardItem.comment;

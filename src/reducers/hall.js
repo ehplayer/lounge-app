@@ -12,6 +12,14 @@ export default function recipeReducer(state = initialState, action) {
         ...action.data,
       };
     }
+    case 'GET_HALL_ARTICLE_LIST': {
+        return {
+            ...state,
+            ...action.data,
+            loading: false,
+            error: null,
+        };
+    }
     default:
       return state;
   }

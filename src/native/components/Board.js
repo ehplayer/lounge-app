@@ -271,7 +271,7 @@ class BoardComponent extends React.Component {
         </List>
         <ActionButton
           buttonColor={boardColor}
-          onPress={() => Actions.createArticle({boardType: member.universe + sectionType, boardItem: boardItem, sectionType: sectionType})}
+          onPress={() => Actions.createArticle({boardType: sectionType === 'hall' ? 'hall' : member.universe + sectionType, boardItem: boardItem, sectionType: sectionType})}
           renderIcon={() => <Image
             style={{width: 28, height: 28}}
             resizeMode="contain"
