@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {ActivityIndicator, Dimensions, Image, Platform, ScrollView, StyleSheet,} from 'react-native'
+import {ActivityIndicator, Dimensions, Image, Platform, ScrollView, StyleSheet, TouchableHighlight, TouchableOpacity} from 'react-native'
 import {Body, Button, Input, Item, Left, ListItem, Text, View} from 'native-base';
 import {Actions} from 'react-native-router-flux';
 import Loading from './Loading';
@@ -155,20 +155,19 @@ class Login extends Component {
                     }
                     <ListItem noBorder>
                         <Body style={{alignItems: 'center'}}>
-                        <View style={{marginBottom: 0, paddingBottom: 0, paddingTop:20}}>
-                            <Button bordered style={{borderColor: '#ffffff', marginBottom: 0, paddingBottom: 0}}
-                                    onPress={this.handleSubmit}>
-                                <Text style={{color: '#ffffff', alignItems: 'center'}}>로그인</Text>
-                            </Button>
+                        <View style={{marginBottom: 0, paddingBottom: 0, paddingTop:20, flexDirection:'row'}}>
+                            <TouchableOpacity style={{ height: 50, width:80, borderWidth:1, borderColor: '#ffffff', alignItems: 'center', justifyContent:'center', borderRadius:5, marginRight: 5}} onPress={this.handleSubmit}>
+                                    <Text style={{color: '#ffffff', alignItems: 'center', fontSize:19}}>로그인</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{ height: 50, width:80, borderWidth:1, borderColor: '#ffffff', alignItems: 'center', justifyContent:'center', borderRadius:5, marginLeft: 5}} onPress={Actions.signup}>
+                                <Text style={{color: '#ffffff', alignItems: 'center', fontSize:19}}>회원가입</Text>
+                            </TouchableOpacity>
                         </View>
                         </Body>
                     </ListItem>
                     <ListItem noBorder>
                         <Body style={{alignItems: 'center', paddingBottom: 300}}>
                         <View style={{flexDirection: 'row'}}>
-                            <Button transparent onPress={Actions.signup} style={{paddingTop: 0}}>
-                                <Text style={{color: '#ffffff', alignItems: 'center'}}>회원가입</Text>
-                            </Button>
                             <Button transparent onPress={() => this.setState({visibleModal: true})} style={{paddingTop: 0}}>
                                 <Text style={{color: '#ffffff', alignItems: 'center'}}>아이디 찾기</Text>
                             </Button>

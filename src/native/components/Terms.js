@@ -41,6 +41,21 @@ class Terms extends React.Component {
     });
   };
   handleChangeAll = () => {
+    if(this.state.checkedTermsService &&
+        this.state.checkedTermsUser &&
+        this.state.checkedNotification &&
+        this.state.checkedAll
+    ) {
+        this.setState({
+            ...this.state,
+            checkedTermsService: false,
+            checkedTermsUser: false,
+            checkedNotification: false,
+            checkedAll: false,
+        });
+        return;
+    }
+
     this.setState({
       ...this.state,
       checkedTermsService: true,
