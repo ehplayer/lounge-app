@@ -101,7 +101,7 @@ const Index = (
 
     <Scene
     //initial
-      key="signup"
+      key="signUp"
       title="회원가입"
       titleColorArray={['#394eb7','#6965dc']}
       navBar={TextNavBar}

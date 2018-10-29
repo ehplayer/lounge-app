@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 
 import {login, findEmail, clearFindEmail, resetPassword} from '../actions/member';
 import {Actions} from "react-native-router-flux";
+import {BackHandler} from "react-native";
 
 class LoginContainer extends React.Component {
     static propTypes = {
@@ -24,7 +25,29 @@ class LoginContainer extends React.Component {
 
     constructor(props) {
         super(props);
+        this.backButtonListener = null;
+        this.currentRouteName = 'Main';
+        this.lastBackButtonPress = null;
     };
+    componentDidMount() {
+        console.log('add event')
+        this.backButtonListener = BackHandler.addEventListener('hardwareBackPress', () => {
+            console.log('fire!!')
+            return true;
+        });
+
+    }
+
+    componentWillUnmount() {
+        console.log('remove event')
+        this.backButtonListener.remove();
+    }
+
+    handleBackPress = () => {
+        console.log("handle back press")
+        this.setState({ visibleModal: true});
+        return false;
+    }
 
     render = () => {
         const { Layout, onFormSubmit, isLoading, member, infoMessage, errorMessage, successMessage, findEmail, clearFindEmail, resetPassword} = this.props;

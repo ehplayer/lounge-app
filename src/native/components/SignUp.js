@@ -39,7 +39,7 @@ class SignUp extends React.Component {
         error: PropTypes.string,
         success: PropTypes.string,
         loading: PropTypes.bool.isRequired,
-        onFormSubmit: PropTypes.func.isRequired,
+        createProfile: PropTypes.func.isRequired,
         member: PropTypes.shape({
             name: PropTypes.string,
             email: PropTypes.string,
@@ -117,8 +117,8 @@ class SignUp extends React.Component {
             return this.handleChange('visibleModal', true);
         }
 
-        this.props.onFormSubmit(this.state)
-            .then(() => Actions.pop())
+        this.props.createProfile({...this.state, ...this.props.param})
+            .then(() => Actions.login())
             .catch(e => {
                 this.handleChange('formErrorMessage', errorMessageMap[e.code] || '오류가 발생하였습니다.');
                 this.handleChange('visibleModal', true);
@@ -137,7 +137,7 @@ class SignUp extends React.Component {
 
     render() {
         const {loading, error, success, member} = this.props;
-        const universeList = [{name:'연세대', value:'yonsei'},
+        const universeList = [{name:'연세대', value:'yonsei', thumb: "http://www.yonsei.ac.kr/_res/sc/img/intro/img_symbol6.png"},
             {name:'고려대', value:'korea'},
             {name:'이화여대', value:'ewha'},
             {name:'한양대', value:'hanyang'},

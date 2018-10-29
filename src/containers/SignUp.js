@@ -6,27 +6,28 @@ import { logout, createProfile } from '../actions/member';
 
 const CreateProfile = ({
                            Layout,
-                           onFormSubmit,
+                           createProfile,
                            member,
                            isLoading,
                            errorMessage,
                            successMessage,
-                           logout
+                           logout,
+                            param
                        }) => (
     <Layout
         member={member}
         loading={isLoading}
         error={errorMessage}
         success={successMessage}
-        onFormSubmit={onFormSubmit}
+        createProfile={createProfile}
         logout={logout}
+        param={param}
     />
 );
 
 CreateProfile.propTypes = {
     Layout: PropTypes.func.isRequired,
     member: PropTypes.shape({}).isRequired,
-    onFormSubmit: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
     errorMessage: PropTypes.string,
     successMessage: PropTypes.string,
@@ -45,8 +46,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-    onFormSubmit: createProfile,
-    logout: logout,
+    createProfile,
+    logout,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateProfile);

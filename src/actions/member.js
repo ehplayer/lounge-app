@@ -321,6 +321,9 @@ export function createProfile(formData) {
         imageBlob,
         password,
         universe,
+        checkedNotification,
+        checkedTermsService,
+        checkedTermsUser,
     } = formData;
     className = className || '';
     mbaType = mbaType || '';
@@ -348,7 +351,8 @@ export function createProfile(formData) {
                 }
 
                 Firestore.collection("users").doc(uid).set({ email, phone, name, studentNum, universe, isGraduation,
-                                                        className, mbaType, company, isProfileOpen, thumb,
+                                                        className, mbaType, company, isProfileOpen, thumb, checkedNotification, checkedTermsService, checkedTermsUser,
+                                                        createDate: Date.now(),
                                                             'memberType': 'U',
                                                             'authWaiting': true,
                                                             'univAuth': [{authType: 'U', boardId:'total'}],

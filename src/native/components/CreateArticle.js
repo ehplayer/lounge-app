@@ -246,6 +246,8 @@ class CreateArticle extends React.Component {
                     }}
                     locale='ko'
                     showIcon={false}
+                    minDate={new Date()}
+
                   />
                   <Text style={{paddingHorizontal: 10}}>~</Text>
                   <DatePicker
@@ -268,6 +270,7 @@ class CreateArticle extends React.Component {
                     }}
                     locale='ko'
                     showIcon={false}
+                    minDate={this.state.startDatetime || new Date()}
                   />
                 </View>
                 }

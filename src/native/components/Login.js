@@ -53,9 +53,6 @@ class Login extends Component {
                 if (!result) {
                     return;
                 }
-                if (!this.props.member.termsCheck) {
-                    return Actions.terms();
-                }
                 if (this.props.member.authWaiting) {
 
                     return Actions.authWaiting();
@@ -156,11 +153,11 @@ class Login extends Component {
                     <ListItem noBorder>
                         <Body style={{alignItems: 'center'}}>
                         <View style={{marginBottom: 0, paddingBottom: 0, paddingTop:20, flexDirection:'row'}}>
-                            <TouchableOpacity style={{ height: 50, width:80, borderWidth:1, borderColor: '#ffffff', alignItems: 'center', justifyContent:'center', borderRadius:5, marginRight: 5}} onPress={this.handleSubmit}>
-                                    <Text style={{color: '#ffffff', alignItems: 'center', fontSize:19}}>로그인</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={{ height: 50, width:80, borderWidth:1, borderColor: '#ffffff', alignItems: 'center', justifyContent:'center', borderRadius:5, marginLeft: 5}} onPress={Actions.signup}>
+                            <TouchableOpacity style={{ height: 50, width:80, borderWidth:1, borderColor: '#ffffff', alignItems: 'center', justifyContent:'center', borderRadius:5, marginRight: 5}} onPress={Actions.terms}>
                                 <Text style={{color: '#ffffff', alignItems: 'center', fontSize:19}}>회원가입</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{ height: 50, width:80, borderWidth:1, borderColor: '#ffffff', alignItems: 'center', justifyContent:'center', borderRadius:5, marginLeft: 5}} onPress={this.handleSubmit}>
+                                    <Text style={{color: '#ffffff', alignItems: 'center', fontSize:19}}>로그인</Text>
                             </TouchableOpacity>
                         </View>
                         </Body>

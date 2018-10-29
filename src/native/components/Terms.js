@@ -65,13 +65,6 @@ class Terms extends React.Component {
     });
   };
 
-  handleSubmit = () => {
-      if(this.state.checkedTermsService && this.state.checkedTermsUser){
-        this.props.updateTerms();
-        return Actions.home();
-      }
-  };
-
   render() {
     const isApprove = this.state.checkedTermsService && this.state.checkedTermsUser;
     return (
@@ -132,11 +125,16 @@ class Terms extends React.Component {
               <Text style={{marginLeft:28, color:'#4a4a4a', fontSize:13}}>언제든지 APP의 설정 > 알림설정에서 설정변경가능합니다.</Text>
             </Left>
             <Body style={{alignItems: 'center', flexDirection: 'row', paddingTop: 20, paddingBottom: 40}}>
-              <Button style={{width:100, justifyContent:'center', borderRadius:0, marginRight:5, backgroundColor:'#cccccc'}} onPress={Actions.login}>
+              <Button style={{width:100, justifyContent:'center', borderRadius:0, marginRight:5, backgroundColor:'#cccccc'}} onPress={Actions.pop}>
                 <Text>취소</Text>
               </Button>
               <Button disabled={!isApprove}
-                      style={{width:100, justifyContent:'center', borderRadius:0, marginLeft:5, backgroundColor: (isApprove ?'#394eb7' :'#888888')}} onPress={this.handleSubmit}>
+                      style={{width:100, justifyContent:'center', borderRadius:0, marginLeft:5, backgroundColor: (isApprove ?'#394eb7' :'#888888')}}
+                      onPress={() => Actions.signUp({param:{
+                                  checkedNotification: this.state.checkedNotification,
+                              checkedTermsService: this.state.checkedTermsService,
+                              checkedTermsUser: this.state.checkedTermsUser,
+                            }})}>
                 <Text>확인</Text>
               </Button>
             </Body>
