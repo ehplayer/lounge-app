@@ -753,7 +753,7 @@ export function addJoiner(param, member) {
         const documentRef = await Firestore.collection(param.sectionType === 'hall' ? 'hall' : param.universe + param.sectionType).doc(param.currentUnivId).collection(param.boardType).doc(param.docId);
         const documentSnapShat = await documentRef.get();
         const boardItem = documentSnapShat.data();
-        const joinerList = boardItem.comment;
+        const joinerList = boardItem.joinerList;
         joinerList.push({
             docId: member.docId,
             name: member.name,
@@ -783,17 +783,16 @@ export function removeJoiner(param, member) {
     return dispatch => new Promise(async (resolve, reject) => {
         await statusMessage(dispatch, 'loading', true);
 
-        const documentRef = await Firestore.collection(param.universe + param.sectionType).doc(param.currentUnivId).collection(param.boardType).doc(param.docId);
+        const documentRef = await Firestore.collection(param.sectionType === 'hall' ? 'hall' : param.universe + param.sectionType).doc(param.currentUnivId).collection(param.boardType).doc(param.docId);
         const documentSnapShat = await documentRef.get();
         const boardItem = documentSnapShat.data();
-        const joinerList = boardItem.comment;
+        const joinerList = boardItem.joinerList;
         let removedJoinerList = [];
         joinerList.forEach(joiner => {
-            if (joiner.docId === member.docId) {
+            if (joiner.docId !== member.docId) {
                 removedJoinerList.push(joiner);
             }
         });
-
         await documentRef.update({
             joinerList: removedJoinerList
         });

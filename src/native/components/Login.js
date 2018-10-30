@@ -1,14 +1,13 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {ActivityIndicator, Dimensions, Image, Platform, ScrollView, StyleSheet, TouchableHighlight, TouchableOpacity} from 'react-native'
-import {Body, Button, Input, Item, Left, ListItem, Text, View} from 'native-base';
+import {ActivityIndicator, Dimensions, Image, Platform, ScrollView, StyleSheet, TouchableOpacity} from 'react-native'
+import {Body, Button, Form, Input, Item, Left, ListItem, Text, View} from 'native-base';
 import {Actions} from 'react-native-router-flux';
 import Loading from './Loading';
 import Messages from './Messages';
 import MainLogo from '../../images/logo_splash.png';
 import {LinearGradient} from "expo";
 import Modal from "react-native-modal";
-import {findEmail} from "../../actions/member";
 import Colors from "../../../native-base-theme/variables/commonColor";
 
 let scrollYPos = 0;
@@ -113,6 +112,7 @@ class Login extends Component {
                             source={MainLogo}/>
                         </Body>
                     </ListItem>
+                    <Form>
                     <ListItem noBorder>
                         <Left>
                             <Text style={{paddingLeft: '13%', width: '25%', color: '#ffffff'}}>ID</Text>
@@ -143,6 +143,7 @@ class Login extends Component {
                             </Body>
                         </Left>
                     </ListItem>
+                    </Form>
                     {error &&
                     <ListItem noBorder>
                         <Body style={{alignItems: 'center'}}>

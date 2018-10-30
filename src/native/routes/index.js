@@ -15,6 +15,8 @@ import LoginContainer from '../../containers/Login';
 import LoginComponent from '../components/Login';
 import TermsContainer from '../../containers/Terms';
 import TermsComponent from '../components/Terms';
+import TermsServiceComponent from '../components/TermsService';
+import TermsUserComponent from '../components/TermsUser';
 
 import NoticeContainer from '../../containers/Notice';
 import NoticeComponent from '../components/Notice';
@@ -97,6 +99,22 @@ const Index = (
       navBar={OnlyLogoNavBar}
       component={TermsContainer}
       Layout={TermsComponent}
+    />
+
+    <Scene
+      key="termsService"
+      title="서비스 이용약관"
+      navBar={TextNavBar}
+      component={TermsContainer}
+      Layout={TermsServiceComponent}
+    />
+
+    <Scene
+      key="termsUser"
+      title="개인정보 제공 및 이용"
+      navBar={TextNavBar}
+      component={TermsContainer}
+      Layout={TermsUserComponent}
     />
 
     <Scene
