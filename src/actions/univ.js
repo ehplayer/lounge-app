@@ -749,11 +749,12 @@ export function addJoiner(param, member) {
 
     return dispatch => new Promise(async (resolve, reject) => {
         await statusMessage(dispatch, 'loading', true);
-
+        console.log(param)
         const documentRef = await Firestore.collection(param.sectionType === 'hall' ? 'hall' : param.universe + param.sectionType).doc(param.currentUnivId).collection(param.boardType).doc(param.docId);
         const documentSnapShat = await documentRef.get();
         const boardItem = documentSnapShat.data();
-        const joinerList = boardItem.joinerList;
+        const joinerList = boardItem.joinerList || [];
+
         joinerList.push({
             docId: member.docId,
             name: member.name,

@@ -148,11 +148,18 @@ class UnivComponent extends React.Component {
                       <CardItem style={{paddingBottom:0}}>
                           <Body>
                           <List>
-                              <ListItem style={{height: 40, paddingLeft:0, marginLeft:0, alignItems:'center'}}>
-                                  <Text style={{width: '90%', paddingLeft:0, marginLeft:0}}
-                                        onPress={item => Actions.noticeList({title: '공지사항'})}>공지사항</Text>
+                              <ListItem style={{height: 40, paddingLeft:0, marginLeft:0, alignItems:'center'}} onPress={item => Actions.noticeList({title: '공지사항'})}>
+                                  <Text style={{width: '90%', paddingLeft:0, marginLeft:0, paddingBottom:20}} >공지사항</Text>
                                   <Image
-                                      style={{width: 20, height: 20, marginLeft:10}}
+                                      style={{width: 28, height: 20, marginLeft:10}}
+                                      resizeMode="contain"
+                                      source={ArrowRight}/>
+                              </ListItem>
+                              <ListItem style={{height: 40, paddingLeft:0, marginLeft:0, alignItems:'center'}} onPress={item => Actions.homeNoticeList({title: '공지사항'})}>
+                                  <Text style={{width: '90%', paddingLeft:0, marginLeft:0, paddingBottom:20}}
+                                        onPress={item => Actions.homeNoticeList({title: '공지사항'})}>공지사항</Text>
+                                  <Image
+                                      style={{width: 28, height: 20, marginLeft:10}}
                                       resizeMode="contain"
                                       source={ArrowRight}/>
                               </ListItem>
