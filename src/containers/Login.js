@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 import {login, findEmail, clearFindEmail, resetPassword} from '../actions/member';
 import {Actions} from "react-native-router-flux";
-import {BackHandler} from "react-native";
+import {BackHandler, DeviceEventEmitter, Platform} from "react-native";
 
 class LoginContainer extends React.Component {
     static propTypes = {
@@ -23,31 +23,22 @@ class LoginContainer extends React.Component {
         successMessage: null,
     };
 
-    constructor(props) {
-        super(props);
-        this.backButtonListener = null;
-        this.currentRouteName = 'Main';
-        this.lastBackButtonPress = null;
-    };
     componentDidMount() {
-        console.log('add event')
-        this.backButtonListener = BackHandler.addEventListener('hardwareBackPress', () => {
-            console.log('fire!!')
-            return true;
-        });
-
+        if (Platform.OS === 'android') {
+            this.props.backPressSubscriptions.add(this.handleHardwareBack);
+        }
     }
 
     componentWillUnmount() {
-        console.log('remove event')
-        this.backButtonListener.remove();
+        if (Platform.OS === 'android') {
+            this.props.backPressSubscriptions.clear();
+        }
     }
 
-    handleBackPress = () => {
-        console.log("handle back press")
-        this.setState({ visibleModal: true});
-        return false;
-    }
+    handleHardwareBack = () => {
+        console.log(Actions.currentScene)
+        return true;
+    };
 
     render = () => {
         const { Layout, onFormSubmit, isLoading, member, infoMessage, errorMessage, successMessage, findEmail, clearFindEmail, resetPassword} = this.props;

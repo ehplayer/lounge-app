@@ -1,6 +1,15 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {ActivityIndicator, Dimensions, Image, Platform, ScrollView, StyleSheet, TouchableOpacity} from 'react-native'
+import {
+    ActivityIndicator,
+    BackHandler,
+    Dimensions,
+    Image,
+    Platform,
+    ScrollView,
+    StyleSheet,
+    TouchableOpacity
+} from 'react-native'
 import {Body, Button, Form, Input, Item, Left, ListItem, Text, View} from 'native-base';
 import {Actions} from 'react-native-router-flux';
 import Loading from './Loading';
@@ -38,6 +47,7 @@ class Login extends Component {
         error: null,
         member: {},
     }
+
 
     handleChange = (name, val) => {
         this.setState({
