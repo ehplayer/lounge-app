@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import {login, findEmail, clearFindEmail, resetPassword} from '../actions/member';
-import {Actions} from "react-native-router-flux";
-import {BackHandler, DeviceEventEmitter, Platform} from "react-native";
 
 class LoginContainer extends React.Component {
     static propTypes = {
@@ -23,25 +21,8 @@ class LoginContainer extends React.Component {
         successMessage: null,
     };
 
-    componentDidMount() {
-        if (Platform.OS === 'android') {
-            this.props.backPressSubscriptions.add(this.handleHardwareBack);
-        }
-    }
-
-    componentWillUnmount() {
-        if (Platform.OS === 'android') {
-            this.props.backPressSubscriptions.clear();
-        }
-    }
-
-    handleHardwareBack = () => {
-        console.log(Actions.currentScene)
-        return true;
-    };
-
     render = () => {
-        const { Layout, onFormSubmit, isLoading, member, infoMessage, errorMessage, successMessage, findEmail, clearFindEmail, resetPassword} = this.props;
+        const { Layout, onFormSubmit, isLoading, member, infoMessage, errorMessage, successMessage, findEmail, clearFindEmail, resetPassword, backPressSubscriptions} = this.props;
 
         return <Layout
             member={member}
@@ -53,6 +34,7 @@ class LoginContainer extends React.Component {
             findEmail={findEmail}
             clearFindEmail={clearFindEmail}
             resetPassword={resetPassword}
+            backPressSubscriptions={backPressSubscriptions}
         />
     }
 }

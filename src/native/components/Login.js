@@ -8,9 +8,24 @@ import {
     Platform,
     ScrollView,
     StyleSheet,
-    TouchableOpacity
+    TouchableOpacity,
+    KeyboardAvoidingView, TextInput
 } from 'react-native'
-import {Body, Button, Form, Input, Item, Left, ListItem, Text, View} from 'native-base';
+import {
+    Body,
+    Button, Container,
+    Content,
+    Form,
+    Input,
+    Item,
+    Left,
+    ListItem,
+    Right,
+    Separator,
+    Text,
+    Thumbnail,
+    View
+} from 'native-base';
 import {Actions} from 'react-native-router-flux';
 import Loading from './Loading';
 import Messages from './Messages';
@@ -18,6 +33,9 @@ import MainLogo from '../../images/logo_splash.png';
 import {LinearGradient} from "expo";
 import Modal from "react-native-modal";
 import Colors from "../../../native-base-theme/variables/commonColor";
+import ModalDropDown from "react-native-modal-dropdown";
+import checkedIcon from "../../images/checkO.png";
+import uncheckedIcon from "../../images/checkX.png";
 
 let scrollYPos = 0;
 
@@ -105,15 +123,35 @@ class Login extends Component {
     }
 
     render() {
+        return (
+            <Container>
+                <Content padder>
+                    <Left>
+                        <Text style={{paddingLeft: '13%', width: '25%', color: '#ffffff'}}>ID</Text>
+                        <Body style={{paddingRight: '20%', height: 35}}>
+                        <Input
+                            autoCapitalize="none"
+                            value={this.state.email}
+                            keyboardType="email-address"
+                            onChangeText={v => this.handleChange('email', v)}
+                            style={{backgroundColor: '#ffffff'}}
+                            placeholder={'xxx@email.com'}
+                        />
+                        </Body>
+                    </Left>
 
+
+                </Content>
+            </Container>
+        );
+    }
+    render() {
         const {loading, error, member} = this.props;
         if (loading) return <Loading/>;
 
         return (
-            <ScrollView style={styles.container} ref={(scroller) => {
-                this.scroller = scroller
-            }}>
                 <LinearGradient colors={['#394eb7', '#6965dc']} start={[0, 0]} end={[1, 1]}>
+                    <Form>
                     <ListItem noBorder>
                         <Body style={{alignItems: 'center'}}>
                         <Image
@@ -122,7 +160,7 @@ class Login extends Component {
                             source={MainLogo}/>
                         </Body>
                     </ListItem>
-                    <Form>
+
                     <ListItem noBorder>
                         <Left>
                             <Text style={{paddingLeft: '13%', width: '25%', color: '#ffffff'}}>ID</Text>
@@ -133,7 +171,6 @@ class Login extends Component {
                                 keyboardType="email-address"
                                 onChangeText={v => this.handleChange('email', v)}
                                 style={{backgroundColor: '#ffffff'}}
-                                onFocus={this.scrollToBottom}
                                 placeholder={'xxx@email.com'}
                             />
                             </Body>
@@ -148,12 +185,11 @@ class Login extends Component {
                                 secureTextEntry
                                 onChangeText={v => this.handleChange('password', v)}
                                 style={{backgroundColor: '#ffffff'}}
-                                onFocus={this.scrollToBottom}
                             />
                             </Body>
                         </Left>
                     </ListItem>
-                    </Form>
+
                     {error &&
                     <ListItem noBorder>
                         <Body style={{alignItems: 'center'}}>
@@ -355,13 +391,44 @@ class Login extends Component {
                         </View>
                         }
                     </Modal>
+                    </Form>
                 </LinearGradient>
-            </ScrollView>
         );
     }
 }
 
 const styles = StyleSheet.create({
+
+    header: {
+        padding: 20,
+        backgroundColor: '#336699',
+    },
+    description: {
+        fontSize: 14,
+        color: 'white',
+    },
+    input: {
+        margin: 20,
+        marginBottom: 0,
+        height: 34,
+        paddingHorizontal: 10,
+        borderRadius: 4,
+        borderColor: '#ccc',
+        borderWidth: 1,
+        fontSize: 16,
+    },
+    legal: {
+        margin: 10,
+        color: '#333',
+        fontSize: 12,
+        textAlign: 'center',
+    },
+    form: {
+        flex: 1,
+        justifyContent: 'space-between',
+    },
+
+
     container: {
         flex: 1,
     },
@@ -402,6 +469,15 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         borderColor: "rgba(0, 0, 0, 0.1)",
         height: 640
+    },
+    exitModal: {
+        backgroundColor: "white",
+        padding: 22,
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 4,
+        borderColor: "rgba(0, 0, 0, 0.1)",
+        height:260
     },
     cancelButton: {
         width: 120,
