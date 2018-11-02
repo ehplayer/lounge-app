@@ -20,6 +20,7 @@ import {
 import trashIcon from '../../images/trash.png'
 import Loading from "./Loading";
 import Modal from "react-native-modal";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 
 const styles = StyleSheet.create({
   image: {
@@ -106,7 +107,9 @@ class Notice extends React.Component {
     }
     return (
       <Container>
-        <Content>
+          <KeyboardAwareScrollView enableOnAndroid extraScrollHeight={180}
+                                   keyboardShouldPersistTaps={'handled'}
+          >
           <Form>
             <Card transparent style={{marginTop: 0}}>
               <CardItem>
@@ -248,7 +251,7 @@ class Notice extends React.Component {
               </CardItem>
             </Card>
           </Form>
-        </Content>
+          </KeyboardAwareScrollView>
       </Container>
     );
   }

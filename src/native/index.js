@@ -64,13 +64,22 @@ class App extends Component {
     }
 
     handleHardwareBack = () => {
-        if(Actions.currentScene === 'login'){
+        if(Actions.currentScene === 'login' ||
+            Actions.currentScene === 'home' ||
+            Actions.currentScene === 'hall' ||
+            Actions.currentScene === 'univ' ||
+            Actions.currentScene === 'club'){
             this.setState({
                 ...this.state,
                 visibleExitModal: !this.state.visibleExitModal,
             });
+
+        } else{
+            Actions.pop();
         }
+
         return true;
+
     };
 
     render(){
@@ -88,7 +97,7 @@ class App extends Component {
                                 isVisible={this.state.visibleExitModal}
                                 onBackdropPress={() => this.setState({visibleExitModal: false})}
                             >
-                                <View style={[styles.exitModal, {height:600}]}>
+                                <View style={styles.exitModal}>
                                     <Text style={{paddingTop:70, fontSize:16, fontWeight:'100'}}>앱을 종료하시겠습니까?</Text>
                                     <Body style={{alignItems: 'center', flexDirection: 'row', paddingTop: 70, paddingBottom: 40}}>
                                     <Button style={{width:120, height:50, justifyContent:'center', borderRadius:0, marginRight:5, backgroundColor:'#dddddd'}} onPress={() => this.setState({visibleExitModal: false})}>

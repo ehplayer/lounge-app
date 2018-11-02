@@ -36,6 +36,7 @@ import Colors from "../../../native-base-theme/variables/commonColor";
 import ModalDropDown from "react-native-modal-dropdown";
 import checkedIcon from "../../images/checkO.png";
 import uncheckedIcon from "../../images/checkX.png";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 let scrollYPos = 0;
 
@@ -123,33 +124,13 @@ class Login extends Component {
     }
 
     render() {
-        return (
-            <Container>
-                <Content padder>
-                    <Left>
-                        <Text style={{paddingLeft: '13%', width: '25%', color: '#ffffff'}}>ID</Text>
-                        <Body style={{paddingRight: '20%', height: 35}}>
-                        <Input
-                            autoCapitalize="none"
-                            value={this.state.email}
-                            keyboardType="email-address"
-                            onChangeText={v => this.handleChange('email', v)}
-                            style={{backgroundColor: '#ffffff'}}
-                            placeholder={'xxx@email.com'}
-                        />
-                        </Body>
-                    </Left>
-
-
-                </Content>
-            </Container>
-        );
-    }
-    render() {
         const {loading, error, member} = this.props;
         if (loading) return <Loading/>;
 
         return (
+            <KeyboardAwareScrollView enableOnAndroid enableAutomaticScroll extraScrollHeight={150}
+                                     keyboardShouldPersistTaps={'handled'}
+            >
                 <LinearGradient colors={['#394eb7', '#6965dc']} start={[0, 0]} end={[1, 1]}>
                     <Form>
                     <ListItem noBorder>
@@ -393,6 +374,7 @@ class Login extends Component {
                     </Modal>
                     </Form>
                 </LinearGradient>
+            </KeyboardAwareScrollView>
         );
     }
 }

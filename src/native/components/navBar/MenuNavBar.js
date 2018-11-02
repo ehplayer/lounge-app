@@ -50,7 +50,7 @@ export default class MenuNavBar extends React.Component {
             <TouchableOpacity
                 onPress={Actions.hall}
                 style={{width:'25%'}}>
-              <Button onPress={Actions.hall} style={{color:this.props.navigation.state.key === 'hall' ? '#ffffff' : '#ffffff50', paddingBottom: 9, fontSize:19, fontWeight:'100'}}>Hall</Button>
+              <Button onPress={Actions.hall} style={{color:this.props.navigation.state.key === 'hall' ? '#ffffff' : '#ffffff50', paddingBottom: 9, fontSize:19, fontWeight:'100'}}>Union</Button>
               {this.props.navigation.state.key === 'hall' ? <View style={{backgroundColor: '#ffffff', width:'100%', height:4}}/> : null }
             </TouchableOpacity>
             <TouchableOpacity

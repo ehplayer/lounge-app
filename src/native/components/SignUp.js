@@ -9,6 +9,7 @@ import {Actions} from 'react-native-router-flux';
 import {ImagePicker, Permissions} from "expo";
 import ModalDropDown from 'react-native-modal-dropdown';
 import Modal from "react-native-modal";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 
 const styles = StyleSheet.create({
     image: {
@@ -146,7 +147,9 @@ class SignUp extends React.Component {
 
         return (
             <Container>
-                <Content style={{backgroundColor: '#ffffff'}}>
+                    <KeyboardAwareScrollView style={{backgroundColor: '#ffffff'}} enableOnAndroid extraScrollHeight={180}
+                                             keyboardShouldPersistTaps={'handled'}
+                    >
                     <ListItem>
                         <Body style={{alignItems: 'center'}}>
                         <View style={{flexDirection:'row'}}>
@@ -344,7 +347,7 @@ class SignUp extends React.Component {
                             </View>
                         </Modal>
                     </Form>
-                </Content>
+                </KeyboardAwareScrollView>
             </Container>
         );
     }
