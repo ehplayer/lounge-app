@@ -25,7 +25,6 @@ import ArrowDown from '../../images/arrow_down.png';
 import PencilIcon from '../../images/pencil.png';
 import ModalDropDown from 'react-native-modal-dropdown';
 
-
 class UnivComponent extends React.Component {
 
   static propTypes = {
@@ -155,14 +154,6 @@ class UnivComponent extends React.Component {
                                       resizeMode="contain"
                                       source={ArrowRight}/>
                               </ListItem>
-                              <ListItem style={{height: 40, paddingLeft:0, marginLeft:0, alignItems:'center'}} onPress={item => Actions.homeNoticeList({title: '공지사항'})}>
-                                  <Text style={{width: '90%', paddingLeft:0, marginLeft:0, paddingBottom:20}}
-                                        onPress={item => Actions.homeNoticeList({title: '공지사항'})}>공지사항</Text>
-                                  <Image
-                                      style={{width: 28, height: 20, marginLeft:10}}
-                                      resizeMode="contain"
-                                      source={ArrowRight}/>
-                              </ListItem>
                               <FlatList
                                   numColumns={1}
                                   data={document.noticeList && document.noticeList.length > 3 ? document.noticeList.slice(0,3) : document.noticeList}
@@ -186,8 +177,8 @@ class UnivComponent extends React.Component {
                           <Body>
 
                           <List>
-                              <ListItem style={{height: 40, paddingLeft:0, marginLeft:0}} onPress={Actions.scheduleList}>
-                                  <Text style={{width: '90%', paddingLeft:0, marginLeft:0}}>일정</Text>
+                              <ListItem style={{height: 40, paddingLeft:0, marginLeft:0}} onPress={() => Actions.scheduleList({match: {sectionType:'univ'}})}>
+                                  <Text style={{width: '90%', paddingLeft:0, marginLeft:0}}>일정2</Text>
                                   <Image
                                       style={{width: 20, height: 20, marginLeft:10}}
                                       resizeMode="contain"

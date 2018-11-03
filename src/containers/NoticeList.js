@@ -25,7 +25,8 @@ class NoticeList extends React.Component {
   };
   constructor(props) {
     super(props);
-    this.props.getUnivNoticeList(props.univ, props.member);
+    this.props.getUnivNoticeList(props.univ, props.member, 'univ');
+
   };
 
   componentWillReceiveProps (nextProps){
@@ -39,6 +40,7 @@ class NoticeList extends React.Component {
     * Fetch Data from API, saving to Redux
     */
   fetchUniv = (currentUnivId, member) => {
+
     return this.props.getUnivTotal(currentUnivId, member, 'univ')
       .catch((err) => {
         console.log(`Error: ${err}`);

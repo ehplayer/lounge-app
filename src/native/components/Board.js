@@ -191,7 +191,7 @@ class BoardComponent extends React.Component {
                           <Body>
 
                           <List>
-                              <ListItem style={{height: 40, paddingLeft:0, marginLeft:0}} onPress={Actions.scheduleList}>
+                              <ListItem style={{height: 40, paddingLeft:0, marginLeft:0}} onPress={() => Actions.scheduleList({boardItem})}>
                                   <Text style={{width: '90%', paddingLeft:0, marginLeft:0}}>일정</Text>
                                   <Image
                                       style={{width: 20, height: 20, marginLeft:10}}
@@ -216,7 +216,7 @@ class BoardComponent extends React.Component {
                                       <Text style={{fontSize: 15, fontWeight:'100', marginBottom:5}}>{document.scheduleList[0].title}</Text>
                                       <Text note style={{paddingTop: 5, color:boardColor, fontSize:13}}>
                                           {'참석 ' + (document.scheduleList[0].joinerList && document.scheduleList[0].joinerList.length !== 0 ? document.scheduleList[0].joinerList.length : 0)}
-                                          {document.scheduleList[0].comment && document.scheduleList[0].comment.length !== 0? '댓글 ' + document.scheduleList[0].comment.length : ''}
+                                          {document.scheduleList[0].comment && document.scheduleList[0].comment.length !== 0? ' / 댓글 ' + document.scheduleList[0].comment.length : ''}
                                       </Text>
                                       </Body>
                                   </Left>

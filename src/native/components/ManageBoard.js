@@ -1,26 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Body,
-  Button,
-  Card, CardItem,
-  Container,
-  Content,
-  Input,
-  Left, List,
-  ListItem, Picker,
-  Right,
-  Separator,
-  Text,
-  Thumbnail
+    Body,
+    Button,
+    Container,
+    Content,
+    Input,
+    Left,
+    List,
+    ListItem,
+    Picker,
+    Right,
+    Separator,
+    Text,
+    Thumbnail
 } from 'native-base';
 import {Actions} from 'react-native-router-flux';
 import Loading from './Loading';
-import checkedIcon from '../../images/checkO.png'
-import uncheckedIcon from '../../images/checkX.png'
-import {FlatList, Image} from "react-native";
+import {Dimensions, FlatList, Image, TouchableHighlight, View} from "react-native";
 import {ImagePicker, Permissions} from "expo";
-import Icon from 'react-native-vector-icons/Entypo';
+import ArrowDown from '../../images/arrow_down.png';
+import ModalDropDown from 'react-native-modal-dropdown';
 
 class ManageBoard extends React.Component {
   static propTypes = {
@@ -42,11 +42,12 @@ class ManageBoard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      member: props.member,
-      stepList: [],
+        member: props.member,
+        stepList: [],
+        currentBoardItem: props.menu.boardList[0] || {},
     };
-    this.getBoardItemByBoardId = this.getBoardItemByBoardId.bind(this);
 
+    this.getBoardItemByBoardId = this.getBoardItemByBoardId.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.changeItem = this.changeItem.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -56,7 +57,7 @@ class ManageBoard extends React.Component {
     if(nextProps.menu.boardList && !this.state.currentBoardItem){
       this.setState({
         ...this.state,
-        currentBoardItem: nextProps.menu.boardList[0],
+        currentBoardItem: nextProps.menu.boardList[0] || {},
         originalBoardItem: nextProps.menu.boardList[0],
       });
     }
@@ -141,43 +142,61 @@ class ManageBoard extends React.Component {
     this.handleChange('joinMemberList', joinMemberList);
 
   }
+  renderRow(boardItem) {
+      return (
+          <TouchableHighlight>
+              <View style={{backgroundColor: 'white', flexDirection: 'row', height: 50, alignItems: 'center', paddingLeft:'7%'}}>
+                  <Thumbnail source={{uri: boardItem.thumb}} style={{width:33, height:33, borderRadius: 16}}/>
+                  <Text style={{marginLeft:23}}>{boardItem.name}</Text>
+              </View>
+          </TouchableHighlight>
+      );
+  }
 
   render() {
     const { loading, error, success, member, menu} = this.props;
     let {currentBoardItem, stepList} = this.state;
-    if (loading || !currentBoardItem) return <Loading/>;
+    if (loading ) return <Loading/>;
 
     return (
       <Container>
         <Content style={{backgroundColor:'#ffffff'}}>
           <List transparent>
             <ListItem header style={{height:60}}>
-              {currentBoardItem.thumb && currentBoardItem.thumb !== '#' ?
-                <Thumbnail small
-                  source={{uri: currentBoardItem.thumb}}
+                <Thumbnail source={{uri: currentBoardItem && currentBoardItem.thumb}} style={{width:44, height:44, borderRadius: 22}}/>
+                <ModalDropDown ref="dropdown_2"
+                               style={{
+                                   alignSelf: 'flex-end',
+                                   width: '70%',
+                                   right: 8,
+                                   marginLeft:20,
+                                   paddingLeft:0
+                               }}
+                               textStyle={{marginVertical: 10,
+                                   marginHorizontal: 6,
+                                   fontSize: 15,
+                                   color: '#000000',
+                                   fontWeight:'100',
+                                   textAlign: 'left',
+                                   textAlignVertical: 'center',}}
+                               dropdownStyle={{
+                                   width: '100%',
+                                   height: Dimensions.get('window').height,
+                                   backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                   paddingBottom: Dimensions.get('window').height - 165,
+                               }}
+                               options={menu.boardList}
+                               defaultValue={currentBoardItem && currentBoardItem.name}
+                               renderButtonText={(rowData) => rowData.name}
+                               renderRow={this.renderRow.bind(this)}
+                               renderSeparator={(sectionID, rowID) => this.renderSeparator(sectionID, rowID, document.boardList.length)}
+                               adjustFrame={(adjust) => {return {...adjust, left:0, top: adjust.top + (Platform.OS === 'ios' ? 25 : 0)};}}
+                               onSelect={(index, value) => this.onChangeBoard(value, index === document.boardList.length - 1 + "")}
                 />
-                :
-                <Button style={{width:50, height:50, borderRadius: 30, backgroundColor:'#cccccc'}}/>
-              }
-              <Body>
-              <Picker
-                placeholder={currentBoardItem.name}
-                textStyle={{ color: "#333333" }}
-                itemStyle={{
-                  marginLeft: 0,
-                }}
-                note={false}
-                style={{ width: '93%' }}
-                selectedValue={currentBoardItem.name}
-                onValueChange={boardId => this.changeItem(this.getBoardItemByBoardId(boardId))}>
-                {menu.boardList && menu.boardList.map(item =>
-                  <Picker.Item key={item.docId} label={item.name ? item.name : ''} value={item.docId} />
-                )}
-              </Picker>
-              </Body>
-              <Right>
-                <Icon name="chevron-thin-down" size={25} style={{color:'gray', paddingRight:10}}/>
-              </Right>
+                <Image
+                    style={{width: 20, height: 20, marginLeft:0}}
+                    resizeMode="contain"
+                    source={ArrowDown}/>
             </ListItem>
           </List>
           <Separator style={{height: 10}}/>

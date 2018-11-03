@@ -65,7 +65,7 @@ class NoticeList extends React.Component {
                   <Left>
                     <Body>
                     <Text style={{paddingTop:10}}>{item.title}</Text>
-                    <Text note style={{paddingTop:10}}>{item.author.name} {moment(item.createDateTime).format('YY.MM.DD.')} <Text color='#4a90e2'>{'댓글 4'}</Text></Text>
+                    <Text note style={{paddingTop:10}}>{item.author.name} {moment(item.createDateTime).format('YY.MM.DD.')} <Text color='#4a90e2'>{item.comment && item.comment.length !== 1 ? ' 댓글 ' + item.comment.length : ''}</Text></Text>
                     </Body>
                     <Thumbnail source={{ uri: item.author.thumb}} />
                   </Left>

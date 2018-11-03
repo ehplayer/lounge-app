@@ -5,7 +5,7 @@ import {Actions} from 'react-native-router-flux';
 import {setError, getJoiningBoardList, updateBoard} from '../actions/univ';
 import {removeStepMemberList, resetStepMemberList} from '../actions/member';
 
-class RecipeListing extends React.Component {
+class ManageBoard extends React.Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,
     univBoardList: PropTypes.array,
@@ -22,7 +22,6 @@ class RecipeListing extends React.Component {
       Actions.login();
       return;
     }
-
     this.props.resetStepMemberList();
     this.fetchBoardData(props.member);
   };
@@ -36,11 +35,10 @@ class RecipeListing extends React.Component {
   }
 
   render = () => {
-    const { Layout, menu, match, member, status, removeStepMemberList, updateBoard} = this.props;
-    const id = (match && match.params && match.params.id) ? match.params.id : null;
+    const { Layout, menu, member, status, removeStepMemberList, updateBoard} = this.props;
+    console.log(menu)
     return (
       <Layout
-        recipeId={id}
         error={menu.error}
         loading={status.loading}
         menu={menu}
@@ -66,4 +64,4 @@ const mapDispatchToProps = {
   setError,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RecipeListing);
+export default connect(mapStateToProps, mapDispatchToProps)(ManageBoard);

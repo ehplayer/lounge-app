@@ -192,14 +192,14 @@ const Index = (
 
     <Drawer
       key="drawer"
-      //initial
+      initial
       hideNavBar
       contentComponent={DrawerContent}
       drawerImage={MenuIcon}
     >
       <Scene key="hall" navBar={MenuNavBar} component={HallContainer} Layout={BoardComponent}/>
-      <Scene initial key="home" navBar={MenuNavBar} component={HomeContainer} Layout={HomeComponent}/>
-      <Scene key="univ" navBar={MenuNavBar} component={UnivContainer} Layout={BoardComponent}/>
+      <Scene key="home" navBar={MenuNavBar} component={HomeContainer} Layout={HomeComponent}/>
+      <Scene initial key="univ" navBar={MenuNavBar} component={UnivContainer} Layout={BoardComponent}/>
       <Scene key="club" navBar={MenuNavBar} component={ClubContainer} Layout={BoardComponent}/>
     </Drawer>
     <Scene
@@ -221,7 +221,9 @@ const Index = (
       back
       key="scheduleList"
       titleColorArray={['#2867ae', '#2867ae']}
+      title="일정"
       navBar={TextNavBar} component={ScheduleListContainer} Layout={ScheduleListComponent}/>
+
     <Scene
       back
       key="homeScheduleList"
@@ -241,7 +243,6 @@ const Index = (
       back
       key="manageBoard"
       title="Univ. / Club 관리"
-      //initial
       titleColorArray={['#394eb7','#6965dc']}
       navBar={TextNavBar}
       component={ManageBoardContainer}

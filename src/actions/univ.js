@@ -473,7 +473,7 @@ export function getArticleListMore(currentUnivId, member, sectionType, lastUnivA
     const isHall = sectionType === 'hall';
     const isClub = sectionType === 'club';
 
-    const universe = member.universe + (isUniv ? '' : sectionType);
+    const universe = isHall ? 'hall' : member.universe + sectionType;
     return dispatch => new Promise(async resolve => {
         if (!currentUnivId || currentUnivId === 'default') currentUnivId = member[sectionType + 'Auth'][0].boardId;
         let documentReference = Firestore.collection(universe).doc(currentUnivId);
@@ -495,9 +495,15 @@ export function getArticleListMore(currentUnivId, member, sectionType, lastUnivA
     });
 }
 
-export function getUnivNoticeList(univ, member) {
+export function getUnivNoticeList(univ, member, sectionType) {
     if (Firebase === null) return () => new Promise(resolve => resolve());
-    return dispatch => new Promise(async resolve => await Firestore.collection(member.universe).doc(univ.currentUnivId).collection("notice").orderBy("createDateTime", 'desc').limit(10)
+    const isUniv = sectionType === 'univ';
+    const isHall = sectionType === 'hall';
+    const isClub = sectionType === 'club';
+
+    const universe = isHall ? 'hall' : member.universe + sectionType;
+
+    return dispatch => new Promise(async resolve => await Firestore.collection(universe).doc(univ.currentUnivId).collection("notice").orderBy("createDateTime", 'desc').limit(10)
         .get().then(function (documentSnapshots) {
             let dataList = [];
             documentSnapshots.docs.forEach(doc => {
@@ -514,9 +520,45 @@ export function getUnivNoticeList(univ, member) {
         }));
 }
 
-export function getHomeScheduleList(member) {
+export function getScheduleDetailList(member, boardItem) {
     if (Firebase === null) return () => new Promise(resolve => resolve());
     if (!member.univAuth || member.univAuth.length === 0) return () => new Promise(resolve => resolve());
+    const universe = boardItem.sectionType === 'hall' ? 'hall' : member.universe + boardItem.sectionType;
+
+    return dispatch => new Promise(async resolve => {
+        await statusMessage(dispatch, 'loading', true);
+
+        const scheduleDetailListData = await Firestore.collection(universe).doc(boardItem.docId).collection('schedule').limit(10).get();
+        let beforeScheduleList = [];
+        let afterScheduleList = [];
+        const now = Date.now();
+
+        scheduleDetailListData.docs.forEach(article => {
+            if (article.startDatetimeLong > now) {
+                afterScheduleList.push({...article.data(), currentUnivId: boardItem.docId, sectionType: 'univ'})
+            } else {
+                beforeScheduleList.push({...article.data(), currentUnivId: boardItem.docId, sectionType: 'univ'})
+            }
+
+        });
+
+        beforeScheduleList.sort((a, b) => b.startDatetimeLong - a.startDatetimeLong);
+        afterScheduleList.sort((a, b) => b.startDatetimeLong - a.startDatetimeLong);
+
+        await statusMessage(dispatch, 'loading', false);
+        return resolve(dispatch({
+            type: 'UNIV_TOTAL',
+            data: {
+                beforeScheduleList: beforeScheduleList,
+                afterScheduleList: afterScheduleList,
+            },
+        }));
+    });
+}
+
+export function getUnivSchedule(currentUnivId, limit) {
+    if (Firebase === null) return () => new Promise(resolve => resolve());
+    if(!member.univAuth || member.univAuth.length === 0) return () => new Promise(resolve => resolve());
 
     return dispatch => new Promise(async resolve => {
         await statusMessage(dispatch, 'loading', true);
@@ -526,39 +568,39 @@ export function getHomeScheduleList(member) {
         let afterScheduleList = [];
         const now = Date.now();
 
-        member.univAuth.forEach(auth => {
-            if (homeSchedule[auth.boardId]) {
+        member.univAuth.forEach(auth =>{
+            if(homeSchedule[auth.boardId]){
                 homeSchedule[auth.boardId].forEach(article => {
-                    if (article.startDatetimeLong > now) {
-                        afterScheduleList.push({...article, currentUnivId: auth.boardId, sectionType: 'univ'})
+                    if(article.startDatetimeLong > now){
+                        afterScheduleList.push({...article, currentUnivId:auth.boardId, sectionType:'univ'})
                     } else {
-                        beforeScheduleList.push({...article, currentUnivId: auth.boardId, sectionType: 'univ'})
+                        beforeScheduleList.push({...article, currentUnivId:auth.boardId, sectionType:'univ'})
                     }
                 });
             }
         });
-        member.clubAuth.forEach(auth => {
-            if (homeSchedule[auth.boardId]) {
+        member.clubAuth.forEach(auth =>{
+            if(homeSchedule[auth.boardId]){
                 homeSchedule[auth.boardId].forEach(article => {
-                    if (article.startDatetimeLong > now) {
-                        afterScheduleList.push({...article, currentUnivId: auth.boardId, sectionType: 'club'})
+                    if(article.startDatetimeLong > now){
+                        afterScheduleList.push({...article, currentUnivId:auth.boardId, sectionType:'club'})
                     } else {
-                        beforeScheduleList.push({...article, currentUnivId: auth.boardId, sectionType: 'club'})
+                        beforeScheduleList.push({...article, currentUnivId:auth.boardId, sectionType:'club'})
                     }
                 });
             }
         });
-        if (homeSchedule['hall']) {
+        if(homeSchedule['hall']){
             homeSchedule['hall'].forEach(article => {
-                if (article.startDatetimeLong > now) {
-                    afterScheduleList.push({...article, currentUnivId: auth.boardId, sectionType: 'hall'})
+                if(article.startDatetimeLong > now){
+                    afterScheduleList.push({...article, currentUnivId:auth.boardId, sectionType:'hall'})
                 } else {
-                    beforeScheduleList.push({...article, currentUnivId: auth.boardId, sectionType: 'hall'})
+                    beforeScheduleList.push({...article, currentUnivId:auth.boardId, sectionType:'hall'})
                 }
             });
         }
-        beforeScheduleList.sort((a, b) => b.startDatetimeLong - a.startDatetimeLong);
-        afterScheduleList.sort((a, b) => b.startDatetimeLong - a.startDatetimeLong);
+        beforeScheduleList.sort((a,b) => b.startDatetimeLong - a.startDatetimeLong);
+        afterScheduleList.sort((a,b) => a.startDatetimeLong - b.startDatetimeLong);
 
         await statusMessage(dispatch, 'loading', false);
         return resolve(dispatch({
@@ -571,33 +613,13 @@ export function getHomeScheduleList(member) {
     });
 }
 
-export function getUnivSchedule(currentUnivId, limit) {
-    if (Firebase === null) return () => new Promise(resolve => resolve());
-    if (currentUnivId === 'default') currentUnivId = '전체';
-
-    return dispatch => new Promise(async resolve => await Firestore.collection("연세대").doc(currentUnivId).collection("schedule").orderBy("createDateTime", 'desc').limit(20)
-        .get().then(function (documentSnapshots) {
-            let dataList = [];
-            documentSnapshots.docs.forEach(doc => {
-                dataList.push(doc.data());
-            });
-            return resolve(dispatch({
-                type: 'SCHEDULE_REPLACE',
-                data: {
-                    dataList: dataList,
-                },
-            }));
-        }).catch(error => {
-            console.error(error);
-        }));
-}
-
 export function getJoiningBoardList(member) {
     if (Firebase === null) return () => new Promise(resolve => resolve());
     return dispatch => new Promise(async resolve => {
-        const documentSnapshots = await Firestore.collection(member.universe).get().catch(error => {
+        const documentSnapshots = await Firestore.collection(member.universe + 'univ').get().catch(error => {
             console.error(error);
         });
+
         let dataList = [];
         member.univAuth.map(auth => {
             documentSnapshots.docs.forEach(doc => {
@@ -606,7 +628,7 @@ export function getJoiningBoardList(member) {
                 }
             });
         });
-        const clubDocumentSnapshots = await Firestore.collection(member.universe + '_club').get().catch(error => {
+        const clubDocumentSnapshots = await Firestore.collection(member.universe + 'club').get().catch(error => {
             console.error(error);
         });
         member.clubAuth.map(auth => {
@@ -616,7 +638,7 @@ export function getJoiningBoardList(member) {
                 }
             });
         });
-
+        console.log(dataList)
         return resolve(dispatch({
             type: 'JOINING_BOARD_REPLACE',
             boardList: dataList,
@@ -626,13 +648,16 @@ export function getJoiningBoardList(member) {
 
 export function getTotalBoardList(universe) {
     if (Firebase === null) return () => new Promise(resolve => resolve());
+
     return dispatch => new Promise(async resolve => {
         await statusMessage(dispatch, 'loading', true);
 
-        const universeSnapshots = await Firestore.collection(universe).get();
+        const universeSnapshots = await Firestore.collection(universe + "univ").get();
         let universeBoardList = [];
         universeSnapshots.docs.forEach(doc => {
-            universeBoardList.push({...doc.data(), docId: doc.id});
+            if(doc.id !== 'total'){
+                universeBoardList.push({...doc.data(), docId: doc.id});
+            }
         });
         const clubSnapshots = await Firestore.collection(universe + "club").get();
         let clubBoardList = [];

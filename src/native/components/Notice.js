@@ -97,7 +97,7 @@ class Notice extends React.Component {
   );
 
   render() {
-    const {loading, error, success, document, member} = this.props;
+    const {loading, document, member} = this.props;
     if (loading || !document || !document.author) return <Loading/>;
     const sectionType = this.props.sectionType || this.props.param.sectionType;
     const bgColor = bgColorMap[sectionType] ? bgColorMap[sectionType] : bgColorMap['univ'];
