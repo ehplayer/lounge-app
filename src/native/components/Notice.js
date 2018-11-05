@@ -82,29 +82,27 @@ class Notice extends React.Component {
   removeComment = (item) => {
     this.props.removeComment(item, this.props.param, this.props.member);
   };
-  addJoiner = () => {
-      this.props.addJoiner(this.props.param, this.props.member);
-  };
-  removeJoiner = () => {
+  handleJoiner = (isJoined, isJoinFinish) => {
+    if(isJoinFinish){
+      return;
+    }
+
+    if(isJoined) {
       this.props.removeJoiner(this.props.param, this.props.member);
-  };
-  renderButton = (text, onPress) => (
-    <TouchableOpacity onPress={onPress}>
-      <View style={styles.button}>
-        <Text>{text}</Text>
-      </View>
-    </TouchableOpacity>
-  );
+      return;
+    }
+
+    this.props.addJoiner(this.props.param, this.props.member);
+  }
 
   render() {
     const {loading, document, member} = this.props;
     if (loading || !document || !document.author) return <Loading/>;
     const sectionType = this.props.sectionType || this.props.param.sectionType;
     const bgColor = bgColorMap[sectionType] ? bgColorMap[sectionType] : bgColorMap['univ'];
-    let isJoined = false;
-    if(document.joinerList && document.joinerList.find(item => item.docId === member.docId)){
-      isJoined = true;
-    }
+    const isJoined = document.joinerList && document.joinerList.find(item => item.docId === member.docId);
+    const isJoinFinish = document.joinerList && document.joinerList.length >= document.joinMemberLimit;
+
     return (
       <Container>
           <KeyboardAwareScrollView enableOnAndroid extraScrollHeight={180}
@@ -181,9 +179,9 @@ class Notice extends React.Component {
                   </Button>
                 </Left>
                 <Left style={{width:'50%',paddingTop:0, marginTop:0, borderWidth:1, flexDirection:'row', borderTopWidth:0.5, borderColor:'#cccccc'}}>
-                  <Button transparent style={{height:40, justifyContent:'center', backgroundColor:bgColor, width:'100%', borderRadius:0}}
-                          onPress={isJoined ? this.removeJoiner : this.addJoiner }>
-                    <Text style={{paddingRight:15, color:'#ffffff'}}>{isJoined ? '참석취소':'참석하기'}</Text>
+                  <Button transparent style={{height:40, justifyContent:'center', backgroundColor:isJoinFinish ? '#cccccc' : bgColor, width:'100%', borderRadius:0}}
+                          onPress={() => this.handleJoiner(isJoined, isJoinFinish)}>
+                    <Text style={{fontSize:15, paddingRight:15, color:'#ffffff'}}>{isJoinFinish ? '마감' : isJoined ? '참석취소':'참석하기'}</Text>
                   </Button>
                 </Left>
               </CardItem>

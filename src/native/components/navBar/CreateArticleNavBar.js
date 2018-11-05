@@ -25,7 +25,7 @@ const bgColorMap = {
 
 class CreateArticleNavBar extends React.Component {
   render() {
-    const {boardItem} = this.props;
+    const {boardItem, title} = this.props;
     const sectionType = this.props.sectionType || this.props.param.sectionType;
     const bgColor = bgColorMap[sectionType] ? bgColorMap[sectionType] : bgColorMap['univ'];
 
@@ -40,7 +40,7 @@ class CreateArticleNavBar extends React.Component {
                   source={ArrowLeft}/>
           </TouchableOpacity>
           <View style={[styles.navBarItem]}>
-            <Text style={{fontSize: 23, color: '#ffffff'}}>{boardItem ? boardItem.name : ''}</Text>
+            <Text style={{fontSize: 23, color: '#ffffff'}}>{boardItem ? boardItem.name : title}</Text>
           </View>
         </View>
     )

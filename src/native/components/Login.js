@@ -1,31 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {
-    ActivityIndicator,
-    BackHandler,
-    Dimensions,
-    Image,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    TouchableOpacity,
-    KeyboardAvoidingView, TextInput
-} from 'react-native'
-import {
-    Body,
-    Button, Container,
-    Content,
-    Form,
-    Input,
-    Item,
-    Left,
-    ListItem,
-    Right,
-    Separator,
-    Text,
-    Thumbnail,
-    View
-} from 'native-base';
+import {ActivityIndicator, Dimensions, Image, Platform, StyleSheet, TouchableOpacity} from 'react-native'
+import {Body, Button, Form, Input, Item, Left, ListItem, Text, View} from 'native-base';
 import {Actions} from 'react-native-router-flux';
 import Loading from './Loading';
 import Messages from './Messages';
@@ -33,10 +9,7 @@ import MainLogo from '../../images/logo_splash.png';
 import {LinearGradient} from "expo";
 import Modal from "react-native-modal";
 import Colors from "../../../native-base-theme/variables/commonColor";
-import ModalDropDown from "react-native-modal-dropdown";
-import checkedIcon from "../../images/checkO.png";
-import uncheckedIcon from "../../images/checkX.png";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 
 let scrollYPos = 0;
 

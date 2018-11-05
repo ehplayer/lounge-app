@@ -686,7 +686,7 @@ export function applyBoard(univType, boardItem, member) {
 
         let authWaiting = boardItem.authWaiting || [];
         authWaiting.push(member);
-        await Firestore.collection(member.universe + (univType === 'club' ? '동아리' : '')).doc(boardItem.docId).set({authWaiting}, {merge: true});
+        await Firestore.collection(member.universe + univType).doc(boardItem.docId).set({authWaiting}, {merge: true});
 
         const docRef = Firestore.collection("users").doc(member.docId);
         return docRef.get().then(doc => {

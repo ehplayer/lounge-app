@@ -6,10 +6,8 @@ import UnivComponent from '../components/Univ';
 import BoardComponent from '../components/Board';
 
 import HallContainer from '../../containers/Hall';
-import HallComponent from '../components/Hall';
 
 import ClubContainer from '../../containers/Club';
-import ClubComponent from '../components/Club';
 
 import LoginContainer from '../../containers/Login';
 import LoginComponent from '../components/Login';
@@ -63,7 +61,6 @@ import BoardListContainer from '../../containers/BoardList';
 import BoardListComponent from '../components/BoardList';
 
 import MemberContainer from '../../containers/Member';
-import ProfileContainer from '../../containers/Profile';
 import ProfileComponent from '../components/Profile';
 
 import OtherProfileContainer from '../../containers/OtherProfile';
@@ -192,7 +189,7 @@ const Index = (
 
     <Drawer
       key="drawer"
-      initial
+      //initial
       hideNavBar
       contentComponent={DrawerContent}
       drawerImage={MenuIcon}

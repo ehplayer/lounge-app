@@ -27,6 +27,8 @@ import Loading from './Loading';
 import {Actions} from 'react-native-router-flux'
 import CameraImage from '../../images/camera.png';
 import {ImagePicker, Permissions} from 'expo';
+import Modal from "react-native-modal";
+import loungeStyle from '../constants/loungeStyle'
 
 const styles = StyleSheet.create({
   image: {
@@ -92,6 +94,28 @@ class CreateArticle extends React.Component {
   }
 
   handleSubmit = () => {
+
+      let errorMessage = false;
+      if(!this.state.title.trim()){
+          errorMessage = '제목을 입력해주세요.'
+      } else if(!this.state.content.trim()){
+          errorMessage = '내용을 입력해주세요.'
+      } else if(this.state.isSchedule && (!this.state.startDatetime || !this.state.endDatetime)){
+          errorMessage = '날짜를 정확히 입력해주세요.'
+      } else if(this.state.isSchedule && !this.state.place.trim()){
+          errorMessage = '장소를 입력해주세요.'
+      } else if(this.state.isLimitMember && !this.state.joinMemberLimit.trim()){
+          errorMessage = '참석자수 제한을 입력해주세요.'
+      }
+
+      if(errorMessage){
+          this.setState({
+              ...this.state,
+              visibleModal: true,
+              errorMessage: errorMessage,
+          });
+          return false;
+      }
     this.props.createArticle(this.state, this.props)
       .catch(e => console.log(`Error: ${e}`));
   };
@@ -139,13 +163,14 @@ class CreateArticle extends React.Component {
     });
   };
 
-
   render() {
     const {loading, error, success} = this.props;
-    const {imageUrlList, isSchedule, isNotice, isLimitMember} = this.state;
+    const {imageUrlList, isSchedule, isNotice, isLimitMember, member} = this.state;
     if (loading) return <Loading/>;
 
     const checkedIcon = iconMap[this.props.sectionType];
+    console.log(isLimitMember)
+    console.log(member)
 
     return (
       <Container>
@@ -232,6 +257,7 @@ class CreateArticle extends React.Component {
                     date={this.state.startDatetime}
                     mode="datetime"
                     format="MM월 DD일 HH시 mm분"
+                    placeholder="시작 시각"
                     confirmBtnText="확인"
                     cancelBtnText="취소"
                     customStyles={{
@@ -255,6 +281,7 @@ class CreateArticle extends React.Component {
                     date={this.state.endDatetime}
                     mode="datetime"
                     format="MM월 DD일 HH시 mm분"
+                    placeholder="종료 시각"
                     confirmBtnText="확인"
                     cancelBtnText="취소"
                     customStyles={{
@@ -266,7 +293,6 @@ class CreateArticle extends React.Component {
                     minuteInterval={10}
                     onDateChange={(datetime, origin) => {
                       this.handleChange('endDatetime', datetime);
-                      //this.handleChange('endDatetimeLong', origin.valueOf());
                     }}
                     locale='ko'
                     showIcon={false}
@@ -313,7 +339,7 @@ class CreateArticle extends React.Component {
                     <Input
                       id="place"
                       placeholder="00"
-                      style={{width:50, marginTop:10, marginLeft:20}}
+                      style={{width:50, marginTop:10, marginLeft:50}}
                       onChangeText={v => this.handleChange('joinMemberLimit', v)}
                     />
                     <Text style={{marginTop:10, marginRight:'30%'}}>명</Text>
@@ -337,6 +363,21 @@ class CreateArticle extends React.Component {
                 </Body>
               </CardItem>
             </Card>
+              <Modal
+                  isVisible={this.state.visibleModal}
+                  onBackdropPress={() => this.setState({visibleModal: false})}
+              >
+                  <View style={loungeStyle.modalContent}>
+                      <Text style={{paddingTop:70, fontSize:16, fontWeight:'100'}}>{this.state.errorMessage}</Text>
+                      <Body style={{alignItems: 'center', flexDirection: 'row', paddingTop: 70, paddingBottom: 40}}>
+                      <Button style={{width:120, height:50, justifyContent:'center', borderRadius:0, backgroundColor: bgColorMap[this.props.sectionType]}} onPress={() => {
+                          this.setState({visibleModal: false})
+                      }}>
+                          <Text>확인</Text>
+                      </Button>
+                      </Body>
+                  </View>
+              </Modal>
           </Form>
         </Content>
       </Container>
