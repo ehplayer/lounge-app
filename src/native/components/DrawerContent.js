@@ -44,6 +44,7 @@ class DrawerContent extends React.Component {
   render() {
     const { member } = this.props;
     const isMaster = member.memberType === 'M';
+    const isStaff = member.memberType === 'S';
     return (
       <Container>
         <Content>
@@ -84,19 +85,20 @@ class DrawerContent extends React.Component {
               </Left>
             </ListItem>
             {/* only admin user menu*/}
-            {isMaster &&
+            {(isMaster || isStaff) &&
               <ListItem style={{borderBottomWidth: 1, paddingLeft: 0, marginLeft: 0}}>
                   <Left>
-                      <Button transparent style={{width: '100%'}} onPress={Actions.createBoard}>
+                      <Button transparent style={{width:'100%'}} onPress={Actions.scheduler}>
                           <Body style={{alignItems: 'center'}}>
                           <Image
-                              style={{height: 45, width: '100%'}}
+                              style={{height:45, width:'100%'}}
                               resizeMode="contain"
-                              source={newIcon}
+                              source={approveIcon}
                           />
                           </Body>
                       </Button>
                   </Left>
+
                   <Left style={{borderLeftWidth: 1, borderColor: '#cccccc'}}>
                       <Button transparent style={{width: '100%'}} onPress={Actions.manageBoard}>
                           <Body style={{alignItems: 'center', margin: 0, padding: 0}}>
@@ -110,18 +112,19 @@ class DrawerContent extends React.Component {
                   </Left>
               </ListItem>
               }
+              {/* only admin user menu*/}
               {isMaster &&
                 <ListItem style={{borderBottomWidth:1, paddingLeft:0, marginLeft:0}}>
                   <Left>
-                    <Button transparent style={{width:'100%'}} onPress={Actions.scheduler}>
-                    <Body style={{alignItems: 'center'}}>
-                      <Image
-                        style={{height:45, width:'100%'}}
-                        resizeMode="contain"
-                        source={approveIcon}
-                      />
-                    </Body>
-                    </Button>
+                      <Button transparent style={{width: '100%'}} onPress={Actions.createBoard}>
+                          <Body style={{alignItems: 'center'}}>
+                          <Image
+                              style={{height: 45, width: '100%'}}
+                              resizeMode="contain"
+                              source={newIcon}
+                          />
+                          </Body>
+                      </Button>
                   </Left>
                   <Left onPress={Actions.manageUser} style={{borderLeftWidth:1, borderColor:'#cccccc'}}>
                     <Button transparent style={{width:'100%'}} onPress={Actions.manageUser}>

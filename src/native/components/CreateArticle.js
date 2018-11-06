@@ -164,13 +164,13 @@ class CreateArticle extends React.Component {
   };
 
   render() {
-    const {loading, error, success} = this.props;
-    const {imageUrlList, isSchedule, isNotice, isLimitMember, member} = this.state;
+    const {loading, error, success, member, sectionType, boardItem} = this.props;
+    const {imageUrlList, isSchedule, isNotice, isLimitMember} = this.state;
     if (loading) return <Loading/>;
 
-    const checkedIcon = iconMap[this.props.sectionType];
-    console.log(isLimitMember)
-    console.log(member)
+    const checkedIcon = iconMap[sectionType];
+    const currentBoardAuth = member[sectionType + 'Auth'].find(item => item.boardId === boardItem.docId);
+    const isAdmin = currentBoardAuth && currentBoardAuth.authType === 'S';
 
     return (
       <Container>
@@ -220,6 +220,8 @@ class CreateArticle extends React.Component {
                   )}
                 </View>
                 <Separator style={{height: 1, width: '100%'}}/>
+
+                {isAdmin &&
                 <View style={[{flexDirection: 'row', paddingBottom:10}]}>
                     <TouchableOpacity
                         onPress={() => this.handleChange('isSchedule', !isSchedule)}
@@ -244,6 +246,7 @@ class CreateArticle extends React.Component {
                   <Text style={{width: '35%', color: (isNotice ? '#222222' : '#cccccc'), paddingTop: 15, paddingLeft:15}}
                         onPress={() => this.handleChange('isNotice', !isNotice)}>공지</Text>
                 </View>
+                }
                 {isSchedule &&
                 <View style={[{
                   flexDirection: 'row',
