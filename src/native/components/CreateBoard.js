@@ -30,7 +30,7 @@ class CreateBoard extends React.Component {
     super(props);
     this.state = {
       member: props.member,
-      stepMemberList: props.member.stepMemberList,
+      staffMemberList: props.member.staffMemberList,
       boardName: '',
       isUniv:true,
       isClub:false,
@@ -82,6 +82,7 @@ class CreateBoard extends React.Component {
   render() {
     const { loading, error, success, member} = this.props;
     if (loading) return <Loading/>;
+    console.log(member)
     return (
       <Container>
         <Content style={{backgroundColor:'#ffffff'}}>
@@ -148,13 +149,13 @@ class CreateBoard extends React.Component {
             </Left>
           </ListItem>
           <FlatList
-            data={member.stepMemberList}
+            data={member.staffMemberList}
             ListEmptyComponent={() =>
               <ListItem noBorder style={{height:70, justifyContent:'center'}}>
                 <Text style={{color:'#cccccc'}}>검색결과가 없습니다.</Text>
               </ListItem> }
             renderItem={({item, index}) => (
-              <ListItem avatar style={{height:70, marginLeft:10, marginRight:10, borderBottomWidth:(index === member.stepMemberList.length -1 ? 0 : 1), borderBottomColor:'#dddddd'}}>
+              <ListItem avatar style={{height:70, marginLeft:10, marginRight:10, borderBottomWidth:(index === member.staffMemberList.length -1 ? 0 : 1), borderBottomColor:'#dddddd'}}>
                 <Left style={{borderBottomWidth:0}}>
                   <Thumbnail small source={{uri: item.thumb}}/>
                 </Left>
@@ -170,7 +171,7 @@ class CreateBoard extends React.Component {
                   <Text note numberOfLines={1} ellipsizeMode='tail'>{item.company}</Text>
                   </Body>
                 </Right>
-                <Button transparent  onPress={() => this.props.removeStepMemberList(index)}
+                <Button transparent  onPress={() => this.props.removeStaffMemberList(index)}
                         style={{borderWidth:1, borderColor:'#cccccc', marginLeft:5, marginTop:10, width:60, padding:0, height:35, justifyContent:'center'}}>
                   <Text style={{color:'#333333'}}>취소</Text>
                 </Button>

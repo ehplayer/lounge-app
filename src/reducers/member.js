@@ -56,13 +56,13 @@ export default function userReducer(state = initialState, action) {
       return state;
     }
     case 'ADD_STEP_MEMBER_LIST': {
-      let stepMemberList = state.stepMemberList || [];
-      stepMemberList.push(action.member)
+      let staffMemberList = state.staffMemberList || [];
+        staffMemberList.push(action.member)
       return {
         ...state,
         loading: false,
         error: null,
-        stepMemberList: stepMemberList
+        staffMemberList: staffMemberList
       };
     }
     case 'REMOVE_STEP_MEMBER_LIST': {

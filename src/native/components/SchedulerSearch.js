@@ -38,8 +38,7 @@ class Scheduler extends React.Component {
           <CardItem style={{margin:0, padding:0}}>
             <FlatList
               data={searchUserList}
-              ListHeaderComponent={() => <ListItem style={{height: 50, marginLeft:0, marginRight:0}}><Text style={{width: '95%'}}
-                                                                              onPress={Actions.schedule}>원우 목록</Text></ListItem>}
+              ListHeaderComponent={() => <ListItem style={{height: 50, marginLeft:0, marginRight:0}}><Text style={{width: '95%'}}>원우 목록</Text></ListItem>}
               ListEmptyComponent={() =>
               <ListItem noBorder style={{height:70, justifyContent:'center'}}>
                 <Text style={{color:'#cccccc'}}>검색결과가 없습니다.</Text>

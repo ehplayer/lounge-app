@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import {createBoard} from '../actions/univ';
-import {resetStepMemberList, removeStepMemberList} from "../actions/member";
+import {resetStaffMemberList, removeStaffMemberList} from "../actions/member";
 
 class CreateBoard extends React.Component {
   static propTypes = {
@@ -20,7 +20,7 @@ class CreateBoard extends React.Component {
   };
   constructor(props){
     super(props);
-    this.props.resetStepMemberList();
+    this.props.resetStaffMemberList();
   }
 
   render() {
@@ -31,7 +31,7 @@ class CreateBoard extends React.Component {
       isLoading,
       errorMessage,
       successMessage,
-      removeStepMemberList
+      removeStaffMemberList
     } = this.props;
 
     return <Layout
@@ -40,7 +40,7 @@ class CreateBoard extends React.Component {
       error={errorMessage}
       success={successMessage}
       onFormSubmit={onFormSubmit}
-      removeStepMemberList={removeStepMemberList}
+      removeStaffMemberList={removeStaffMemberList}
     />
   }
 }
@@ -55,8 +55,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   onFormSubmit: createBoard,
-  resetStepMemberList: resetStepMemberList,
-  removeStepMemberList: removeStepMemberList,
+  resetStaffMemberList,
+  removeStaffMemberList,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateBoard);

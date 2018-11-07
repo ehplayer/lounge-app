@@ -201,9 +201,6 @@ const Index = (
     </Drawer>
     <Scene
       back
-      key="schedule" navBar={ScheduleNavBar} component={UnivContainer} Layout={UnivComponent}/>
-    <Scene
-      back
       key="noticeList"
       titleColorArray={['#2867ae', '#2867ae']}
       navBar={TextNavBar} component={NoticeListContainer} Layout={NoticeListComponent}/>
@@ -230,6 +227,7 @@ const Index = (
     <Scene
       back
       key="createBoard"
+      //initial
       title="Univ. / Club 만들기"
       titleColorArray={['#394eb7','#6965dc']}
       navBar={TextNavBar}
@@ -239,12 +237,22 @@ const Index = (
     <Scene
       back
       key="manageBoard"
+      //initial
       title="Univ. / Club 관리"
       titleColorArray={['#394eb7','#6965dc']}
       navBar={TextNavBar}
       component={ManageBoardContainer}
       Layout={ManageBoardComponent}
     />
+  <Scene
+      back
+      key="approveBoard"
+      title="Univ. / Club 승인"
+      titleColorArray={['#394eb7','#6965dc']}
+      navBar={TextNavBar}
+      component={ManageUserContainer}
+      Layout={ManageUserComponent}
+  />
 
     <Scene
       back

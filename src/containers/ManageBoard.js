@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
 import {setError, getJoiningBoardList, updateBoard} from '../actions/univ';
-import {removeStepMemberList, resetStepMemberList} from '../actions/member';
+import {removeStaffMemberList, resetStaffMemberList} from '../actions/member';
 
 class ManageBoard extends React.Component {
   static propTypes = {
@@ -22,7 +22,7 @@ class ManageBoard extends React.Component {
       Actions.login();
       return;
     }
-    this.props.resetStepMemberList();
+    this.props.resetStaffMemberList();
     this.fetchBoardData(props.member);
   };
 
@@ -35,8 +35,7 @@ class ManageBoard extends React.Component {
   }
 
   render = () => {
-    const { Layout, menu, member, status, removeStepMemberList, updateBoard} = this.props;
-    console.log(menu)
+    const { Layout, menu, member, status, removeStaffMemberList, updateBoard} = this.props;
     return (
       <Layout
         error={menu.error}
@@ -44,7 +43,7 @@ class ManageBoard extends React.Component {
         menu={menu}
         member={member}
         updateBoard={updateBoard}
-        removeStepMemberList={removeStepMemberList}
+        removeStaffMemberList={removeStaffMemberList}
       />
     );
   }
@@ -57,10 +56,10 @@ const mapStateToProps = state => ({
   currentUnivId: state.currentUnivId || '전체',
 });
 const mapDispatchToProps = {
-  updateBoard: updateBoard,
+  updateBoard,
   getJoiningBoardList,
-  removeStepMemberList,
-  resetStepMemberList,
+  removeStaffMemberList,
+  resetStaffMemberList,
   setError,
 };
 

@@ -104,7 +104,7 @@ class Login extends Component {
             <KeyboardAwareScrollView enableOnAndroid enableAutomaticScroll extraScrollHeight={150}
                                      keyboardShouldPersistTaps={'handled'}
             >
-                <LinearGradient colors={['#394eb7', '#6965dc']} start={[0, 0]} end={[1, 1]}>
+                <LinearGradient colors={['#394eb7', '#6965dc']} start={[0, 0]} end={[1, 1]} style={{height:this.state.screenHeight}}>
                     <Form>
                     <ListItem noBorder>
                         <Body style={{alignItems: 'center'}}>
@@ -164,7 +164,7 @@ class Login extends Component {
                         </Body>
                     </ListItem>
                     <ListItem noBorder>
-                        <Body style={{alignItems: 'center', paddingBottom: 300}}>
+                        <Body style={{alignItems: 'center'}}>
                         <View style={{flexDirection: 'row'}}>
                             <Button transparent onPress={() => this.setState({visibleModal: true})} style={{paddingTop: 0}}>
                                 <Text style={{color: '#ffffff', alignItems: 'center'}}>아이디 찾기</Text>

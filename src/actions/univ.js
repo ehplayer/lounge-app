@@ -139,7 +139,7 @@ export function createBoard(localState, propsMember) {
         imageBlob,
         member,
     } = localState;
-    const stepMemberList = propsMember.stepMemberList;
+    const staffMemberList = propsMember.staffMemberList;
 
     return dispatch => new Promise(async (resolve, reject) => {
         await statusMessage(dispatch, 'loading', true);
@@ -156,12 +156,12 @@ export function createBoard(localState, propsMember) {
         return Firestore.collection(member.universe + (isClub ? 'club' : 'univ')).add({
             name: boardName,
             thumb,
-            stepMemberList: stepMemberList,
+            staffMemberList: staffMemberList,
             sectionType: isClub ? 'club' : 'univ'
         })
             .then(async (docRef) => {
-                if (stepMemberList && stepMemberList.length > 0) {
-                    stepMemberList.forEach(item => {
+                if (staffMemberList && staffMemberList.length > 0) {
+                    staffMemberList.forEach(item => {
                         item[sectionAuthName].push({authType: 'S', boardId: docRef.id});
                         Firestore.collection("users").doc(item.docId).set({
                             [sectionAuthName]: item[sectionAuthName],
@@ -638,7 +638,7 @@ export function getJoiningBoardList(member) {
                 }
             });
         });
-        console.log(dataList)
+
         return resolve(dispatch({
             type: 'JOINING_BOARD_REPLACE',
             boardList: dataList,

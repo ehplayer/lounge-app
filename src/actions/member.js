@@ -126,7 +126,7 @@ export function getSearchMemberList(name) {
   });
 }
 
-export function addStepMemberList(member) {
+export function addStaffMemberList(member) {
   if (Firebase === null) return () => new Promise(resolve => resolve());
 
   return dispatch => new Promise(resolve => {
@@ -136,7 +136,7 @@ export function addStepMemberList(member) {
     }));
   });
 }
-export function removeStepMemberList(index) {
+export function removeStaffMemberList(index) {
   if (Firebase === null) return () => new Promise(resolve => resolve());
   return dispatch => new Promise(resolve => {
     return resolve(dispatch({
@@ -145,7 +145,7 @@ export function removeStepMemberList(index) {
     }));
   });
 }
-export function resetStepMemberList() {
+export function resetStaffMemberList() {
   if (Firebase === null) return () => new Promise(resolve => resolve());
 
   return dispatch => new Promise(resolve => {

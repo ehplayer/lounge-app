@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {addStepMemberList, getSearchMemberList} from '../actions/member';
+import {addStaffMemberList, getSearchMemberList} from '../actions/member';
 
 class MemberSearch extends Component {
   static propTypes = {
@@ -27,8 +27,8 @@ class MemberSearch extends Component {
 
 
   render = () => {
-    const { Layout, searchUserList, getSearchMemberList, addStepMemberList, member} = this.props;
-    return <Layout searchUserList={this.state.initialize ? searchUserList : []} addStepMemberList={addStepMemberList} getSearchMemberList={getSearchMemberList}/>;
+    const { Layout, searchUserList, getSearchMemberList, addStaffMemberList, member} = this.props;
+    return <Layout searchUserList={this.state.initialize ? searchUserList : []} addStaffMemberList={addStaffMemberList} getSearchMemberList={getSearchMemberList}/>;
   }
 }
 
@@ -40,7 +40,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   getSearchMemberList,
-  addStepMemberList
+  addStaffMemberList
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MemberSearch);

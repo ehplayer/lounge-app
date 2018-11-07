@@ -17,7 +17,7 @@ import {
 } from 'native-base';
 import {Actions} from 'react-native-router-flux';
 import Loading from './Loading';
-import {Dimensions, FlatList, Image, TouchableHighlight, View} from "react-native";
+import {Dimensions, FlatList, Image, TouchableHighlight, View, Platform} from "react-native";
 import {ImagePicker, Permissions} from "expo";
 import ArrowDown from '../../images/arrow_down.png';
 import ModalDropDown from 'react-native-modal-dropdown';
@@ -43,7 +43,7 @@ class ManageBoard extends React.Component {
     super(props);
     this.state = {
         member: props.member,
-        stepList: [],
+        staffList: props.menu.boardList[0].staffMemberList || [],
         currentBoardItem: props.menu.boardList[0] || {},
     };
 
@@ -51,7 +51,7 @@ class ManageBoard extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.changeItem = this.changeItem.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.removeStepMemberList = this.removeStepMemberList.bind(this);
+    this.removeStaffMemberList = this.removeStaffMemberList.bind(this);
   }
   componentWillReceiveProps (nextProps){
     if(nextProps.menu.boardList && !this.state.currentBoardItem){
@@ -64,7 +64,7 @@ class ManageBoard extends React.Component {
 
     if(this.state.currentBoardItem){
       let authUserList = this.state.currentBoardItem.authUserList || []
-      this.state.stepList = authUserList.concat(nextProps.member.stepMemberList);
+      this.state.staffList = authUserList.concat(nextProps.member.staffMemberList);
     }
   }
 
@@ -107,10 +107,10 @@ class ManageBoard extends React.Component {
       .then(() => Actions.pop())
       .catch(e => console.log(`Error: ${e}`));
   }
-  removeStepMemberList = (index) => {
+  removeStaffMemberList = (index) => {
     const authUserList = this.state.currentBoardItem.authUserList;
     if(authUserList.length < index + 1){
-      this.props.removeStepMemberList(index - authUserList.length)
+      this.props.removeStaffMemberList(index - authUserList.length)
     } else {
       authUserList.splice(index, 1);
       this.handleChange('authUserList', authUserList)
@@ -141,7 +141,15 @@ class ManageBoard extends React.Component {
     joinMemberList.splice(index, 1);
     this.handleChange('joinMemberList', joinMemberList);
 
-  }
+  };
+
+  onChangeBoard = (index, value) => {
+      this.setState({
+          ...this.state,
+          currentBoardItem: this.props.menu.boardList[index]
+      });
+  };
+
   renderRow(boardItem) {
       return (
           <TouchableHighlight>
@@ -153,16 +161,20 @@ class ManageBoard extends React.Component {
       );
   }
 
+  renderSeparator(sectionId, rowId, boardLength) {
+      const isLast = rowId === (boardLength - 2 + '');
+      return (<View style={{height: (isLast ? 10: 0.5), backgroundColor: isLast ? '#ededed': '#cccccc'}} key={'spr' + rowId}/>);
+  }
+
   render() {
     const { loading, error, success, member, menu} = this.props;
-    let {currentBoardItem, stepList} = this.state;
+    let {currentBoardItem, staffList} = this.state;
     if (loading ) return <Loading/>;
-
     return (
       <Container>
         <Content style={{backgroundColor:'#ffffff'}}>
           <List transparent>
-            <ListItem header style={{height:60}}>
+            <ListItem header style={{height:65}}>
                 <Thumbnail source={{uri: currentBoardItem && currentBoardItem.thumb}} style={{width:44, height:44, borderRadius: 22}}/>
                 <ModalDropDown ref="dropdown_2"
                                style={{
@@ -189,9 +201,9 @@ class ManageBoard extends React.Component {
                                defaultValue={currentBoardItem && currentBoardItem.name}
                                renderButtonText={(rowData) => rowData.name}
                                renderRow={this.renderRow.bind(this)}
-                               renderSeparator={(sectionID, rowID) => this.renderSeparator(sectionID, rowID, document.boardList.length)}
+                               renderSeparator={(sectionID, rowID) => this.renderSeparator(sectionID, rowID, menu.boardList.length)}
                                adjustFrame={(adjust) => {return {...adjust, left:0, top: adjust.top + (Platform.OS === 'ios' ? 25 : 0)};}}
-                               onSelect={(index, value) => this.onChangeBoard(value, index === document.boardList.length - 1 + "")}
+                               onSelect={(index, value) => this.onChangeBoard(index, value)}
                 />
                 <Image
                     style={{width: 20, height: 20, marginLeft:0}}
@@ -228,7 +240,7 @@ class ManageBoard extends React.Component {
           </List>
           <Separator style={{height: 10}}/>
           <FlatList
-            data={stepList}
+            data={staffList}
             ListHeaderComponent={() => <ListItem>
               <Left>
                 <Text style={{width: '30%'}}>스탭 관리</Text>
@@ -246,7 +258,7 @@ class ManageBoard extends React.Component {
                 <Text style={{color:'#cccccc'}}>검색결과가 없습니다.</Text>
               </ListItem> }
             renderItem={({item, index}) => (
-              <ListItem avatar style={{height:70, marginLeft:10, marginRight:10, borderBottomWidth:(index === stepList.length -1 ? 0 : 1), borderBottomColor:'#dddddd'}}>
+              <ListItem avatar style={{height:70, marginLeft:10, marginRight:10, borderBottomWidth:(index === staffList.length -1 ? 0 : 1), borderBottomColor:'#dddddd'}}>
                 <Left style={{borderBottomWidth:0}}>
                   <Thumbnail small source={{uri: item.thumb}}/>
                 </Left>
@@ -262,7 +274,7 @@ class ManageBoard extends React.Component {
                   <Text note numberOfLines={1} ellipsizeMode='tail'>{item.company}</Text>
                   </Body>
                 </Right>
-                <Button transparent  onPress={() => this.removeStepMemberList(index)}
+                <Button transparent  onPress={() => this.removeStaffMemberList(index)}
                         style={{borderWidth:1, borderColor:'#cccccc', marginLeft:5, marginTop:10, width:60, padding:0, height:35, justifyContent:'center'}}>
                   <Text style={{color:'#333333'}}>취소</Text>
                 </Button>
