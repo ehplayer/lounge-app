@@ -79,8 +79,14 @@ class App extends Component {
         }
 
         return true;
-
     };
+    exitApp = () => {
+        this.setState({
+            ...this.state,
+            visibleExitModal: false,
+        });
+        BackHandler.exitApp();
+    }
 
     render(){
         const {store, persistor} = this.props;
@@ -103,7 +109,7 @@ class App extends Component {
                                     <Button style={{width:120, height:50, justifyContent:'center', borderRadius:0, marginRight:5, backgroundColor:'#dddddd'}} onPress={() => this.setState({visibleExitModal: false})}>
                                         <Text>취소</Text>
                                     </Button>
-                                    <Button style={{width:120, height:50, justifyContent:'center', borderRadius:0, marginLeft:5, backgroundColor: '#535acb'}} onPress={() => BackHandler.exitApp()}>
+                                    <Button style={{width:120, height:50, justifyContent:'center', borderRadius:0, marginLeft:5, backgroundColor: '#535acb'}} onPress={this.exitApp}>
                                         <Text>확인</Text>
                                     </Button>
                                     </Body>

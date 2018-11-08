@@ -29,6 +29,7 @@ import CameraImage from '../../images/camera.png';
 import {ImagePicker, Permissions} from 'expo';
 import Modal from "react-native-modal";
 import loungeStyle from '../constants/loungeStyle'
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 
 const styles = StyleSheet.create({
   image: {
@@ -174,7 +175,9 @@ class CreateArticle extends React.Component {
 
     return (
       <Container>
-        <Content>
+          <KeyboardAwareScrollView enableOnAndroid enableAutomaticScroll extraScrollHeight={250}
+                                   keyboardShouldPersistTaps={'handled'}
+          >
           {error && <Messages message={error}/>}
           {success && <Messages message={success} type="success"/>}
 
@@ -342,7 +345,7 @@ class CreateArticle extends React.Component {
                     <Input
                       id="place"
                       placeholder="00"
-                      style={{width:50, marginTop:10, marginLeft:50}}
+                      style={{width:50, marginTop:10, marginLeft:'10%'}}
                       onChangeText={v => this.handleChange('joinMemberLimit', v)}
                     />
                     <Text style={{marginTop:10, marginRight:'30%'}}>명</Text>
@@ -382,7 +385,7 @@ class CreateArticle extends React.Component {
                   </View>
               </Modal>
           </Form>
-        </Content>
+          </KeyboardAwareScrollView>
       </Container>
     );
   }

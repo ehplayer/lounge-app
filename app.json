@@ -5,7 +5,7 @@
     "slug": "mba-lounge",
     "icon": "src/images/app-icon.png",
     "privacy": "public",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "splash": {
       "image": "src/images/splash.png",
       "resizeMode": "cover"
@@ -14,7 +14,12 @@
       "bundleIdentifier": "com.mbalounge.lounge"
     },
     "android": {
-      "package": "com.mbalounge.lounge"
+      "package": "com.mbalounge.lounge",
+      "versionCode": 2,
+      "permissions": [
+        "CAMERA",
+        "CAMERA_ROLL",
+      ],
     }
   }
 }

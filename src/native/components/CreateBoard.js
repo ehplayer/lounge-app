@@ -1,12 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Body, Button, Container, Content, Input, Left, ListItem, Right, Separator, Text, Thumbnail} from 'native-base';
+import {
+    Body,
+    Button,
+    Container,
+    Content, Form,
+    Input,
+    Left,
+    ListItem,
+    Right,
+    Separator,
+    Text,
+    Thumbnail,
+    View
+} from 'native-base';
 import {Actions} from 'react-native-router-flux';
 import Loading from './Loading';
 import checkedIcon from '../../images/checkO.png'
 import uncheckedIcon from '../../images/checkX.png'
 import {FlatList, Image} from "react-native";
 import {ImagePicker, Permissions} from "expo";
+import Modal from "react-native-modal";
+import loungeStyle from "../constants/loungeStyle";
 
 class CreateBoard extends React.Component {
   static propTypes = {
@@ -37,6 +52,7 @@ class CreateBoard extends React.Component {
       imageUrl: '#',
       searchName:''
     };
+
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -71,18 +87,29 @@ class CreateBoard extends React.Component {
     }
   };
   handleSubmit = () => {
-    this.props.onFormSubmit(this.state, this.props.member)
-      .then(() => {
+      let errorMessage = '';
+      if(!this.state.boardName || this.state.boardName === ''){
+          errorMessage = '게시판명을 입력해주세요';
+          this.handleChange('emailError', true);
+      } else if(!this.state.staffMemberList || this.state.staffMemberList.length === 0){
+          errorMessage = '스탭이 최소 한명은 존재해야 합니다.';
+          this.handleChange('emailError', true);
+      }
 
-        return Actions.pop();
-      })
+      if(errorMessage !== ''){
+          this.handleChange('formErrorMessage', errorMessage);
+          return this.handleChange('visibleModal', true);
+      }
+
+    this.props.onFormSubmit(this.state, this.props.member)
+      .then(() => Actions.pop())
       .catch(e => console.log(`Error: ${e}`));
   }
 
   render() {
     const { loading, error, success, member} = this.props;
     if (loading) return <Loading/>;
-    console.log(member)
+
     return (
       <Container>
         <Content style={{backgroundColor:'#ffffff'}}>
@@ -187,6 +214,21 @@ class CreateBoard extends React.Component {
             <Text>확인</Text>
           </Button>
           </Body>
+            <Modal
+                isVisible={this.state.visibleModal}
+                onBackdropPress={() => this.setState({visibleModal: false})}
+            >
+                <View style={loungeStyle.modalContent}>
+                    <Text style={{paddingTop:70, fontSize:16, fontWeight:'100'}}>{this.state.formErrorMessage}</Text>
+                    <Body style={{alignItems: 'center', flexDirection: 'row', paddingTop: 70, paddingBottom: 40}}>
+                    <Button style={{width:120, height:50, justifyContent:'center', borderRadius:0, marginLeft:5, backgroundColor: '#535acb'}} onPress={() => {
+                        this.setState({visibleModal: false})
+                    }}>
+                        <Text>확인</Text>
+                    </Button>
+                    </Body>
+                </View>
+            </Modal>
         </Content>
       </Container>
     );

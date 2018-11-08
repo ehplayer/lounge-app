@@ -228,7 +228,7 @@ const Index = (
       back
       key="createBoard"
       //initial
-      title="Univ. / Club 만들기"
+      title="Univ. / Club 생성"
       titleColorArray={['#394eb7','#6965dc']}
       navBar={TextNavBar}
       component={CreateBoardContainer}
