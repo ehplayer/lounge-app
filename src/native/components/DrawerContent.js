@@ -88,25 +88,25 @@ class DrawerContent extends React.Component {
             {(isMaster || isStaff) &&
               <ListItem style={{borderBottomWidth: 1, paddingLeft: 0, marginLeft: 0}}>
                   <Left>
-                      <Button transparent style={{width:'100%'}} onPress={Actions.scheduler}>
+                      <Button transparent style={{width:'100%'}} onPress={Actions.manageBoard}>
                           <Body style={{alignItems: 'center'}}>
                           <Image
                               style={{height:45, width:'100%'}}
                               resizeMode="contain"
-                              source={approveIcon}
+                              source={manageIcon}
                           />
                           </Body>
                       </Button>
                   </Left>
 
                   <Left style={{borderLeftWidth: 1, borderColor: '#cccccc'}}>
-                      <Button transparent style={{width: '100%'}} onPress={Actions.manageBoard}>
+                      <Button transparent style={{width: '100%'}} >
                           <Body style={{alignItems: 'center', margin: 0, padding: 0}}>
-                          <Image
+                          {/*<Image
                               style={{height: 45, width: '100%'}}
                               resizeMode="contain"
                               source={manageIcon}
-                          />
+                          />*/}
                           </Body>
                       </Button>
                   </Left>

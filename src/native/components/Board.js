@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Dimensions, FlatList, Image, Platform, RefreshControl, TouchableHighlight, View} from 'react-native';
+import {Dimensions, FlatList, Image, Platform, RefreshControl, TouchableOpacity,TouchableHighlight, View} from 'react-native';
 import {
     Body,
     Button,
@@ -43,6 +43,7 @@ class BoardComponent extends React.Component {
     this.state = {
       currentUnivId: undefined,
     };
+  this.showDropDown = this.showDropDown.bind(this);
   }
   static keyExtractor = item => String(item.toString());
 
@@ -86,6 +87,10 @@ class BoardComponent extends React.Component {
     const isLast = rowId === (boardLength - 2 + '');
     return (<View style={{height: (isLast ? 10: 0.5), backgroundColor: isLast ? '#ededed': '#cccccc'}} key={'spr' + rowId}/>);
   }
+  showDropDown(){
+      console.log(this)
+      this.refs.dropdown.show();
+  }
 
   render() {
     const {error, loading, document, member, moreFetch, sectionType, boardColor, hideBoardSelectMenu} = this.props;
@@ -106,52 +111,55 @@ class BoardComponent extends React.Component {
           data={document.articleList}
           ListHeaderComponent={
               <View>
-                  {!hideBoardSelectMenu && <Card transparent style={{marginBottom: 0, paddingBottom: 0, height: 70}}>
-                      <CardItem style={{margin: 0, paddingBottom: 0}}>
-                          <Thumbnail source={{uri: boardItem && boardItem.thumb}}
-                                     style={{width: 44, height: 44, borderRadius: 22}}/>
-                          <ModalDropDown ref="dropdown_2"
-                                         style={{
-                                             alignSelf: 'flex-end',
-                                             width: '70%',
-                                             right: 8,
-                                             marginLeft: 20,
-                                             paddingLeft: 0
-                                         }}
-                                         textStyle={{
-                                             marginVertical: 10,
-                                             marginHorizontal: 6,
-                                             fontSize: 15,
-                                             color: '#000000',
-                                             fontWeight: '100',
-                                             textAlign: 'left',
-                                             textAlignVertical: 'center',
-                                         }}
-                                         dropdownStyle={{
-                                             width: '100%',
-                                             height: Dimensions.get('window').height,
-                                             backgroundColor: "rgba(0, 0, 0, 0.5)",
-                                             paddingBottom: Dimensions.get('window').height - 165,
-                                         }}
-                                         options={document.boardList}
-                                         defaultValue={boardItem && boardItem.name}
-                                         renderButtonText={(rowData) => rowData.name}
-                                         renderRow={this.renderRow.bind(this)}
-                                         renderSeparator={(sectionID, rowID) => this.renderSeparator(sectionID, rowID, document.boardList.length)}
-                                         adjustFrame={(adjust) => {
-                                             return {
-                                                 ...adjust,
-                                                 left: 0,
-                                                 top: adjust.top + (Platform.OS === 'ios' ? 25 : 0)
-                                             };
-                                         }}
-                                         onSelect={(index, value) => this.onChangeBoard(value, index === document.boardList.length - 1 + "")}
-                          />
-                          <Image
-                              style={{width: 20, height: 20, marginLeft: 0}}
-                              resizeMode="contain"
-                              source={ArrowDown}/>
-                      </CardItem>
+                  {!hideBoardSelectMenu &&
+                  <Card transparent style={{marginBottom: 0, paddingBottom: 0, height: 70}}>
+                      <TouchableOpacity onPress={this.showDropDown}>
+                          <CardItem style={{margin: 0, paddingBottom: 0}}>
+                                <Thumbnail source={{uri: boardItem && boardItem.thumb}} style={{width: 44, height: 44, borderRadius: 22}}/>
+
+                              <ModalDropDown ref="dropdown"
+                                             style={{
+                                                 alignSelf: 'flex-end',
+                                                 width: '70%',
+                                                 right: 8,
+                                                 marginLeft: 20,
+                                                 paddingLeft: 0
+                                             }}
+                                             textStyle={{
+                                                 marginVertical: 10,
+                                                 marginHorizontal: 6,
+                                                 fontSize: 15,
+                                                 color: '#000000',
+                                                 fontWeight: '100',
+                                                 textAlign: 'left',
+                                                 textAlignVertical: 'center',
+                                             }}
+                                             dropdownStyle={{
+                                                 width: '100%',
+                                                 height: Dimensions.get('window').height,
+                                                 backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                                 paddingBottom: Dimensions.get('window').height - 165,
+                                             }}
+                                             options={document.boardList}
+                                             defaultValue={boardItem && boardItem.name}
+                                             renderButtonText={(rowData) => rowData.name}
+                                             renderRow={this.renderRow.bind(this)}
+                                             renderSeparator={(sectionID, rowID) => this.renderSeparator(sectionID, rowID, document.boardList.length)}
+                                             adjustFrame={(adjust) => {
+                                                 return {
+                                                     ...adjust,
+                                                     left: 0,
+                                                     top: adjust.top + (Platform.OS === 'ios' ? 25 : 0)
+                                                 };
+                                             }}
+                                             onSelect={(index, value) => this.onChangeBoard(value, index === document.boardList.length - 1 + "")}
+                              />
+                              <Image
+                                  style={{width: 20, height: 20, marginLeft: 0}}
+                                  resizeMode="contain"
+                                  source={ArrowDown}/>
+                          </CardItem>
+                      </TouchableOpacity>
                   </Card>
                   }
                   {!hideBoardSelectMenu &&  <Separator style={{height: 10}}/>}
