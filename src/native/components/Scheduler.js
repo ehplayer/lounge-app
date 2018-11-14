@@ -21,39 +21,6 @@ class Scheduler extends React.Component {
       <Content>
         <Card transparent style={{marginTop: 0}}>
           <CardItem style={{margin:0, padding:0}}>
-            <FlatList
-              data={ownerList}
-              ListHeaderComponent={() => <ListItem style={{height: 50, marginLeft:0, marginRight:0}}><Text style={{width: '95%'}}>원우회 목록</Text></ListItem>}
-              ListEmptyComponent={() =>
-                <ListItem noBorder style={{height:70, justifyContent:'center'}}>
-                  <Text style={{color:'#cccccc'}}>검색결과가 없습니다.</Text>
-                </ListItem> }
-              renderItem={({item, index}) => (
-                <ListItem avatar style={{height:70, borderBottomWidth:(index === ownerList.length -1 ? 0 : 1), borderBottomColor:'#dddddd'}}>
-                  <Left style={{borderBottomWidth:0}}>
-                    <Thumbnail small source={{uri: item.thumb}}/>
-                  </Left>
-                  <Body style={{borderBottomWidth:0}}>
-                  <Text>{item.name}</Text>
-                  </Body>
-                  <Body style={{borderBottomWidth:0}}>
-                  <Text style={{color: '#6D41DD'}}>{item.type}</Text>
-                  <Text note>{item.className}</Text>
-                  </Body>
-                  <Right style={{borderBottomWidth:0, width:'40%'}}>
-                    <Body>
-                    <Text note numberOfLines={1} ellipsizeMode='tail'>{item.mbaType}</Text>
-                    <Text note numberOfLines={1} ellipsizeMode='tail'>{item.company}</Text>
-                    </Body>
-                  </Right>
-                </ListItem>
-              )}
-              keyExtractor={(item) => item.docId}
-            />
-          </CardItem>
-        </Card>
-        <Card transparent style={{marginTop: 0}}>
-          <CardItem style={{margin:0, padding:0}}>
             <Body>
             <FlatList
               data={userList}
@@ -63,7 +30,8 @@ class Scheduler extends React.Component {
                 <Text style={{color:'#cccccc'}}>검색결과가 없습니다.</Text>
               </ListItem> }
               renderItem={({item, index}) => (
-                <ListItem avatar style={{height:70, marginLeft:0, marginRight:0, borderBottomWidth:(index === userList.length -1 ? 0 : 1), borderBottomColor:'#dddddd'}}>
+                <ListItem avatar style={{height:70, marginLeft:0, marginRight:0, borderBottomWidth:(index === userList.length -1 ? 0 : 1), borderBottomColor:'#dddddd'}}
+                        onPress={() => Actions.otherProfile({docId:item.docId})}>
                   <Left style={{borderBottomWidth:0}}>
                     <Thumbnail small source={{uri: item.thumb}}/>
                   </Left>

@@ -247,7 +247,7 @@ export function resetPassword(formData) {
     return Firebase.auth()
       .sendPasswordResetEmail(passwordEmail)
       .then(() => statusMessage(dispatch, 'loading', false).then(resolve(dispatch({ type: 'USER_RESET' }))))
-      .catch(reject);
+      .catch(() => resolve());
   }).catch(async (err) => { await statusMessage(dispatch, 'error', err.message); throw err.message; });
 }
 /**

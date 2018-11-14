@@ -94,7 +94,13 @@ class Login extends Component {
         });
 
         this.props.clearFindEmail();
-    }
+    };
+    clearFindPassword = () => {
+        this.setState({
+            ...this.state,
+            visiblePasswordModal: false,
+        });
+    };
 
     render() {
         const {loading, error, member} = this.props;
@@ -337,7 +343,7 @@ class Login extends Component {
                                 style={{alignItems: 'center', flexDirection: 'row', paddingTop: 70, paddingBottom: 40}}>
                             <Button style={styles.confirmButton} onPress={() => {
                                 this.setState({requestFindPassword: false})
-                                this.clearFindEmail();
+                                this.clearFindPassword();
                             }}>
                                 <Text>확인</Text>
                             </Button>

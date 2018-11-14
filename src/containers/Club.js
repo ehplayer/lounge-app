@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
-import {getArticleList, getArticleListMore, getBoardList, getNoticeList, getScheduleList} from '../actions/univ';
+import {getArticleList, getArticleListMore, getBoardList, getNoticeList, getScheduleList, getTotalBoardList} from '../actions/univ';
 
 class ClubContainer extends React.Component {
   static propTypes = {
@@ -36,6 +36,10 @@ class ClubContainer extends React.Component {
   }
 
   fetchData = (currentUnivId, member) => {
+      if(!member.clubAuth || member.clubAuth.length === 0){
+          return;
+      }
+
       this.props.getBoardList(currentUnivId, member, this.props.sectionType).catch((err) => console.log(`Error: ${err}`));
       this.props.getNoticeList(currentUnivId, member, this.props.sectionType).catch((err) => console.log(`Error: ${err}`));
       this.props.getScheduleList(currentUnivId, member, this.props.sectionType).catch((err) => console.log(`Error: ${err}`));
@@ -44,11 +48,10 @@ class ClubContainer extends React.Component {
   }
 
   render = () => {
-      const { Layout, club, match, member, status, sectionType} = this.props;
-      const id = (match && match.params && match.params.id) ? match.params.id : null;
+      const { Layout, club, match, member, status, sectionType, menu} = this.props;
       return (
           <Layout
-              recipeId={id}
+              menu={menu}
               error={club.error}
               loading={status.loading}
               document={club}
@@ -64,6 +67,7 @@ class ClubContainer extends React.Component {
 
 const mapStateToProps = state => ({
   club: state.club || {},
+    menu: state.menu || {},
   status: state.status || {},
   member: state.member || {},
   currentUnivId: state.currentUnivId || '',
@@ -74,6 +78,7 @@ const mapDispatchToProps = {
     getBoardList,
     getArticleList,
     getArticleListMore,
+    getTotalBoardList,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ClubContainer);

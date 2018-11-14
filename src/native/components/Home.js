@@ -19,6 +19,7 @@ import {FlatList, Image, RefreshControl} from "react-native";
 import Loading from "./Loading";
 import Error from "./Error";
 import ArrowLeft from '../../images/arrow_right_gray.png';
+import loungeStyle from "../constants/loungeStyle";
 
 class HomeComponent extends React.Component {
 
@@ -82,11 +83,11 @@ class HomeComponent extends React.Component {
                     <CardItem style={{paddingBottom:0}}>
                         <Body>
                         <List>
-                            <ListItem style={{height: 40, paddingLeft:0, marginLeft:0, alignItems:'center'}} onPress={item => Actions.homeNoticeList({title: '공지사항'})}>
-                                <Text style={{width: '90%', paddingLeft:0, marginLeft:0, paddingBottom:20}}
+                            <ListItem style={loungeStyle.listHeaderListItem} onPress={item => Actions.homeNoticeList({title: '공지사항'})}>
+                                <Text style={loungeStyle.listHeaderListItem_Text}
                                       onPress={item => Actions.homeNoticeList({title: '공지사항'})}>공지사항</Text>
                                 <Image
-                                    style={{width: 28, height: 20, marginLeft:10}}
+                                    style={loungeStyle.listHeaderListItem_Image}
                                     resizeMode="contain"
                                     source={ArrowLeft}/>
                             </ListItem>
@@ -111,10 +112,10 @@ class HomeComponent extends React.Component {
                     <CardItem style={{paddingBottom:0}}>
                         <Body>
                         <List>
-                            <ListItem style={{height: 40, paddingLeft:0, marginLeft:0}} onPress={item => Actions.homeScheduleList({title: '일정'})}>
-                                <Text style={{width: '90%', paddingLeft:0, marginLeft:0, paddingBottom:20}}>일정</Text>
+                            <ListItem style={loungeStyle.listHeaderListItem} onPress={item => Actions.homeScheduleList({title: '일정'})}>
+                                <Text style={loungeStyle.listHeaderListItem_Text}>일정</Text>
                                 <Image
-                                    style={{width: 28, height: 20, marginLeft:10}}
+                                    style={loungeStyle.listHeaderListItem_Image}
                                     resizeMode="contain"
                                     source={ArrowLeft}/>
                             </ListItem>

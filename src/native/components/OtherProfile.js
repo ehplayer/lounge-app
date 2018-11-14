@@ -1,25 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Body,
-  Button,
-  CheckBox,
-  Container,
-  Content,
-  Form,
-  Input,
-  Left,
-  ListItem,
-  Right,
-  Text,
-  Thumbnail
-} from 'native-base';
-import checkedIcon from '../../images/checkO.png'
-import uncheckedIcon from '../../images/checkX.png'
+import {Body, Container, Content, Form, Left, ListItem, Text, Thumbnail} from 'native-base';
 import {Actions} from 'react-native-router-flux';
 
 import Loading from './Loading';
-import {Image} from "react-native";
 
 class OtherProfileComponent extends React.Component {
   static propTypes = {
@@ -68,10 +52,6 @@ class OtherProfileComponent extends React.Component {
                 <Body style={{flexDirection: 'row'}}>
                   <Text>{user.email}</Text>
                 </Body>
-                <Button transparent onPress={logout}
-                        style={{borderWidth:1,borderColor:'#cccccc', width:75, height:30, justifyContent:'center'}}>
-                  <Text style={{fontSize:12, color:'#999999', margin:0, padding:0, }}>로그아웃</Text>
-                </Button>
               </Left>
             </ListItem>
             <ListItem noBorder>

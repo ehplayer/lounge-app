@@ -24,6 +24,7 @@ import ArrowRight from '../../images/arrow_right_gray.png';
 import ArrowDown from '../../images/arrow_down.png';
 import PencilIcon from '../../images/pencil.png';
 import ModalDropDown from 'react-native-modal-dropdown';
+import loungeStyle from "../constants/loungeStyle";
 
 
 class BoardComponent extends React.Component {
@@ -93,7 +94,7 @@ class BoardComponent extends React.Component {
   }
 
   render() {
-    const {error, loading, document, member, moreFetch, sectionType, boardColor, hideBoardSelectMenu} = this.props;
+    const {error, loading, document, member, moreFetch, sectionType, boardColor, hideBoardSelectMenu, menu} = this.props;
     const boardItem = document.boardList && (!this.state.currentUnivId ? document.boardList[0] : document.boardList.filter(item => item.docId === this.state.currentUnivId)[0])
     const now = moment().format("MM.DD");
 
@@ -102,6 +103,38 @@ class BoardComponent extends React.Component {
     }
     if (loading) return <Loading/>;
     if (error) return <Error content={error}/>;
+
+    if(!boardItem) {
+        return <Container>
+            <Card transparent style={{marginTop: 0, paddingTop:0}}>
+
+                <CardItem style={{paddingTop:130, paddingBottom:0, marginBottom:0}}>
+                    <Left style={{alignContent:'center', justifyContent:'center'}}>
+                        <Text style={{paddingLeft:0, marginLeft:0, color:'#cccccc', fontSize:25}}>가입하신 Club이 없습니다.</Text>
+                    </Left>
+
+                </CardItem>
+                <CardItem style={{paddingTop:50, paddingBottom:0, marginBottom:0}}>
+                    <Left style={{alignContent:'center', justifyContent:'center'}}>
+                    <Text style={{paddingLeft:0, marginLeft:0}}>Univ./Club 가입화면으로 이동</Text>
+                    <Image
+                        style={{width: 20, height: 20, marginLeft:10}}
+                        resizeMode="contain"
+                        source={ArrowRight}/>
+                        {/*<List>*/}
+                            {/*<ListItem style={{height: 50, paddingLeft:0, marginLeft:0}} onPress={Actions.boardList}>*/}
+                                {/*<Text style={{width: '90%', paddingLeft:0, marginLeft:0}}>Univ./Club 가입화면으로 이동</Text>*/}
+                                {/*<Image*/}
+                                    {/*style={{width: 20, height: 20, marginLeft:10}}*/}
+                                    {/*resizeMode="contain"*/}
+                                    {/*source={ArrowRight}/>*/}
+                            {/*</ListItem>*/}
+                        {/*</List>*/}
+                    </Left>
+                </CardItem>
+            </Card>
+        </Container>;
+    }
 
     return (
       <Container>
@@ -168,11 +201,10 @@ class BoardComponent extends React.Component {
                       <CardItem style={{paddingBottom:0}}>
                           <Body>
                           <List>
-                              <ListItem style={{height: 40, paddingLeft:0, marginLeft:0, alignItems:'center'}}>
-                                  <Text style={{width: '90%', paddingLeft:0, marginLeft:0}}
-                                        onPress={item => Actions.noticeList({title: '공지사항'})}>공지사항</Text>
+                              <ListItem style={loungeStyle.listHeaderListItem}>
+                                  <Text style={loungeStyle.listHeaderListItem_Text} onPress={item => Actions.noticeList({title: '공지사항'})}>공지사항</Text>
                                   <Image
-                                      style={{width: 20, height: 20, marginLeft:10}}
+                                      style={loungeStyle.listHeaderListItem_Image}
                                       resizeMode="contain"
                                       source={ArrowRight}/>
                               </ListItem>
@@ -199,10 +231,10 @@ class BoardComponent extends React.Component {
                           <Body>
 
                           <List>
-                              <ListItem style={{height: 40, paddingLeft:0, marginLeft:0}} onPress={() => Actions.scheduleList({boardItem})}>
-                                  <Text style={{width: '90%', paddingLeft:0, marginLeft:0}}>일정</Text>
+                              <ListItem style={loungeStyle.listHeaderListItem} onPress={() => Actions.scheduleList({boardItem})}>
+                                  <Text style={loungeStyle.listHeaderListItem_Text}>일정</Text>
                                   <Image
-                                      style={{width: 20, height: 20, marginLeft:10}}
+                                      style={loungeStyle.listHeaderListItem_Image}
                                       resizeMode="contain"
                                       source={ArrowRight}/>
                               </ListItem>
