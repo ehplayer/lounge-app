@@ -121,15 +121,6 @@ class BoardComponent extends React.Component {
                         style={{width: 20, height: 20, marginLeft:10}}
                         resizeMode="contain"
                         source={ArrowRight}/>
-                        {/*<List>*/}
-                            {/*<ListItem style={{height: 50, paddingLeft:0, marginLeft:0}} onPress={Actions.boardList}>*/}
-                                {/*<Text style={{width: '90%', paddingLeft:0, marginLeft:0}}>Univ./Club 가입화면으로 이동</Text>*/}
-                                {/*<Image*/}
-                                    {/*style={{width: 20, height: 20, marginLeft:10}}*/}
-                                    {/*resizeMode="contain"*/}
-                                    {/*source={ArrowRight}/>*/}
-                            {/*</ListItem>*/}
-                        {/*</List>*/}
                     </Left>
                 </CardItem>
             </Card>
@@ -202,7 +193,7 @@ class BoardComponent extends React.Component {
                           <Body>
                           <List>
                               <ListItem style={loungeStyle.listHeaderListItem}>
-                                  <Text style={loungeStyle.listHeaderListItem_Text} onPress={item => Actions.noticeList({title: '공지사항'})}>공지사항</Text>
+                                  <Text style={loungeStyle.listHeaderListItem_Text} onPress={item => Actions.noticeList({title: '공지사항', sectionType:sectionType})}>공지사항</Text>
                                   <Image
                                       style={loungeStyle.listHeaderListItem_Image}
                                       resizeMode="contain"
@@ -211,10 +202,10 @@ class BoardComponent extends React.Component {
                               <FlatList
                                   numColumns={1}
                                   data={document.noticeList && document.noticeList.length > 3 ? document.noticeList.slice(0,3) : document.noticeList}
-                                  renderItem={({item}) => (
-                                      <ListItem key={item.articleId} onPress={() => this.openArticle('notice', item)} style={{height: 50, paddingLeft:0, marginLeft:0, marginRight:0}}>
+                                  renderItem={({item, index}) => (
+                                      <ListItem noBorder={index === 2} key={item.articleId} onPress={() => this.openArticle('notice', item)} style={{height: 50, paddingLeft:0, marginLeft:0, marginRight:0}}>
                                           <Left style={{marginLeft:0}}>
-                                              <Body style={{marginLeft:0}}><Text numberOfLines={1} style={{fontWeight:'100'}}>{item.title}</Text></Body>
+                                              <Body style={{marginLeft:0}}><Text numberOfLines={1} style={{fontWeight:'normal', color:'#555555'}}>{item.title}</Text></Body>
                                           </Left>
                                           <Right><Text note>{moment(item.createDateTime).format("MM.DD") === now ? '오늘' : moment(item.createDateTime).format("MM.DD")}</Text></Right>
                                       </ListItem>
@@ -239,7 +230,7 @@ class BoardComponent extends React.Component {
                                       source={ArrowRight}/>
                               </ListItem>
                               {document.scheduleList && document.scheduleList[0] &&
-                              <ListItem style={{marginLeft:0,height:75}} onPress={() => this.openArticle('schedule', document.scheduleList[0])}>
+                              <ListItem noBorder style={{marginLeft:0,height:75}} onPress={() => this.openArticle('schedule', document.scheduleList[0])}>
                                   <Button transparent style={{
                                       marginTop: 15,
                                       marginLeft:0,
@@ -253,7 +244,7 @@ class BoardComponent extends React.Component {
                                   </Button>
                                   <Left>
                                       <Body style={{alignContent: "center", marginTop: 10, paddingLeft:10}}>
-                                      <Text style={{fontSize: 15, fontWeight:'100', marginBottom:5}}>{document.scheduleList[0].title}</Text>
+                                      <Text style={{fontSize: 15, fontWeight:'100', marginBottom:5, color:'#555555'}}>{document.scheduleList[0].title}</Text>
                                       <Text note style={{paddingTop: 5, color:boardColor, fontSize:13}}>
                                           {'참석 ' + (document.scheduleList[0].joinerList && document.scheduleList[0].joinerList.length !== 0 ? document.scheduleList[0].joinerList.length : 0)}
                                           {document.scheduleList[0].comment && document.scheduleList[0].comment.length !== 0? ' / 댓글 ' + document.scheduleList[0].comment.length : ''}
@@ -272,8 +263,8 @@ class BoardComponent extends React.Component {
                           <Body>
 
                           <List>
-                              <ListItem style={{height: 40, paddingLeft:0, marginLeft:0}}>
-                                  <Text style={{width: '100%', paddingLeft:0, marginLeft:0}}>게시글</Text>
+                              <ListItem style={loungeStyle.listHeaderListItem}>
+                                  <Text style={{width: '100%', paddingLeft:0, marginLeft:0, color: '#000000'}}>게시글</Text>
                               </ListItem>
                           </List>
                           </Body>
@@ -281,11 +272,11 @@ class BoardComponent extends React.Component {
                   </Card>
               </View>
           }
-          renderItem={({item}) => (
-            <ListItem key={item.articleId} style={{height: 70, marginHorizontal:5, backgroundColor:'#ffffff'}} onPress={() => this.openArticle('article', item)}>
+          renderItem={({item, index}) => (
+            <ListItem key={item.articleId} style={{height: 70,  backgroundColor:'#ffffff', width:'92%'}} onPress={() => this.openArticle('article', item)}>
               <Left style={{marginLeft:0,paddingLeft:0}}>
                 <Body style={{marginLeft:0,paddingLeft:0,marginTop:5}}>
-                <Text numberOfLines={2} style={{fontSize:15, fontWeight:'100'}}>{item.title}</Text>
+                <Text numberOfLines={2} style={{fontWeight:'100', color:'#555555'}}>{item.title}</Text>
                 <Text note style={{marginTop:3}}>
                   <Text note style={{fontSize:13}}>{item.author.name} </Text>
                   <Text note style={{fontSize:13}}> {moment(item.createDateTime).format("MM.DD") === now ? '오늘' : moment(item.createDateTime).format("MM.DD")} </Text>

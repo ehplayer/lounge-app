@@ -49,7 +49,7 @@ class NoticeList extends React.Component {
   }
 
   render = () => {
-    const { Layout, univ, match, member, status} = this.props;
+    const { Layout, univ, sectionType, member, status} = this.props;
     return (
       <Layout
         error={univ.error}
@@ -57,6 +57,7 @@ class NoticeList extends React.Component {
         univ={univ}
         member={member}
         reFetch={this.fetchUniv}
+        sectionType={sectionType}
       />
     );
   }

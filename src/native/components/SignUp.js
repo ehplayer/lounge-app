@@ -10,6 +10,7 @@ import {ImagePicker, Permissions} from "expo";
 import ModalDropDown from 'react-native-modal-dropdown';
 import Modal from "react-native-modal";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import loungeStyle from "../constants/loungeStyle";
 
 const styles = StyleSheet.create({
     image: {
@@ -26,6 +27,12 @@ const styles = StyleSheet.create({
         borderColor: "rgba(0, 0, 0, 0.1)",
         height:260
     },
+    listItem: {
+        marginTop:10, marginRight:10
+    },
+    signUpInput: {
+        borderBottomWidth:1, height:22, borderColor:'#cccccc'
+    }
 });
 
 
@@ -181,7 +188,7 @@ class SignUp extends React.Component {
                             <Left>
                                 <Text style={{paddingLeft: '5%', width: '30%', color: this.state.emailError ? 'red' : '#000000'}}>ID(email)</Text>
                                 <Body>
-                                    <Input style={{borderBottomWidth:1, height:22}} value={this.state.email} onChangeText={v => this.handleChange('email', v)}/>
+                                    <Input style={styles.signUpInput} value={this.state.email} onChangeText={v => this.handleChange('email', v)}/>
                                 </Body>
                             </Left>
                         </ListItem>
@@ -189,7 +196,7 @@ class SignUp extends React.Component {
                             <Left>
                                 <Text style={{paddingLeft: '5%', width: '30%', color: this.state.passwordError ? 'red' : '#000000'}}>비밀번호</Text>
                                 <Body>
-                                <Input secureTextEntry={true} style={{borderBottomWidth:1, height:22}} value={this.state.password} onChangeText={v => this.handleChange('password', v)}/>
+                                <Input secureTextEntry={true} style={styles.signUpInput} value={this.state.password} onChangeText={v => this.handleChange('password', v)}/>
                                 </Body>
                             </Left>
                         </ListItem>
@@ -197,7 +204,7 @@ class SignUp extends React.Component {
                             <Left>
                                 <Text style={{paddingLeft: '5%', width: '30%', color: this.state.passwordCheckError ? 'red' : '#000000'}}>비밀번호 확인</Text>
                                 <Body>
-                                <Input secureTextEntry={true} style={{borderBottomWidth:1, height:22}} value={this.state.passwordCheck} onChangeText={v => this.handleChange('passwordCheck', v)}/>
+                                <Input secureTextEntry={true} style={styles.signUpInput} value={this.state.passwordCheck} onChangeText={v => this.handleChange('passwordCheck', v)}/>
                                 </Body>
                             </Left>
                         </ListItem>
@@ -205,7 +212,7 @@ class SignUp extends React.Component {
                             <Left>
                                 <Text style={{paddingLeft: '5%', width: '30%', color: this.state.nameError ? 'red' : '#000000'}}>이름</Text>
                                 <Body style={{flexDirection: 'row'}}>
-                                <Input style={{borderBottomWidth:1, height:22}} value={this.state.name} onChangeText={v => this.handleChange('name', v)}/>
+                                <Input style={styles.signUpInput} value={this.state.name} onChangeText={v => this.handleChange('name', v)}/>
                                 </Body>
                             </Left>
                         </ListItem>
@@ -213,7 +220,7 @@ class SignUp extends React.Component {
                             <Left>
                                 <Text style={{paddingLeft: '5%', width: '30%', color: this.state.phoneError ? 'red' : '#000000'}}>핸드폰</Text>
                                 <Body style={{flexDirection: 'row'}}>
-                                <Input style={{borderBottomWidth:1, height:22}} value={this.state.phone} onChangeText={v => this.handleChange('phone', v)}/>
+                                <Input style={styles.signUpInput} value={this.state.phone} onChangeText={v => this.handleChange('phone', v)}/>
                                 </Body>
                             </Left>
                         </ListItem>
@@ -221,21 +228,21 @@ class SignUp extends React.Component {
                             <Left>
                                 <Text style={{paddingLeft: '5%', width: '30%', color: this.state.studentNumError ? 'red' : '#000000'}}>학번</Text>
                                 <Body style={{flexDirection: 'row'}}>
-                                <Input style={{borderBottomWidth:1, height:22}} value={this.state.studentNum} onChangeText={v => this.handleChange('studentNum', v)}/>
+                                <Input style={styles.signUpInput} value={this.state.studentNum} onChangeText={v => this.handleChange('studentNum', v)}/>
                                 </Body>
                             </Left>
                         </ListItem>
                         <ListItem noBorder style={{marginTop:10, marginRight:10}}>
                             <Left>
                                 <Text style={{paddingLeft: '5%', width: '30%'}}>학교</Text>
-                                <Body style={{flexDirection: 'row', borderBottomWidth:1}}>
+                                <Body style={{flexDirection: 'row', borderBottomWidth:1, borderColor:'#cccccc'}}>
                                     <ModalDropDown ref="dropdown_2"
                                                    style={{
                                                        alignSelf: 'flex-end',
-                                                       width: '70%',
+                                                       width: '100%',
                                                        right: 8,
-                                                       marginLeft:20,
-                                                       paddingLeft:0
+                                                       marginLeft:10 ,
+                                                       paddingLeft:0,
                                                    }}
                                                    textStyle={{marginVertical: 10,
                                                        marginHorizontal: 6,
@@ -248,9 +255,6 @@ class SignUp extends React.Component {
                                                        width: '70%',
                                                        marginLeft:'30%',
                                                        borderWidth:1,
-                                                       //height: Dimensions.get('window').height,
-                                                       //backgroundColor: "rgba(0, 0, 0, 0.5)",
-                                                       //paddingBottom: Dimensions.get('window').height - 165,
                                                    }}
                                                    options={universeList}
                                                    defaultValue={'연세대'}
@@ -288,7 +292,7 @@ class SignUp extends React.Component {
                             <Left>
                                 <Text style={{paddingLeft: '5%', width: '25%'}}>기수</Text>
                                 <Body style={{flexDirection: 'row'}}>
-                                <Input style={{borderBottomWidth:1, height:22}} value={this.state.className} onChangeText={v => this.handleChange('className', v)}/>
+                                <Input style={styles.signUpInput} value={this.state.className} onChangeText={v => this.handleChange('className', v)}/>
                                 </Body>
                             </Left>
                         </ListItem>
@@ -296,7 +300,7 @@ class SignUp extends React.Component {
                             <Left>
                                 <Text style={{paddingLeft: '5%', width: '25%'}}>MBA과정</Text>
                                 <Body style={{flexDirection: 'row'}}>
-                                <Input style={{borderBottomWidth:1, height:22}} value={this.state.mbaType} onChangeText={v => this.handleChange('mbaType', v)}/>
+                                <Input style={styles.signUpInput} value={this.state.mbaType} onChangeText={v => this.handleChange('mbaType', v)}/>
                                 </Body>
                             </Left>
                         </ListItem>
@@ -304,7 +308,7 @@ class SignUp extends React.Component {
                             <Left>
                                 <Text style={{paddingLeft: '5%', width: '25%'}}>직장</Text>
                                 <Body style={{flexDirection: 'row'}}>
-                                <Input style={{borderBottomWidth:1, height:22}} value={this.state.company} onChangeText={v => this.handleChange('company', v)}/>
+                                <Input style={styles.signUpInput} value={this.state.company} onChangeText={v => this.handleChange('company', v)}/>
                                 </Body>
                             </Left>
                         </ListItem>

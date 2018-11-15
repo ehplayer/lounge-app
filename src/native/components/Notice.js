@@ -2,25 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FlatList, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import moment from 'moment';
-import {
-    Body,
-    Button,
-    Card,
-    CardItem,
-    Container,
-    Content,
-    Form,
-    Input,
-    Left,
-    Right,
-    Text,
-    Thumbnail,
-    View
-} from 'native-base';
+import {Body, Button, Card, CardItem, Container, Form, Input, Left, Right, Text, Thumbnail, View} from 'native-base';
 import trashIcon from '../../images/trash.png'
 import Loading from "./Loading";
 import Modal from "react-native-modal";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import {Actions} from 'react-native-router-flux';
 
 const styles = StyleSheet.create({
   image: {
@@ -174,7 +161,8 @@ class Notice extends React.Component {
               {document.isSchedule &&
               <CardItem style={{marginBottom: 50, paddingTop:0, height:50}}>
                 <Left style={{width:'50%',paddingTop:0, marginTop:0, borderWidth:1, flexDirection:'row', borderTopWidth:0.5, borderColor:'#cccccc'}}>
-                  <Button transparent style={{height:40, justifyContent:'center', width:'100%'}}>
+                  <Button transparent style={{height:40, justifyContent:'center', width:'100%'}}
+                          onPress={() => Actions.joinUserList({document:document, sectionType: sectionType})}>
                     <Text style={{paddingRight:15, color:bgColor}}><Text style={{fontSize:15, color:bgColor}}>참석</Text> <Text style={{color:bgColor}}>{document.joinerList ? document.joinerList.length : 0}</Text> <Text style={{color:bgColor}}>{'>'}</Text></Text>
                   </Button>
                 </Left>

@@ -68,7 +68,7 @@ class Terms extends React.Component {
         return (
             <Container>
                 <Content style={{backgroundColor: '#ffffff'}}>
-                    <Right style={{marginTop: 15, marginLeft: '50%'}}>
+                    <Right style={{marginTop: 0, marginLeft: '50%'}}>
                         <Button transparent style={{marginLeft: '10%'}} onPress={this.handleChangeAll}>
                             <Body style={{height: 45, width: '100%', flexDirection: 'row',}}>
                             <Text style={{marginRight: 10, color: '#4a4a4a'}}>전체 약관에 동의</Text>
@@ -126,7 +126,7 @@ class Terms extends React.Component {
                         <Text style={{marginLeft: 28, color: '#4a4a4a', fontSize: 13}}>언제든지 APP의 설정 > 알림설정에서
                             설정변경가능합니다.</Text>
                     </Left>
-                    <Body style={{alignItems: 'center', flexDirection: 'row', paddingTop: 20, paddingBottom: 40}}>
+                    <Body style={{alignItems: 'center', flexDirection: 'row', paddingTop: 40, paddingBottom: 40}}>
                     <Button style={{
                         width: 100,
                         justifyContent: 'center',
@@ -169,7 +169,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
         borderColor: '#6965dc',
         borderWidth: 1,
-        borderRadius: 15
+        borderRadius: 15,
+        paddingTop:2,
     },
     linkButtonText:{
         fontSize: 14,

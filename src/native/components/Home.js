@@ -95,10 +95,10 @@ class HomeComponent extends React.Component {
                                 numColumns={1}
                                 data={noticeList}
                                 renderItem={({item, index}) => (
-                                    <ListItem key={item.articleId} onPress={() => this.openArticle('notice', item)} style={{height: 50, paddingLeft:0, marginLeft:0}}>
+                                    <ListItem noBorder={index === noticeList.length - 1} key={item.articleId} onPress={() => this.openArticle('notice', item)} style={{height: 50, paddingLeft:0, marginLeft:0}}>
                                         <Text style={{color: this.sectionColorMap[item.sectionType], width:'13%'}}>{this.sectionTextMap[item.sectionType]}</Text>
                                         <Left>
-                                            <Body><Text numberOfLines={1} style={{fontWeight:'normal', color:'#000000'}}>{item.title}</Text></Body>
+                                            <Body><Text numberOfLines={1} style={{fontWeight:'normal', color:'#555555'}}>{item.title}</Text></Body>
                                         </Left>
                                         <Right><Text note>{moment(item.createDateTime).format("MM.DD") === now ? '오늘' : moment(item.createDateTime).format("MM.DD")}</Text></Right>
                                     </ListItem>
@@ -126,7 +126,7 @@ class HomeComponent extends React.Component {
                 </Card>
               }
               renderItem={({item, index}) => (
-                  <ListItem style={{height: 70, paddingLeft:10, paddingRight:30, marginLeft:0, backgroundColor:'#ffffff'}} onPress={() => this.openArticle('schedule', item)}>
+                  <ListItem noBorder style={{height: 70, paddingLeft:10, paddingRight:30, marginLeft:0, backgroundColor:'#ffffff'}} onPress={() => this.openArticle('schedule', item)}>
                       <Button transparent style={{marginTop:5, height:29,backgroundColor:'#ffffff', borderColor: '#6D41DD', borderWidth: 0.5, borderRadius:15}} disabled>
                           <Text style={{fontSize:14, color:'#6D41DD', paddingLeft:5, paddingRight:5}}>{moment(item.startDatetimeLong).format("MM / DD")}</Text>
                       </Button>

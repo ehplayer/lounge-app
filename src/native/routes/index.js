@@ -39,6 +39,9 @@ import SignUpComponent from '../components/SignUp';
 import SchedulerContainer from '../../containers/Scheduler';
 import SchedulerComponent from '../components/Scheduler';
 
+import JoinUserListContainer from '../../containers/JoinUserList';
+import JoinUserListComponent from '../components/JoinUserList';
+
 import SchedulerSearchContainer from '../../containers/SchedulerSearch';
 import SchedulerSearchComponent from '../components/SchedulerSearch';
 
@@ -115,7 +118,6 @@ const Index = (
     />
 
     <Scene
-    //initial
       key="signUp"
       title="회원가입"
       titleColorArray={['#394eb7','#6965dc']}
@@ -131,7 +133,6 @@ const Index = (
         navBar={TextNavBar}
         component={MemberContainer}
         Layout={AuthWaitingComponent}/>
-
 
     <Scene
       back
@@ -204,6 +205,12 @@ const Index = (
       key="noticeList"
       titleColorArray={['#2867ae', '#2867ae']}
       navBar={TextNavBar} component={NoticeListContainer} Layout={NoticeListComponent}/>
+
+    <Scene
+      back
+      key="joinUserList"
+      title="참석 원우 목록"
+      navBar={CreateArticleNavBar} component={JoinUserListContainer} Layout={JoinUserListComponent}/>
 
     <Scene
       back
