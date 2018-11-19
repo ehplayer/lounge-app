@@ -40,7 +40,7 @@ class CreateArticleNavBar extends React.Component {
                   source={ArrowLeft}/>
           </TouchableOpacity>
           <View style={[styles.navBarItem]}>
-            <Text style={{fontSize: 23, color: '#ffffff'}}>{boardItem ? boardItem.name : title}</Text>
+            <Text style={{fontSize: 18, color: '#ffffff'}}>{boardItem ? boardItem.name : title}</Text>
           </View>
         </View>
     )

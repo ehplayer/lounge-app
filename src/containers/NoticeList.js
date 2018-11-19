@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {Actions} from 'react-native-router-flux';
-import { getArticleList, getBoardList, getUnivSchedule, setError, getUnivTotal, getUnivNoticeList} from '../actions/univ';
+import { setError, getUnivTotal, getUnivNoticeList} from '../actions/univ';
 class NoticeList extends React.Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,

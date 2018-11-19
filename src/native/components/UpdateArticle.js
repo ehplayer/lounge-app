@@ -12,7 +12,6 @@ import {
     Card,
     CardItem,
     Container,
-    Content,
     Form,
     Input,
     Item,
@@ -51,17 +50,16 @@ const iconMap = {
     club: checkedIconGreen,
 }
 
-class CreateArticle extends React.Component {
+class UpdateArticle extends React.Component {
 
     static propTypes = {
         error: PropTypes.string,
         success: PropTypes.string,
         loading: PropTypes.bool.isRequired,
-        createArticle: PropTypes.func.isRequired,
+        updateArticle: PropTypes.func.isRequired,
         member: PropTypes.shape({
             email: PropTypes.string,
         }).isRequired,
-        boardType: PropTypes.string,
         boardItem: PropTypes.shape({})
     }
 
@@ -73,21 +71,9 @@ class CreateArticle extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            title: '',
-            content: '',
+            ...props.article,
             imageUrlList: [],
             imageBlobList: [],
-            errors: {},
-            isSubmitting: false,
-            isNotice: false,
-            isSchedule: false,
-            isLimitMember: false,
-            startDatetime: '',
-            startDatetimeLong: 0,
-            endDatetime: '',
-            endDatetimeLong: 0,
-            place: '',
-            joinMemberLimit: ''
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -117,7 +103,7 @@ class CreateArticle extends React.Component {
             });
             return false;
         }
-        this.props.createArticle(this.state, this.props)
+        this.props.updateArticle(this.state, this.props)
             .then(() => Actions.pop())
             .catch(e => console.log(`Error: ${e}`));
     };
@@ -166,12 +152,11 @@ class CreateArticle extends React.Component {
     };
 
     render() {
-        const {loading, error, success, member, sectionType, boardItem} = this.props;
+        const {loading, error, success, member, sectionType, article} = this.props;
         const {imageUrlList, isSchedule, isNotice, isLimitMember} = this.state;
         if (loading) return <Loading/>;
-
         const checkedIcon = iconMap[sectionType];
-        const currentBoardAuth = member[sectionType + 'Auth'].find(item => item.boardId === boardItem.docId);
+        const currentBoardAuth = member[sectionType + 'Auth'].find(item => item.boardId === article.boardDocId);
         const isAdmin = currentBoardAuth && currentBoardAuth.authType === 'S';
 
         return (
@@ -262,7 +247,7 @@ class CreateArticle extends React.Component {
                                           onPress={() => this.handleChange('isNotice', !isNotice)}>공지</Text>
                                 </View>
                                 }
-                                {isSchedule &&
+                                {isAdmin && isSchedule &&
                                 <View style={[{
                                     flexDirection: 'row',
                                     alignItems: 'center',
@@ -318,7 +303,7 @@ class CreateArticle extends React.Component {
                                     />
                                 </View>
                                 }
-                                {isSchedule &&
+                                {isAdmin && isSchedule &&
                                 <View style={[{
                                     flexDirection: 'row',
                                     alignItems: 'center',
@@ -336,7 +321,7 @@ class CreateArticle extends React.Component {
                                 </View>
                                 }
 
-                                {isSchedule &&
+                                {isAdmin && isSchedule &&
                                 <View style={[{
                                     flexDirection: 'row',
                                     alignItems: 'center',
@@ -422,4 +407,4 @@ class CreateArticle extends React.Component {
     }
 }
 
-export default CreateArticle;
+export default UpdateArticle;

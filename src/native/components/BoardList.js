@@ -99,10 +99,10 @@ class BoardListComponent extends React.Component {
                     <Text style={{color:'#cccccc'}}>검색결과가 없습니다.</Text>
                   </ListItem> }
                 renderItem={({item, index}) => (
-                  <ListItem avatar style={{height:70, marginLeft:0, marginRight:0, borderBottomWidth:(index === universeBoardList.length -1 ? 0 : 1), borderBottomColor:'#dddddd'}}>
+                  <ListItem avatar style={{height:70, marginLeft:0, marginRight:0, borderBottomWidth:(index === universeBoardList.length -1 ? 0 : 0.5), borderBottomColor:'#cccccc'}}>
                     <Left style={{borderBottomWidth:0}}>
                       {item.thumb && item.thumb !== '#' ?
-                        <Thumbnail source={{uri: item.thumb}}/>
+                        <Thumbnail source={{uri: item.thumb}} style={{width: 44, height: 44, borderRadius: 22}}/>
                         :
                         <Button style={{width:54, height:54, borderRadius: 40, backgroundColor:'#cccccc'}}/>
                       }
@@ -110,7 +110,7 @@ class BoardListComponent extends React.Component {
                     <Body style={{borderBottomWidth:0, justifyContent:'center', width:'50%'}}>
                     <Text>{item.name}</Text>
                     </Body>
-                    <Right style={{borderBottomWidth:0, width:'40%'}}>
+                    <Right style={{borderBottomWidth:0, width:'20%'}}>
                       <Body>
                         {this.isJoined(item, 'univAuth')
                           ?<Button transparent disabled style={styles.joinedButton}><Text style={{color:'#333333'}}>가입됨</Text></Button>
@@ -135,18 +135,18 @@ class BoardListComponent extends React.Component {
                                 <Text style={{color:'#cccccc'}}>검색결과가 없습니다.</Text>
                             </ListItem> }
                         renderItem={({item, index}) => (
-                            <ListItem avatar style={{height:70, marginLeft:0, marginRight:0, borderBottomWidth:(index === clubBoardList.length -1 ? 0 : 1), borderBottomColor:'#dddddd'}}>
+                            <ListItem avatar style={{height:70, marginLeft:0, marginRight:0, borderBottomWidth:(index === clubBoardList.length -1 ? 0 : 0.5), borderBottomColor:'#cccccc'}}>
                                 <Left style={{borderBottomWidth:0}}>
                                     {item.thumb && item.thumb !== '#' ?
-                                        <Thumbnail source={{uri: item.thumb}}/>
+                                        <Thumbnail source={{uri: item.thumb}} style={{width: 44, height: 44, borderRadius: 22}}/>
                                         :
-                                        <Button style={{width:54, height:54, borderRadius: 40, backgroundColor:'#cccccc'}}/>
+                                        <Button style={{width:44, height:44, borderRadius: 40, backgroundColor:'#cccccc'}}/>
                                     }
                                 </Left>
                                 <Body style={{borderBottomWidth:0, justifyContent:'center', width:'50%'}}>
                                 <Text>{item.name}</Text>
                                 </Body>
-                                <Right style={{borderBottomWidth:0, width:'40%'}}>
+                                <Right style={{borderBottomWidth:0, width:'20%'}}>
                                     <Body>
                                     {this.isJoined(item, 'clubAuth')
                                         ?<Button transparent disabled style={styles.joinedButton}><Text style={{color:'#333333'}}>가입됨</Text></Button>

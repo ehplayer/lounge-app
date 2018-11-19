@@ -52,7 +52,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  createArticle: createArticle,
+  createArticle,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateArticle);

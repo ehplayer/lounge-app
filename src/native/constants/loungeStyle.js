@@ -15,12 +15,12 @@ export default {
         paddingLeft:0,
         marginLeft:0,
         alignItems:'center',
-        paddingTop:5
+        paddingTop:5,
     },
     listHeaderListItem_Text: {
-        width: '90%', paddingLeft:0, marginLeft:0, color: '#000000'
+        width: '93%', paddingLeft:0, marginLeft:0, color: '#000000'
     },
     listHeaderListItem_Image: {
-        width: 28, height: 20, marginLeft:10
+        width: 17, height: 17, marginLeft:10
     },
 };

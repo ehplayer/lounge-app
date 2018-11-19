@@ -89,7 +89,6 @@ class BoardComponent extends React.Component {
     return (<View style={{height: (isLast ? 10: 0.5), backgroundColor: isLast ? '#ededed': '#cccccc'}} key={'spr' + rowId}/>);
   }
   showDropDown(){
-      console.log(this)
       this.refs.dropdown.show();
   }
 
@@ -110,18 +109,20 @@ class BoardComponent extends React.Component {
 
                 <CardItem style={{paddingTop:130, paddingBottom:0, marginBottom:0}}>
                     <Left style={{alignContent:'center', justifyContent:'center'}}>
-                        <Text style={{paddingLeft:0, marginLeft:0, color:'#cccccc', fontSize:25}}>가입하신 Club이 없습니다.</Text>
+                        <Text style={{paddingLeft:0, marginLeft:0, color:'#cccccc', fontSize:15}}>가입하신 Club이 없습니다.</Text>
                     </Left>
 
                 </CardItem>
-                <CardItem style={{paddingTop:50, paddingBottom:0, marginBottom:0}}>
-                    <Left style={{alignContent:'center', justifyContent:'center'}}>
-                    <Text style={{paddingLeft:0, marginLeft:0}}>Univ./Club 가입화면으로 이동</Text>
-                    <Image
-                        style={{width: 20, height: 20, marginLeft:10}}
-                        resizeMode="contain"
-                        source={ArrowRight}/>
-                    </Left>
+                <CardItem style={{paddingTop:40, paddingBottom:0, marginBottom:0}} >
+                    <TouchableOpacity onPress={Actions.boardList}>
+                        <Left style={{alignContent:'center', justifyContent:'center'}} >
+                            <Text style={{paddingLeft:0, marginLeft:0, color:'#000000', height:20}}>Univ./Club 가입화면으로 이동</Text>
+                            <Image
+                                style={{width: 17, height: 17, marginLeft:5}}
+                                resizeMode="contain"
+                                source={ArrowRight}/>
+                        </Left>
+                    </TouchableOpacity>
                 </CardItem>
             </Card>
         </Container>;
@@ -147,7 +148,7 @@ class BoardComponent extends React.Component {
                                                  width: '70%',
                                                  right: 8,
                                                  marginLeft: 20,
-                                                 paddingLeft: 0
+                                                 paddingLeft: 0,
                                              }}
                                              textStyle={{
                                                  marginVertical: 10,
@@ -203,7 +204,7 @@ class BoardComponent extends React.Component {
                                   numColumns={1}
                                   data={document.noticeList && document.noticeList.length > 3 ? document.noticeList.slice(0,3) : document.noticeList}
                                   renderItem={({item, index}) => (
-                                      <ListItem noBorder={index === 2} key={item.articleId} onPress={() => this.openArticle('notice', item)} style={{height: 50, paddingLeft:0, marginLeft:0, marginRight:0}}>
+                                      <ListItem noBorder={index === 2 || index === document.noticeList.length - 1} key={item.articleId} onPress={() => this.openArticle('notice', item)} style={{height: 50, paddingLeft:0, marginLeft:0, marginRight:0}}>
                                           <Left style={{marginLeft:0}}>
                                               <Body style={{marginLeft:0}}><Text numberOfLines={1} style={{fontWeight:'normal', color:'#555555'}}>{item.title}</Text></Body>
                                           </Left>
@@ -230,7 +231,7 @@ class BoardComponent extends React.Component {
                                       source={ArrowRight}/>
                               </ListItem>
                               {document.scheduleList && document.scheduleList[0] &&
-                              <ListItem noBorder style={{marginLeft:0,height:75}} onPress={() => this.openArticle('schedule', document.scheduleList[0])}>
+                              <ListItem noBorder style={{marginLeft:0,height:75}} onPress={() => this.openArticle('notice', document.scheduleList[0])}>
                                   <Button transparent style={{
                                       marginTop: 15,
                                       marginLeft:0,
@@ -244,7 +245,7 @@ class BoardComponent extends React.Component {
                                   </Button>
                                   <Left>
                                       <Body style={{alignContent: "center", marginTop: 10, paddingLeft:10}}>
-                                      <Text style={{fontSize: 15, fontWeight:'100', marginBottom:5, color:'#555555'}}>{document.scheduleList[0].title}</Text>
+                                      <Text style={{fontSize: 15, fontWeight:'100', color:'#555555'}}>{document.scheduleList[0].title}</Text>
                                       <Text note style={{paddingTop: 5, color:boardColor, fontSize:13}}>
                                           {'참석 ' + (document.scheduleList[0].joinerList && document.scheduleList[0].joinerList.length !== 0 ? document.scheduleList[0].joinerList.length : 0)}
                                           {document.scheduleList[0].comment && document.scheduleList[0].comment.length !== 0? ' / 댓글 ' + document.scheduleList[0].comment.length : ''}
@@ -261,7 +262,6 @@ class BoardComponent extends React.Component {
                   <Card transparent style={{marginBottom:0}}>
                       <CardItem style={{paddingBottom:0, marginBottom:0}}>
                           <Body>
-
                           <List>
                               <ListItem style={loungeStyle.listHeaderListItem}>
                                   <Text style={{width: '100%', paddingLeft:0, marginLeft:0, color: '#000000'}}>게시글</Text>

@@ -115,7 +115,7 @@ class Login extends Component {
                     <ListItem noBorder>
                         <Body style={{alignItems: 'center'}}>
                         <Image
-                            style={{width: 200, height: 300}}
+                            style={{width: 180, height: 260, marginTop:100}}
                             resizeMode="contain"
                             source={MainLogo}/>
                         </Body>

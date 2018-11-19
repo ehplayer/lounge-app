@@ -32,7 +32,7 @@ class TextNavBar extends React.Component {
                 source={ArrowLeft}/>
             </TouchableOpacity>
             <View style={[styles.navBarItem]}>
-              <Text style={{fontSize: 20, color: '#ffffff', paddingTop: 3}}>{this.props.title}</Text>
+              <Text style={{fontSize: 18, color: '#ffffff', paddingTop: 0}}>{this.props.title}</Text>
             </View>
           </LinearGradient>
     )

@@ -51,6 +51,9 @@ import MemberSearchComponent from '../components/MemberSearch';
 import CreateArticleContainer from '../../containers/CreateArticle';
 import CreateArticleComponent from '../components/CreateArticle';
 
+import UpdateArticleContainer from '../../containers/UpdateArticle';
+import UpdateArticleComponent from '../components/UpdateArticle';
+
 import CreateBoardContainer from '../../containers/CreateBoard';
 import CreateBoardComponent from '../components/CreateBoard';
 
@@ -86,214 +89,220 @@ import OnlyLogoNavBar from '../components/navBar/OnlyLogoNavBar';
 import MenuIcon from '../../images/menu_burger.png'
 
 const Index = (
-  <Stack key="root">
-    <Scene
-      hideNavBar
-      initial
-      key="login"
-      component={LoginContainer}
-      Layout={LoginComponent}
-    />
-    <Scene
-      key="terms"
-      navBar={OnlyLogoNavBar}
-      component={TermsContainer}
-      Layout={TermsComponent}
-    />
+    <Stack key="root">
+        <Scene
+            hideNavBar
+            initial
+            key="login"
+            component={LoginContainer}
+            Layout={LoginComponent}
+        />
+        <Scene
+            key="terms"
+            navBar={OnlyLogoNavBar}
+            component={TermsContainer}
+            Layout={TermsComponent}
+        />
 
-    <Scene
-      key="termsService"
-      title="서비스 이용약관"
-      navBar={TextNavBar}
-      component={TermsContainer}
-      Layout={TermsServiceComponent}
-    />
+        <Scene
+            key="termsService"
+            title="서비스 이용약관"
+            navBar={TextNavBar}
+            component={TermsContainer}
+            Layout={TermsServiceComponent}
+        />
 
-    <Scene
-      key="termsUser"
-      title="개인정보 제공 및 이용"
-      navBar={TextNavBar}
-      component={TermsContainer}
-      Layout={TermsUserComponent}
-    />
+        <Scene
+            key="termsUser"
+            title="개인정보 제공 및 이용"
+            navBar={TextNavBar}
+            component={TermsContainer}
+            Layout={TermsUserComponent}
+        />
 
-    <Scene
-      key="signUp"
-      title="회원가입"
-      titleColorArray={['#394eb7','#6965dc']}
-      navBar={TextNavBar}
-      component={SignUpContainer}
-      Layout={SignUpComponent}
-    />
+        <Scene
+            key="signUp"
+            title="회원가입"
+            titleColorArray={['#394eb7', '#6965dc']}
+            navBar={TextNavBar}
+            component={SignUpContainer}
+            Layout={SignUpComponent}
+        />
 
-    <Scene
-        key="authWaiting"
-        title=""
-        titleColorArray={['#394eb7','#4a57ba']}
-        navBar={TextNavBar}
-        component={MemberContainer}
-        Layout={AuthWaitingComponent}/>
+        <Scene
+            key="authWaiting"
+            title=""
+            titleColorArray={['#394eb7', '#4a57ba']}
+            navBar={TextNavBar}
+            component={MemberContainer}
+            Layout={AuthWaitingComponent}/>
 
-    <Scene
-      back
-      key="forgotPassword"
-      title="FORGOT PASSWORD"
-      component={ForgotPasswordContainer}
-      Layout={ForgotPasswordComponent}
-    />
-    <Scene
-      back
-      key="updateProfile"
-      title="내 프로필 수정"
-      titleColorArray={['#394eb7','#6965dc']}
-      navBar={TextNavBar}
-      component={UpdateProfileContainer}
-      Layout={UpdateProfileComponent}
-    />
+        <Scene
+            back
+            key="forgotPassword"
+            title="FORGOT PASSWORD"
+            component={ForgotPasswordContainer}
+            Layout={ForgotPasswordComponent}
+        />
+        <Scene
+            back
+            key="updateProfile"
+            title="내 프로필 수정"
+            titleColorArray={['#394eb7', '#6965dc']}
+            navBar={TextNavBar}
+            component={UpdateProfileContainer}
+            Layout={UpdateProfileComponent}
+        />
 
-    <Scene
-      back
-      key="profileHome"
-      title="내 프로필 확인"
-      titleColorArray={['#394eb7','#6965dc']}
-      navBar={TextNavBar}
-      component={UpdateProfileContainer} Layout={ProfileComponent}/>
+        <Scene
+            back
+            key="profileHome"
+            title="내 프로필 확인"
+            titleColorArray={['#394eb7', '#6965dc']}
+            navBar={TextNavBar}
+            component={UpdateProfileContainer} Layout={ProfileComponent}/>
 
-    <Scene
-      back
-      key="otherProfile"
-      title="프로필"
-      titleColorArray={['#394eb7','#6965dc']}
-      navBar={TextNavBar}
-      component={OtherProfileContainer} Layout={OtherProfileComponent}/>
+        <Scene
+            back
+            key="otherProfile"
+            title="프로필"
+            titleColorArray={['#394eb7', '#6965dc']}
+            navBar={TextNavBar}
+            component={OtherProfileContainer} Layout={OtherProfileComponent}/>
 
-      <Scene
-      back
-      key="scheduler"
-      title="원우수첩"
-      titleColorArray={['#394eb7','#6965dc']}
-      navBar={SchedulerNavBar}
-      component={SchedulerContainer} Layout={SchedulerComponent}/>
-    <Scene
-      back
-      key="schedulerSearch"
-      titleColorArray={['#394eb7','#6965dc']}
-      navBar={SchedulerSearchNavBar}
-      component={SchedulerSearchContainer} Layout={SchedulerSearchComponent}/>
+        <Scene
+            back
+            key="scheduler"
+            title="원우수첩"
+            titleColorArray={['#394eb7', '#6965dc']}
+            navBar={SchedulerNavBar}
+            component={SchedulerContainer} Layout={SchedulerComponent}/>
+        <Scene
+            back
+            key="schedulerSearch"
+            titleColorArray={['#394eb7', '#6965dc']}
+            navBar={SchedulerSearchNavBar}
+            component={SchedulerSearchContainer} Layout={SchedulerSearchComponent}/>
 
-    <Scene
-      back
-      key="memberSearch"
-      titleColorArray={['#394eb7','#6965dc']}
-      navBar={SchedulerSearchNavBar}
-      component={MemberSearchContainer} Layout={MemberSearchComponent}/>
+        <Scene
+            back
+            key="memberSearch"
+            titleColorArray={['#394eb7', '#6965dc']}
+            navBar={SchedulerSearchNavBar}
+            component={MemberSearchContainer} Layout={MemberSearchComponent}/>
 
-    <Drawer
-      key="drawer"
-      //initial
-      hideNavBar
-      contentComponent={DrawerContent}
-      drawerImage={MenuIcon}
-    >
-      <Scene key="hall" navBar={MenuNavBar} component={HallContainer} Layout={BoardComponent}/>
-      <Scene key="home" navBar={MenuNavBar} component={HomeContainer} Layout={HomeComponent}/>
-      <Scene initial key="univ" navBar={MenuNavBar} component={UnivContainer} Layout={BoardComponent}/>
-      <Scene key="club" navBar={MenuNavBar} component={ClubContainer} Layout={BoardComponent}/>
-    </Drawer>
-    <Scene
-      back
-      key="noticeList"
-      titleColorArray={['#2867ae', '#2867ae']}
-      navBar={TextNavBar} component={NoticeListContainer} Layout={NoticeListComponent}/>
+        <Drawer
+            key="drawer"
+            //initial
+            hideNavBar
+            contentComponent={DrawerContent}
+            drawerImage={MenuIcon}
+        >
+            <Scene key="hall" navBar={MenuNavBar} component={HallContainer} Layout={BoardComponent}/>
+            <Scene key="home" navBar={MenuNavBar} component={HomeContainer} Layout={HomeComponent}/>
+            <Scene initial key="univ" navBar={MenuNavBar} component={UnivContainer} Layout={BoardComponent}/>
+            <Scene key="club" navBar={MenuNavBar} component={ClubContainer} Layout={BoardComponent}/>
+        </Drawer>
+        <Scene
+            back
+            key="noticeList"
+            titleColorArray={['#2867ae', '#2867ae']}
+            navBar={TextNavBar} component={NoticeListContainer} Layout={NoticeListComponent}/>
 
-    <Scene
-      back
-      key="joinUserList"
-      title="참석 원우 목록"
-      navBar={CreateArticleNavBar} component={JoinUserListContainer} Layout={JoinUserListComponent}/>
+        <Scene
+            back
+            key="joinUserList"
+            title="참석 원우 목록"
+            navBar={CreateArticleNavBar} component={JoinUserListContainer} Layout={JoinUserListComponent}/>
 
-    <Scene
-      back
-      key="homeNoticeList"
-      titleColorArray={['#394eb7','#6965dc']}
-      navBar={TextNavBar} component={HomeNoticeListContainer} Layout={HomeNoticeListComponent}/>
+        <Scene
+            back
+            key="homeNoticeList"
+            titleColorArray={['#394eb7', '#6965dc']}
+            navBar={TextNavBar} component={HomeNoticeListContainer} Layout={HomeNoticeListComponent}/>
 
-    <Scene
-      back
-      key="scheduleList"
-      titleColorArray={['#2867ae', '#2867ae']}
-      title="일정"
-      navBar={TextNavBar} component={ScheduleListContainer} Layout={ScheduleListComponent}/>
+        <Scene
+            back
+            key="scheduleList"
+            titleColorArray={['#2867ae', '#2867ae']}
+            title="일정"
+            navBar={TextNavBar} component={ScheduleListContainer} Layout={ScheduleListComponent}/>
 
-    <Scene
-      back
-      key="homeScheduleList"
-      titleColorArray={['#394eb7','#6965dc']}
-      navBar={TextNavBar} component={HomeScheduleListContainer} Layout={HomeScheduleListComponent}/>
+        <Scene
+            back
+            key="homeScheduleList"
+            titleColorArray={['#394eb7', '#6965dc']}
+            navBar={TextNavBar} component={HomeScheduleListContainer} Layout={HomeScheduleListComponent}/>
 
-    <Scene
-      back
-      key="createBoard"
-      //initial
-      title="Univ. / Club 생성"
-      titleColorArray={['#394eb7','#6965dc']}
-      navBar={TextNavBar}
-      component={CreateBoardContainer}
-      Layout={CreateBoardComponent}
-    />
-    <Scene
-      back
-      key="manageBoard"
-      //initial
-      title="Univ. / Club 관리"
-      titleColorArray={['#394eb7','#6965dc']}
-      navBar={TextNavBar}
-      component={ManageBoardContainer}
-      Layout={ManageBoardComponent}
-    />
-  <Scene
-      back
-      key="approveBoard"
-      title="Univ. / Club 승인"
-      titleColorArray={['#394eb7','#6965dc']}
-      navBar={TextNavBar}
-      component={ManageUserContainer}
-      Layout={ManageUserComponent}
-  />
+        <Scene
+            back
+            key="createBoard"
+            //initial
+            title="Univ. / Club 생성"
+            titleColorArray={['#394eb7', '#6965dc']}
+            navBar={TextNavBar}
+            component={CreateBoardContainer}
+            Layout={CreateBoardComponent}
+        />
+        <Scene
+            back
+            key="manageBoard"
+            //initial
+            title="Univ. / Club 관리"
+            titleColorArray={['#394eb7', '#6965dc']}
+            navBar={TextNavBar}
+            component={ManageBoardContainer}
+            Layout={ManageBoardComponent}
+        />
+        <Scene
+            back
+            key="approveBoard"
+            title="Univ. / Club 승인"
+            titleColorArray={['#394eb7', '#6965dc']}
+            navBar={TextNavBar}
+            component={ManageUserContainer}
+            Layout={ManageUserComponent}
+        />
 
-    <Scene
-      back
-      key="manageUser"
-      title="서비스 사용 승인"
-      titleColorArray={['#394eb7','#6965dc']}
-      navBar={TextNavBar}
-      component={ManageUserContainer}
-      Layout={ManageUserComponent}
-    />
+        <Scene
+            back
+            key="manageUser"
+            title="서비스 사용 승인"
+            titleColorArray={['#394eb7', '#6965dc']}
+            navBar={TextNavBar}
+            component={ManageUserContainer}
+            Layout={ManageUserComponent}
+        />
 
-    <Scene
-      back
-      key="boardList"
-      title="Univ. / Club 목록"
-      titleColorArray={['#394eb7','#6965dc']}
-      navBar={TextNavBar} component={BoardListContainer} Layout={BoardListComponent}/>
-    <Scene
+        <Scene
+            back
+            key="boardList"
+            title="Univ. / Club 목록"
+            titleColorArray={['#394eb7', '#6965dc']}
+            navBar={TextNavBar} component={BoardListContainer} Layout={BoardListComponent}/>
+        <Scene
+            back
+            navBar={CreateArticleNavBar}
+            key="createArticle"
+            component={CreateArticleContainer}
+            Layout={CreateArticleComponent}
+        />
+        <Scene
+            back
+            navBar={CreateArticleNavBar}
+            key="updateArticle"
+            component={UpdateArticleContainer}
+            Layout={UpdateArticleComponent}
+        />
 
-      back
-      navBar={CreateArticleNavBar}
-      key="createArticle"
-      component={CreateArticleContainer}
-      Layout={CreateArticleComponent}
-    />
-
-    <Scene
-      back
-      key="notice"
-      navBar={CreateArticleNavBar}
-      component={NoticeContainer}
-      Layout={NoticeComponent}
-    />
-  </Stack>
+        <Scene
+            back
+            key="notice"
+            navBar={CreateArticleNavBar}
+            component={NoticeContainer}
+            Layout={NoticeComponent}
+        />
+    </Stack>
 );
 
 export default Index;

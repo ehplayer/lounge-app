@@ -23,7 +23,7 @@ class Notice extends Component {
     const { Layout, member, univ, addComment, param, removeComment, status, addJoiner, removeJoiner} = this.props;
     return (
       <Layout
-        document={univ.article}
+        article={univ.article}
         loading={status.loading}
         member={member}
         addComment={addComment}
