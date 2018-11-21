@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import {updateArticle} from '../actions/univ';
+import {updateArticle, deleteArticle} from '../actions/univ';
 
 class UpdateArticle extends Component {
     static propTypes = {
@@ -23,6 +23,7 @@ class UpdateArticle extends Component {
         const {
             Layout,
             updateArticle,
+            deleteArticle,
             member,
             isLoading,
             errorMessage,
@@ -39,6 +40,7 @@ class UpdateArticle extends Component {
             error={errorMessage}
             success={successMessage}
             updateArticle={updateArticle}
+            deleteArticle={deleteArticle}
         />);
     }
 }
@@ -52,6 +54,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
     updateArticle,
+    deleteArticle
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UpdateArticle);

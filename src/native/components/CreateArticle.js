@@ -171,7 +171,7 @@ class CreateArticle extends React.Component {
         if (loading) return <Loading/>;
 
         const checkedIcon = iconMap[sectionType];
-        const currentBoardAuth = member[sectionType + 'Auth'].find(item => item.boardId === boardItem.docId);
+        const currentBoardAuth = member[sectionType + 'Auth'] && member[sectionType + 'Auth'].find(item => item.boardId === boardItem.docId);
         const isAdmin = currentBoardAuth && currentBoardAuth.authType === 'S';
 
         return (

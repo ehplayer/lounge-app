@@ -113,9 +113,9 @@ class BoardListComponent extends React.Component {
                     <Right style={{borderBottomWidth:0, width:'20%'}}>
                       <Body>
                         {this.isJoined(item, 'univAuth')
-                          ?<Button transparent disabled style={styles.joinedButton}><Text style={{color:'#333333'}}>가입됨</Text></Button>
-                          : this.isJoinWaiting(item, 'univ') ? <Button transparent disabled style={styles.joinedButton}><Text style={{color:'#333333'}}>대기중</Text></Button>
-                                                      :<Button transparent onPress={() => this.join('univ', item)} style={styles.joiningButton}><Text style={{color:'#394eb7'}}>가입</Text></Button>}
+                          ?<Button transparent disabled style={styles.joinedButton}><Text style={{color:'#333333', fontWeight:'200'}}>가입됨</Text></Button>
+                          : this.isJoinWaiting(item, 'univ') ? <Button transparent disabled style={styles.joinedButton}><Text style={{color:'#333333', fontWeight:'200'}}>대기중</Text></Button>
+                                                      :<Button transparent onPress={() => this.join('univ', item)} style={styles.joiningButton}><Text style={{color:'#394eb7', fontWeight:'200'}}>가입</Text></Button>}
                       </Body>
                     </Right>
                   </ListItem>
@@ -149,9 +149,9 @@ class BoardListComponent extends React.Component {
                                 <Right style={{borderBottomWidth:0, width:'20%'}}>
                                     <Body>
                                     {this.isJoined(item, 'clubAuth')
-                                        ?<Button transparent disabled style={styles.joinedButton}><Text style={{color:'#333333'}}>가입됨</Text></Button>
-                                        : this.isJoinWaiting(item, 'club') ? <Button transparent disabled style={styles.joinedButton}><Text style={{color:'#333333'}}>대기중</Text></Button>
-                                            :<Button transparent onPress={() => this.join('club', item)} style={styles.joiningButton}><Text style={{color:'#394eb7'}}>가입</Text></Button>}
+                                        ?<Button transparent disabled style={styles.joinedButton}><Text style={{color:'#333333', fontWeight:'200'}}>가입됨</Text></Button>
+                                        : this.isJoinWaiting(item, 'club') ? <Button transparent disabled style={styles.joinedButton}><Text style={{color:'#333333', fontWeight:'200'}}>대기중</Text></Button>
+                                            :<Button transparent onPress={() => this.join('club', item)} style={styles.joiningButton}><Text style={{color:'#394eb7', fontWeight:'200'}}>가입</Text></Button>}
                                     </Body>
                                 </Right>
                             </ListItem>

@@ -27,7 +27,7 @@ class Scheduler extends React.Component {
               ListHeaderComponent={() => <ListItem style={{height: 50, marginLeft:0, marginRight:0}}><Text style={{width: '95%'}}>원우 목록</Text></ListItem>}
               ListEmptyComponent={() =>
               <ListItem noBorder style={{height:70, justifyContent:'center'}}>
-                <Text style={{color:'#cccccc'}}>검색결과가 없습니다.</Text>
+                <Text style={{color:'#cccccc'}}>일치하는 원우가 없습니다.</Text>
               </ListItem> }
               renderItem={({item, index}) => (
                 <ListItem avatar style={{height:70, marginLeft:0, marginRight:0, borderBottomWidth:(index === userList.length -1 ? 0 : 1), borderBottomColor:'#dddddd'}}

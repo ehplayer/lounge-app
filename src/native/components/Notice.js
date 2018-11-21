@@ -106,15 +106,22 @@ class Notice extends React.Component {
                                     <Text>{article.author.name}</Text>
                                     <Text note>{moment(article.createDateTime).format("YYYY년 MM월 DD일 A hh:mm")}</Text>
                                     </Body>
+                                    {isMyArticle &&
                                     <TouchableOpacity
-                                        onPress={() => Actions.updateArticle({boardType: member.universe + sectionType, article: article, sectionType: sectionType})}
+                                        onPress={() => Actions.updateArticle({
+                                            boardType: member.universe + sectionType,
+                                            article: article,
+                                            sectionType: sectionType,
+                                            needBackButtonText: '취소'
+                                        })}
                                     >
                                         <Image
-                                            style={{width: 20, height: 20, marginLeft: 60, marginBottom:5}}
+                                            style={{width: 20, height: 20, marginLeft: 60, marginBottom: 5}}
                                             resizeMode="contain"
                                             source={menuDotIcon}
                                         />
                                     </TouchableOpacity>
+                                    }
                                 </Left>
                             </CardItem>
                             <CardItem>

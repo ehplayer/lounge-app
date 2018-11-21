@@ -11,7 +11,6 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   navBarItem: {
-    paddingLeft: 20,
     justifyContent: 'center',
 
   }
@@ -25,19 +24,21 @@ const bgColorMap = {
 
 class CreateArticleNavBar extends React.Component {
   render() {
-    const {boardItem, title} = this.props;
+    const {boardItem, title, needBackButtonText} = this.props;
     const sectionType = this.props.sectionType || this.props.param.sectionType;
     const bgColor = bgColorMap[sectionType] ? bgColorMap[sectionType] : bgColorMap['univ'];
-
     return (
         <View style={{ backgroundColor: bgColor, flexDirection: 'row'}}>
           <TouchableOpacity
             onPress={Actions.pop}
-            style={[styles.navBarItem, { paddingLeft: 10, paddingBottom: 20, paddingTop: 20, width:40}]}>
-              <Image
-                  style={{width: 16, height: 16, marginLeft:10}}
-                  resizeMode="contain"
-                  source={ArrowLeft}/>
+            style={[styles.navBarItem, { paddingLeft: 10, paddingBottom: 20, paddingTop: 20, width:60}]}>
+              {needBackButtonText ?
+                  <Text style={{width: 40, fontSize:20, marginLeft: 10, color:'#ffffff'}}>{needBackButtonText}</Text>
+                  :<Image
+                      style={{width: 16, height: 16, marginLeft: 10}}
+                      resizeMode="contain"
+                      source={ArrowLeft}/>
+              }
           </TouchableOpacity>
           <View style={[styles.navBarItem]}>
             <Text style={{fontSize: 18, color: '#ffffff'}}>{boardItem ? boardItem.name : title}</Text>

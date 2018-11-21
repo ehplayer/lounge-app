@@ -235,7 +235,6 @@ export function updateArticle(localState, props) {
                         const findIndex = homeArticleArray.findIndex(homeArticle => homeArticle.docId === props.article.docId);
                         if(findIndex >= 0){
                             homeArticleArray[findIndex] = article;
-                            console.log(homeArticleArray)
                             Firestore.collection(props.member.universe + 'home').doc('notice').set({[currentUnivId]: homeArticleArray}, {merge: true});
                         }
                     });
@@ -255,6 +254,51 @@ export function updateArticle(localState, props) {
             statusMessage(dispatch, 'loading', false);
             return resolve();
         }).catch(error => console.log(error));
+
+    }).catch(async (err) => {
+        await statusMessage(dispatch, 'error', err.message);
+        throw err.message;
+    });
+}
+
+export function deleteArticle(localState, props) {
+
+    return dispatch => new Promise(async (resolve, reject) => {
+
+        const universe = props.sectionType === 'hall' ? 'hall' : props.member.universe + props.sectionType;
+        const currentUnivId = props.article.boardDocId;
+        await statusMessage(dispatch, 'loading', true);
+        const boardType = localState.isNotice || localState.isSchedule ? 'notice' : 'article'
+
+        await Firestore.collection(universe).doc(currentUnivId).collection(boardType).doc(props.article.docId).delete()
+            .then(() => {
+                if (localState.isNotice) {
+                    Firestore.collection(props.member.universe + 'home').doc('notice').get()
+                        .then(documentSnapshots => {
+                            const data = documentSnapshots.data();
+                            let homeArticleArray = data[currentUnivId] || [];
+                            const findIndex = homeArticleArray.findIndex(homeArticle => homeArticle.docId === props.article.docId);
+                            if(findIndex >= 0){
+                                homeArticleArray.splice(findIndex, 1);
+                                Firestore.collection(props.member.universe + 'home').doc('notice').set({[currentUnivId]: homeArticleArray}, {merge: true});
+                            }
+                        });
+                }
+                if (localState.isSchedule) {
+                    Firestore.collection(props.member.universe + 'home').doc('schedule').get()
+                        .then(documentSnapshots => {
+                            const data = documentSnapshots.data();
+                            let homeArticleArray = data[currentUnivId] || [];
+                            const findIndex = homeArticleArray.findIndex(homeArticle => homeArticle.docId === props.article.docId);
+                            if(findIndex >= 0){
+                                homeArticleArray.splice(findIndex, 1);
+                                Firestore.collection(props.member.universe + 'home').doc('schedule').set({[currentUnivId]: homeArticleArray}, {merge: true});
+                            }
+                        });
+                }
+                statusMessage(dispatch, 'loading', false);
+                return resolve();
+            }).catch(error => console.log(error));
 
     }).catch(async (err) => {
         await statusMessage(dispatch, 'error', err.message);

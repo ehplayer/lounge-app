@@ -72,16 +72,31 @@ class UpdateArticle extends React.Component {
         super(props);
         this.state = {
             ...props.article,
-            imageUrlList: [],
+            imageUrlList: props.article.urlList,
             imageBlobList: [],
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.deleteArticle = this.deleteArticle.bind(this);
     }
 
-    handleSubmit = () => {
+    deleteAlertShow = () => {
+        this.setState({
+            ...this.state,
+            visibleDeleteConfirmModal: true,
+        });
+    };
 
+    deleteArticle = () => {
+        this.props.deleteArticle(this.state, this.props)
+            .then(() => {
+                Actions[this.props.sectionType]();
+            })
+            .catch(e => console.log(`Error: ${e}`));
+    };
+
+    handleSubmit = () => {
         let errorMessage = false;
         if (!this.state.title.trim()) {
             errorMessage = '제목을 입력해주세요.'
@@ -99,6 +114,7 @@ class UpdateArticle extends React.Component {
             this.setState({
                 ...this.state,
                 visibleModal: true,
+                isDelete: true,
                 errorMessage: errorMessage,
             });
             return false;
@@ -156,9 +172,9 @@ class UpdateArticle extends React.Component {
         const {imageUrlList, isSchedule, isNotice, isLimitMember} = this.state;
         if (loading) return <Loading/>;
         const checkedIcon = iconMap[sectionType];
-        const currentBoardAuth = member[sectionType + 'Auth'].find(item => item.boardId === article.boardDocId);
+        const currentBoardAuth = member[sectionType + 'Auth'] && member[sectionType + 'Auth'].find(item => item.boardId === article.boardDocId);
         const isAdmin = currentBoardAuth && currentBoardAuth.authType === 'S';
-
+        console.log(article)
         return (
             <Container>
                 <KeyboardAwareScrollView enableOnAndroid enableAutomaticScroll extraScrollHeight={250}
@@ -349,22 +365,22 @@ class UpdateArticle extends React.Component {
                                 </View>
                                 }
 
-                                <View style={[{flexDirection: 'row', paddingTop: 80}]}>
+                                <View style={[{flexDirection: 'row', paddingVertical: 60, alignContent:'center',justifyContent: 'center',}]}>
                                     <Button style={[{
                                         backgroundColor: '#cccccc',
                                         marginLeft: '19%',
                                         marginRight: 5,
                                         width: '30%',
                                         justifyContent: 'center'
-                                    }]} onPress={Actions.pop}>
-                                        <Text>취소</Text>
+                                    }]} onPress={this.deleteAlertShow}>
+                                        <Text>삭제</Text>
                                     </Button>
                                     <Button style={[{
                                         width: '30%',
                                         justifyContent: 'center',
                                         backgroundColor: bgColorMap[this.props.sectionType]
                                     }]} onPress={this.handleSubmit}>
-                                        <Text>등록</Text>
+                                        <Text>수정</Text>
                                     </Button>
                                 </View>
                                 </Body>
@@ -394,6 +410,48 @@ class UpdateArticle extends React.Component {
                                     backgroundColor: bgColorMap[this.props.sectionType]
                                 }} onPress={() => {
                                     this.setState({visibleModal: false})
+                                }}>
+                                    <Text>확인</Text>
+                                </Button>
+                                </Body>
+                            </View>
+                        </Modal>
+                        <Modal
+                            isVisible={this.state.visibleDeleteConfirmModal}
+                            onBackdropPress={() => this.setState({visibleDeleteConfirmModal: false})}
+                        >
+                            <View style={loungeStyle.modalContent}>
+                                <Text style={{
+                                    paddingTop: 70,
+                                    fontSize: 16,
+                                    fontWeight: '100'
+                                }}>{'정말 삭제하시겠습니까?'}</Text>
+                                <Body style={{
+                                    alignItems: 'center',
+                                    flexDirection: 'row',
+                                    paddingTop: 70,
+                                    paddingBottom: 40
+                                }}>
+                                <Button style={{
+                                    width: 120,
+                                    height: 50,
+                                    justifyContent: 'center',
+                                    borderRadius: 0,
+                                    marginRight: 5,
+                                    backgroundColor: '#dddddd'
+                                }} onPress={() => this.setState({visibleDeleteConfirmModal: false})}>
+                                    <Text>취소</Text>
+                                </Button>
+                                <Button style={{
+                                    width: 120,
+                                    height: 50,
+                                    justifyContent: 'center',
+                                    borderRadius: 0,
+                                    marginLeft: 5,
+                                    backgroundColor: bgColorMap[this.props.sectionType]
+                                }} onPress={() => {
+                                    this.deleteArticle();
+                                    this.setState({visibleDeleteConfirmModal: false})
                                 }}>
                                     <Text>확인</Text>
                                 </Button>

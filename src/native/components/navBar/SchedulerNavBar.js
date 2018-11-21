@@ -26,7 +26,7 @@ class TextNavBar extends React.Component {
           <LinearGradient colors={['#394eb7','#6965dc']} style={{flexDirection: 'row'}} start={[0,0]} end={[1,0]}>
             <TouchableOpacity
               onPress={Actions.pop}
-              style={{justifyContent: 'center', paddingLeft: 10, paddingBottom: 20, paddingTop: 40}}>
+              style={{justifyContent: 'center', paddingLeft: 10, paddingBottom: 20, paddingTop: 20}}>
               <Image
                 style={{width: 15, height: 25}}
                 resizeMode="contain"
@@ -38,7 +38,7 @@ class TextNavBar extends React.Component {
             </View>
             <TouchableOpacity
               onPress={Actions.schedulerSearch}
-              style={{justifyContent: 'center',paddingLeft: 10, paddingBottom: 20, paddingTop: 40}}>
+              style={{justifyContent: 'center',paddingLeft: 10, paddingBottom: 20, paddingTop: 20}}>
               <Right>
                 <Image
                   style={{width: 25, height: 25}}

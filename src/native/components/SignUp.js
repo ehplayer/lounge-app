@@ -126,8 +126,13 @@ class SignUp extends React.Component {
         }
 
         this.props.createProfile({...this.state, ...this.props.param})
-            .then(() => Actions.login())
+            .then(() => {
+                this.handleChange('formErrorMessage', '가입이 완료되었습니다.');
+                this.handleChange('isSignUpComplete', true);
+                return this.handleChange('visibleModal', true);
+            })
             .catch(e => {
+                console.log(e)
                 this.handleChange('formErrorMessage', errorMessageMap[e.code] || '오류가 발생하였습니다.');
                 this.handleChange('visibleModal', true);
             });
@@ -188,7 +193,7 @@ class SignUp extends React.Component {
                             <Left>
                                 <Text style={{paddingLeft: '5%', width: '30%', color: this.state.emailError ? 'red' : '#000000'}}>ID(email)</Text>
                                 <Body>
-                                    <Input style={styles.signUpInput} value={this.state.email} onChangeText={v => this.handleChange('email', v)}/>
+                                    <Input style={styles.signUpInput} value={this.state.email} onChangeText={v => this.handleChange('email', v)} placeholder={'xxx@naver.com'}/>
                                 </Body>
                             </Left>
                         </ListItem>
@@ -196,7 +201,7 @@ class SignUp extends React.Component {
                             <Left>
                                 <Text style={{paddingLeft: '5%', width: '30%', color: this.state.passwordError ? 'red' : '#000000'}}>비밀번호</Text>
                                 <Body>
-                                <Input secureTextEntry={true} style={styles.signUpInput} value={this.state.password} onChangeText={v => this.handleChange('password', v)}/>
+                                <Input secureTextEntry={true} style={styles.signUpInput} value={this.state.password} onChangeText={v => this.handleChange('password', v)} placeholder={'******'}/>
                                 </Body>
                             </Left>
                         </ListItem>
@@ -204,7 +209,7 @@ class SignUp extends React.Component {
                             <Left>
                                 <Text style={{paddingLeft: '5%', width: '30%', color: this.state.passwordCheckError ? 'red' : '#000000'}}>비밀번호 확인</Text>
                                 <Body>
-                                <Input secureTextEntry={true} style={styles.signUpInput} value={this.state.passwordCheck} onChangeText={v => this.handleChange('passwordCheck', v)}/>
+                                <Input secureTextEntry={true} style={styles.signUpInput} value={this.state.passwordCheck} onChangeText={v => this.handleChange('passwordCheck', v)} placeholder={'******'}/>
                                 </Body>
                             </Left>
                         </ListItem>
@@ -220,7 +225,7 @@ class SignUp extends React.Component {
                             <Left>
                                 <Text style={{paddingLeft: '5%', width: '30%', color: this.state.phoneError ? 'red' : '#000000'}}>핸드폰</Text>
                                 <Body style={{flexDirection: 'row'}}>
-                                <Input style={styles.signUpInput} value={this.state.phone} onChangeText={v => this.handleChange('phone', v)}/>
+                                <Input style={styles.signUpInput} value={this.state.phone} onChangeText={v => this.handleChange('phone', v)} placeholder={'01012341234'}/>
                                 </Body>
                             </Left>
                         </ListItem>
@@ -228,7 +233,7 @@ class SignUp extends React.Component {
                             <Left>
                                 <Text style={{paddingLeft: '5%', width: '30%', color: this.state.studentNumError ? 'red' : '#000000'}}>학번</Text>
                                 <Body style={{flexDirection: 'row'}}>
-                                <Input style={styles.signUpInput} value={this.state.studentNum} onChangeText={v => this.handleChange('studentNum', v)}/>
+                                <Input style={styles.signUpInput} value={this.state.studentNum} onChangeText={v => this.handleChange('studentNum', v)} placeholder={'20180000'}/>
                                 </Body>
                             </Left>
                         </ListItem>
@@ -292,7 +297,7 @@ class SignUp extends React.Component {
                             <Left>
                                 <Text style={{paddingLeft: '5%', width: '25%'}}>기수</Text>
                                 <Body style={{flexDirection: 'row'}}>
-                                <Input style={styles.signUpInput} value={this.state.className} onChangeText={v => this.handleChange('className', v)}/>
+                                <Input style={styles.signUpInput} value={this.state.className} onChangeText={v => this.handleChange('className', v)} />
                                 </Body>
                             </Left>
                         </ListItem>
@@ -344,6 +349,9 @@ class SignUp extends React.Component {
                                 <Body style={{alignItems: 'center', flexDirection: 'row', paddingTop: 70, paddingBottom: 40}}>
                                 <Button style={{width:120, height:50, justifyContent:'center', borderRadius:0, marginLeft:5, backgroundColor: '#535acb'}} onPress={() => {
                                     this.setState({visibleModal: false})
+                                    if(this.state.isSignUpComplete){
+                                        Actions.login();
+                                    }
                                 }}>
                                     <Text>확인</Text>
                                 </Button>

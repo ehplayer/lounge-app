@@ -179,7 +179,7 @@ class CreateBoard extends React.Component {
             data={member.staffMemberList}
             ListEmptyComponent={() =>
               <ListItem noBorder style={{height:70, justifyContent:'center'}}>
-                <Text style={{color:'#cccccc'}}>검색결과가 없습니다.</Text>
+                <Text style={{color:'#cccccc'}}>추가된 스탭이 없습니다.</Text>
               </ListItem> }
             renderItem={({item, index}) => (
               <ListItem avatar style={{height:70, marginLeft:10, marginRight:10, borderBottomWidth:(index === member.staffMemberList.length -1 ? 0 : 1), borderBottomColor:'#dddddd'}}>

@@ -141,7 +141,6 @@ class BoardComponent extends React.Component {
                       <TouchableOpacity onPress={this.showDropDown}>
                           <CardItem style={{margin: 0, paddingBottom: 0}}>
                                 <Thumbnail source={{uri: boardItem && boardItem.thumb}} style={{width: 44, height: 44, borderRadius: 22}}/>
-
                               <ModalDropDown ref="dropdown"
                                              style={{
                                                  alignSelf: 'flex-end',
@@ -180,7 +179,7 @@ class BoardComponent extends React.Component {
                                              onSelect={(index, value) => this.onChangeBoard(value, index === document.boardList.length - 1 + "")}
                               />
                               <Image
-                                  style={{width: 20, height: 20, marginLeft: 0}}
+                                  style={loungeStyle.listHeaderListItem_Image}
                                   resizeMode="contain"
                                   source={ArrowDown}/>
                           </CardItem>

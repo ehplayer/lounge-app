@@ -49,7 +49,7 @@ class DrawerContent extends React.Component {
       <Container>
         <Content>
           <List numColumns={2}>
-            <ListItem onPress={Actions.profileHome}>
+            <ListItem noBorder onPress={Actions.profileHome}>
               <Left>
                 <Thumbnail source={{uri: member.thumb}}/>
                 <Body>
