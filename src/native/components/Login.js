@@ -64,14 +64,6 @@ class Login extends Component {
             .catch(e => console.log(`Error: ${e}`));
     }
 
-    scrollToBottom = () => {
-        if (Platform.OS === 'ios') {
-            return;
-        }
-        scrollYPos = this.state.screenHeight * 0.3;
-        this.scroller.scrollTo({x: 0, y: scrollYPos});
-    };
-
     findId = () => {
         if(!this.state.name) return this.handleChange('emailFindErrorMessage', '이름을 입력해주세요');
         if(!this.state.studentNum) return this.handleChange('emailFindErrorMessage', '학번을 입력해주세요');
@@ -105,17 +97,19 @@ class Login extends Component {
     render() {
         const {loading, error, member} = this.props;
         if (loading) return <Loading/>;
-
+        console.log(Dimensions.get('window'))
+        console.log(Dimensions.get('screen'))
         return (
             <KeyboardAwareScrollView enableOnAndroid enableAutomaticScroll extraScrollHeight={150}
                                      keyboardShouldPersistTaps={'handled'}
             >
-                <LinearGradient colors={['#394eb7', '#6965dc']} start={[0, 0]} end={[1, 1]} style={{height:this.state.screenHeight}}>
+
+                <LinearGradient colors={['#394eb7', '#6965dc']} start={[0, 0]} end={[1, 1]} style={{height:this.state.screenHeight - 20}}>
                     <Form>
                     <ListItem noBorder>
                         <Body style={{alignItems: 'center'}}>
                         <Image
-                            style={{width: 180, height: 260, marginTop:100}}
+                            style={{width: 180, height: 260, marginTop:30}}
                             resizeMode="contain"
                             source={MainLogo}/>
                         </Body>

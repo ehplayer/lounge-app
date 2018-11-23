@@ -124,7 +124,7 @@ class ProfileHome extends React.Component {
               <Left>
                 <Text style={{paddingLeft: '5%', height:45, width: '25%'}}>싱글여부</Text>
                 <Body>
-                <Button transparent >
+                <Button transparent disabled>
                   <Image
                     style={{width: 28, height: 28, marginRight:10}}
                     resizeMode="contain"
@@ -140,19 +140,19 @@ class ProfileHome extends React.Component {
               <Left>
                 <Text style={{paddingLeft: '5%', height:45, width: '25%'}}>공개여부</Text>
                 <Body>
-                <Button transparent >
+                <Button transparent disabled>
                     <Image
                       style={{width: 28, height: 28, marginRight:10}}
                       resizeMode="contain"
                       source={member.isProfileOpen ? checkedIcon : uncheckedIcon}
                     />
                   </Button>
-                  <Text style={{color:'#999999', fontSize:13}}> * 싱글여부는 비공개이며</Text>
-                  <Text style={{color:'#999999', fontSize:13}}> 추후 관련 이벤트 진행 시 사용됩니다.</Text>
+                <Text style={{color:'#999999', fontSize:13}}> * 비공개 시 이름, 사진, ID를 제외한</Text>
+                <Text style={{color:'#999999', fontSize:13}}> 나머지는 다른 원우에게 공개되지 않습니다.</Text>
                 </Body>
               </Left>
             </ListItem>
-            <Body style={{alignItems: 'center'}}>
+            <Body style={{alignItems: 'center', paddingBottom:100}}>
             <Button style={{width:100, justifyContent:'center', backgroundColor:'#394eb7'}} onPress={Actions.updateProfile}>
               <Text>수정</Text>
             </Button>

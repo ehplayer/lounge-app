@@ -5,13 +5,14 @@
     "slug": "mba-lounge",
     "icon": "src/images/app-icon.png",
     "privacy": "public",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "splash": {
       "image": "src/images/splash.png",
       "resizeMode": "cover"
     },
     "ios": {
-      "bundleIdentifier": "com.mbalounge.lounge"
+      "bundleIdentifier": "com.mbalounge.lounge",
+      "buildNumber": "3"
     },
     "android": {
       "package": "com.mbalounge.lounge",

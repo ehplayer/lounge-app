@@ -24,29 +24,26 @@ class Scheduler extends React.Component {
             <Body>
             <FlatList
               data={userList}
-              ListHeaderComponent={() => <ListItem style={{height: 50, marginLeft:0, marginRight:0}}><Text style={{width: '95%'}}>원우 목록</Text></ListItem>}
+              ListHeaderComponent={() => <ListItem style={{height: 50, marginLeft:0, marginRight:0}}><Text style={{width: '100%'}}>원우 목록</Text></ListItem>}
               ListEmptyComponent={() =>
               <ListItem noBorder style={{height:70, justifyContent:'center'}}>
                 <Text style={{color:'#cccccc'}}>일치하는 원우가 없습니다.</Text>
               </ListItem> }
               renderItem={({item, index}) => (
-                <ListItem avatar style={{height:70, marginLeft:0, marginRight:0, borderBottomWidth:(index === userList.length -1 ? 0 : 1), borderBottomColor:'#dddddd'}}
+                <ListItem avatar style={{height:70, marginLeft:0, marginRight:0,justifyContent:'center', borderBottomWidth:(index === userList.length - 1 ? 0 : 0.3), borderBottomColor:'#cccccc'}}
                         onPress={() => Actions.otherProfile({docId:item.docId})}>
                   <Left style={{borderBottomWidth:0}}>
                     <Thumbnail small source={{uri: item.thumb}}/>
                   </Left>
-                  <Body style={{borderBottomWidth:0, justifyContent:'center', width:'30%'}}>
-                    <Text>{item.name}</Text>
-                  </Body>
-                  <Body style={{borderBottomWidth:0}}>
-                  <Text style={{color: '#6D41DD'}}>{item.type}</Text>
+                  <Left style={{borderBottomWidth:0, justifyContent:'center', width:'30%'}}>
+                    <Text ellipsizeMode='tail'>{item.name}</Text>
+                  </Left>
+                  <Body style={{borderBottomWidth:0, justifyContent:'center'}}>
+                  <Text style={{color: '#6D41DD'}}>{item.mbaType}</Text>
                   <Text note>{item.className}</Text>
                   </Body>
-                  <Right style={{borderBottomWidth:0, width:'30%'}}>
-                    <Body >
-                    <Text note numberOfLines={1} ellipsizeMode='tail'>{item.mbaType}</Text>
-                    <Text note numberOfLines={1} ellipsizeMode='tail'>{item.company}</Text>
-                    </Body>
+                  <Right style={{borderBottomWidth:0,justifyContent:'center', width:'30%'}}>
+                    <Text note numberOfLines={3} ellipsizeMode='tail'>{item.company}</Text>
                   </Right>
                 </ListItem>
               )}

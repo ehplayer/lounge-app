@@ -277,6 +277,8 @@ export function updateProfile(formData) {
   const {
     phone,
     company,
+    className,
+    mbaType,
     isSingle,
     isProfileOpen,
     imageUrl,
@@ -294,7 +296,7 @@ export function updateProfile(formData) {
         .then(async snapshot => await snapshot.ref.getDownloadURL());
       thumb = thumb.replace(imageBlob._55._data.name, 'thumb_' + imageBlob._55._data.name)
     }
-    return Firestore.collection("users").doc(UID).set({ thumb, phone, company, isSingle, isProfileOpen}, {merge:true})
+    return Firestore.collection("users").doc(UID).set({ thumb, phone, company, className, mbaType, isSingle, isProfileOpen}, {merge:true})
       .then(async () => {
 
         // Update Redux

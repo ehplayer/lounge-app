@@ -193,7 +193,7 @@ const Index = (
 
         <Drawer
             key="drawer"
-            //initial
+            initial
             hideNavBar
             contentComponent={DrawerContent}
             drawerImage={MenuIcon}

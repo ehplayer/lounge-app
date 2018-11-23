@@ -34,7 +34,7 @@ class TextNavBar extends React.Component {
               />
             </TouchableOpacity>
             <View style={[styles.navBarItem, {width:'78%'}]}>
-              <Text style={{fontSize: 20, color: '#ffffff', paddingTop: 22}}>{this.props.title}</Text>
+              <Text style={{fontSize: 20, color: '#ffffff'}}>{this.props.title}</Text>
             </View>
             <TouchableOpacity
               onPress={Actions.schedulerSearch}

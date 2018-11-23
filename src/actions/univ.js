@@ -766,6 +766,24 @@ export function applyBoard(univType, boardItem, member) {
         throw err.message;
     });
 }
+export function outBoard(sectionType, boardItem, member) {
+
+    return dispatch => new Promise(async (resolve, reject) => {
+        let memberAuthWaiting = member[sectionType + 'Auth'] || [];
+        memberAuthWaiting.splice(memberAuthWaiting.findIndex(auth => auth.docId === boardItem.docId), 1);
+        await Firestore.collection("users").doc(member.docId).set({[sectionType + 'Auth']: memberAuthWaiting}, {merge: true});
+        const docRef = Firestore.collection("users").doc(member.docId);
+        return docRef.get().then(doc => {
+            return dispatch({
+                type: 'USER_DETAILS_UPDATE',
+                data: {...doc.data(), docId: doc.id},
+            });
+        });
+    }).catch(async (err) => {
+        await statusMessage(dispatch, 'error', err.message);
+        throw err.message;
+    });
+}
 
 export function addComment(param, commentText, member) {
 

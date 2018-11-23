@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import {getTotalBoardList, applyBoard} from '../actions/univ';
+import {getTotalBoardList, applyBoard, outBoard} from '../actions/univ';
 
 class BoardList extends React.Component {
   static propTypes = {
@@ -34,7 +34,7 @@ class BoardList extends React.Component {
   }
 
   render = () => {
-    const { Layout, match, member, menu, applyBoard} = this.props;
+    const { Layout, match, member, menu, applyBoard, outBoard} = this.props;
     const id = (match && match.params && match.params.id) ? match.params.id : null;
     return (
       <Layout
@@ -43,6 +43,7 @@ class BoardList extends React.Component {
         loading={menu.loading}
         member={member}
         applyBoard={applyBoard}
+        outBoard={outBoard}
         {...menu}
       />
     );
@@ -56,6 +57,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   getTotalBoardList,
   applyBoard,
+  outBoard,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BoardList);

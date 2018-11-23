@@ -4,9 +4,17 @@ import {Body, Button, Container, Content, Form, Input, Left, ListItem, Right, Te
 import checkedIcon from '../../images/checkO.png'
 import uncheckedIcon from '../../images/checkX.png'
 import Loading from './Loading';
-import {Image} from "react-native";
+import {Image, StyleSheet} from "react-native";
 import {Actions} from 'react-native-router-flux';
 import {ImagePicker, Permissions} from "expo";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+
+const styles = StyleSheet.create({
+    input: {
+        borderBottomWidth:1, height:22, borderColor:'#cccccc'
+    }
+});
+
 
 class UpdateProfile extends React.Component {
   static propTypes = {
@@ -34,6 +42,9 @@ class UpdateProfile extends React.Component {
       thumb: props.member.thumb,
       phone: props.member.phone,
       company: props.member.company,
+      studentNum: props.member.studentNum,
+      className: props.member.className,
+      mbaType: props.member.mbaType,
       isSingle: props.member.isSingle || false,
       isProfileOpen: props.member.isProfileOpen || false,
       imageUrl: undefined,
@@ -82,7 +93,9 @@ class UpdateProfile extends React.Component {
 
     return (
       <Container>
-        <Content style={{backgroundColor: '#ffffff'}}>
+          <KeyboardAwareScrollView style={{backgroundColor: '#ffffff'}} enableOnAndroid extraScrollHeight={180}
+                                   keyboardShouldPersistTaps={'handled'}
+          >
           <ListItem>
             <Body style={{alignItems: 'center'}}>
             <View style={{flexDirection:'row'}}>
@@ -93,7 +106,7 @@ class UpdateProfile extends React.Component {
               </Body>
               <Right >
                 <Button transparent onPress={this.pickImage}
-                        style={{borderWidth:1,borderColor:'#cccccc', width:75, height:30, justifyContent:'center'}}>
+                        style={{borderWidth:1,borderColor:'#cccccc', width:80, height:30, justifyContent:'center'}}>
                   <Text style={{fontSize:12, color:'#999999', margin:0, padding:0, }}>사진변경</Text>
                 </Button>
               </Right>
@@ -114,7 +127,7 @@ class UpdateProfile extends React.Component {
               <Left>
                 <Text style={{paddingLeft: '5%', width: '25%'}}>핸드폰</Text>
                 <Body style={{flexDirection: 'row'}}>
-                  <Input style={{borderBottomWidth:1, height:22}} value={this.state.phone} onChangeText={v => this.handleChange('phone', v)}/>
+                  <Input style={styles.input} value={this.state.phone} onChangeText={v => this.handleChange('phone', v)}/>
                 </Body>
               </Left>
             </ListItem>
@@ -122,7 +135,7 @@ class UpdateProfile extends React.Component {
               <Left>
                 <Text style={{paddingLeft: '5%', width: '25%'}}>학번</Text>
                 <Body style={{flexDirection: 'row'}}>
-                  <Text>{member.studentNum}</Text>
+                  <Input style={styles.input} value={this.state.studentNum} onChangeText={v => this.handleChange('studentNum', v)}/>
                 </Body>
               </Left>
             </ListItem>
@@ -130,17 +143,15 @@ class UpdateProfile extends React.Component {
               <Left>
                 <Text style={{paddingLeft: '5%', width: '25%'}}>기수</Text>
                 <Body style={{flexDirection: 'row'}}>
-                <Text>{member.className}</Text>
+                <Input style={styles.input} value={this.state.className} onChangeText={v => this.handleChange('className', v)}/>
                 </Body>
               </Left>
             </ListItem>
             <ListItem noBorder>
               <Left>
-                <Text style={{paddingLeft: '5%', width: '25%', height:45}}>MBA과정</Text>
-                <Body >
-                <Text>{member.mbaType}</Text>
-                  <Text style={{color:'#999999', fontSize:13}}> * 학번, 기수, MBA과정 수정은</Text>
-                  <Text style={{color:'#999999', fontSize:13}}> 해당 대학원 회장에게 문의바랍니다.</Text>
+                <Text style={{paddingLeft: '5%', width: '25%'}}>MBA과정</Text>
+                <Body style={{flexDirection: 'row'}}>
+                  <Input style={styles.input} value={this.state.mbaType} onChangeText={v => this.handleChange('mbaType', v)}/>
                 </Body>
               </Left>
             </ListItem>
@@ -148,7 +159,7 @@ class UpdateProfile extends React.Component {
               <Left>
                 <Text style={{paddingLeft: '5%', width: '25%'}}>직장</Text>
                 <Body style={{flexDirection: 'row'}}>
-                <Input style={{borderBottomWidth:1, height:22}} value={this.state.company} onChangeText={v => this.handleChange('company', v)}/>
+                <Input style={styles.input} value={this.state.company} onChangeText={v => this.handleChange('company', v)}/>
                 </Body>
               </Left>
             </ListItem>
@@ -190,7 +201,7 @@ class UpdateProfile extends React.Component {
               </Button>
             </Body>
           </Form>
-        </Content>
+          </KeyboardAwareScrollView>
       </Container>
     );
   }

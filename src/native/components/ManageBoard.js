@@ -43,8 +43,8 @@ class ManageBoard extends React.Component {
     super(props);
     this.state = {
         member: props.member,
-        staffList: props.menu.boardList[0].staffMemberList || [],
-        currentBoardItem: props.menu.boardList[0] || {},
+        staffList: [],
+        currentBoardItem: props.menu.boardList[0],
     };
 
     this.getBoardItemByBoardId = this.getBoardItemByBoardId.bind(this);
@@ -53,20 +53,20 @@ class ManageBoard extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.removeStaffMemberList = this.removeStaffMemberList.bind(this);
   }
-  componentWillReceiveProps (nextProps){
-    if(nextProps.menu.boardList && !this.state.currentBoardItem){
-      this.setState({
-        ...this.state,
-        currentBoardItem: nextProps.menu.boardList[0] || {},
-        originalBoardItem: nextProps.menu.boardList[0],
-      });
-    }
-
-    if(this.state.currentBoardItem){
-      let authUserList = this.state.currentBoardItem.authUserList || []
-      this.state.staffList = authUserList.concat(nextProps.member.staffMemberList);
-    }
-  }
+  // componentWillReceiveProps (nextProps){
+  //   if(nextProps.menu.boardList && !this.state.currentBoardItem){
+  //     this.setState({
+  //       ...this.state,
+  //       currentBoardItem: nextProps.menu.boardList[0] || {},
+  //       originalBoardItem: nextProps.menu.boardList[0],
+  //     });
+  //   }
+  //
+  //   if(this.state.currentBoardItem){
+  //     let authUserList = this.state.currentBoardItem.authUserList || []
+  //     this.state.staffList = authUserList.concat(nextProps.member.staffMemberList);
+  //   }
+  // }
 
   getBoardItemByBoardId = boardId => this.props.menu.boardList.find(item => item.docId === boardId);
 
@@ -168,7 +168,8 @@ class ManageBoard extends React.Component {
 
   render() {
     const { loading, error, success, member, menu} = this.props;
-    let {currentBoardItem, staffList} = this.state;
+    let {currentBoardItem} = this.state;
+    let {staffList} = menu;
     if (loading ) return <Loading/>;
     return (
       <Container>
