@@ -152,10 +152,11 @@ class CreateBoard extends React.Component {
               <Left style={{flexDirection: 'row', alignItems:'center'}}>
                 {this.state.imageUrl && this.state.imageUrl !== '#' ?
                   <Thumbnail
+                      style={{width:50, height:50,borderRadius: 25}}
                     source={{uri: this.state.imageUrl}}
                     />
                   :
-                  <Button style={{width:50, height:50, borderRadius: 30, backgroundColor:'#cccccc'}}/>
+                  <Button style={{width:50, height:50, borderRadius: 50, backgroundColor:'#cccccc'}}/>
                 }
               </Left>
               <Button transparent style={{borderWidth:1, borderColor:'#cccccc', marginLeft:10, marginTop:10, width:90, padding:0, height:35, justifyContent:'center'}}
@@ -182,7 +183,7 @@ class CreateBoard extends React.Component {
                 <Text style={{color:'#cccccc'}}>추가된 스탭이 없습니다.</Text>
               </ListItem> }
             renderItem={({item, index}) => (
-              <ListItem avatar style={{height:70, marginLeft:10, marginRight:10, borderBottomWidth:(index === member.staffMemberList.length -1 ? 0 : 1), borderBottomColor:'#dddddd'}}>
+              <ListItem avatar style={{height:70, marginLeft:10, marginRight:10, borderBottomWidth:(index === member.staffMemberList.length -1 ? 0 : 0.3), borderBottomColor:'#dddddd'}}>
                 <Left style={{borderBottomWidth:0}}>
                   <Thumbnail small source={{uri: item.thumb}}/>
                 </Left>

@@ -36,7 +36,7 @@ class MemberSearch extends React.Component {
                 <Text style={{color:'#cccccc'}}>검색결과가 없습니다.</Text>
               </ListItem> }
               renderItem={({item, index}) => (
-                <ListItem avatar onPress={() => this.addStaffMemberList(item)} style={{height:70, marginLeft:0, marginRight:0, borderBottomWidth:(index === searchUserList.length -1 ? 0 : 1), borderBottomColor:'#dddddd'}}>
+                <ListItem avatar onPress={() => this.addStaffMemberList(item)} style={{height:70, marginLeft:0, marginRight:0, borderBottomWidth:(index === searchUserList.length -1 ? 0 : 0.3), borderBottomColor:'#dddddd', justifyContent:'center',}}>
                   <Left style={{borderBottomWidth:0}}>
                     <Thumbnail small source={{uri: item.thumb}}/>
                   </Left>
@@ -44,12 +44,12 @@ class MemberSearch extends React.Component {
                     <Text>{item.name}</Text>
                   </Body>
                   <Body style={{borderBottomWidth:0, margin:0}}>
-                  <Text note>{item.className}</Text>
+                      <Text style={{color: '#6D41DD'}}>{item.mbaType}</Text>
+                      <Text note>{item.className}</Text>
                   </Body>
-                  <Right style={{borderBottomWidth:0,width:'30%'}}>
+                  <Right style={{borderBottomWidth:0,justifyContent:'center',width:'30%'}}>
                     <Body>
-                    <Text note numberOfLines={1} ellipsizeMode='tail'>{item.mbaType}</Text>
-                    <Text note numberOfLines={1} ellipsizeMode='tail'>{item.company}</Text>
+                    <Text note numberOfLines={2} ellipsizeMode='tail'>{item.company}</Text>
                     </Body>
                   </Right>
                   <Button transparent onPress={() => this.addStaffMemberList(item)}>

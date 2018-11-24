@@ -306,12 +306,12 @@ export function deleteArticle(localState, props) {
     });
 }
 
-export function updateBoard(localState) {
+export function updateBoard(localState, staffMemberList) {
     const {
         currentBoardItem,
-        originalBoardItem,
         imageBlob,
         member,
+        removedStaffList
     } = localState;
 
     return dispatch => new Promise(async (resolve, reject) => {
@@ -323,9 +323,66 @@ export function updateBoard(localState) {
             thumb = thumb.replace(imageBlob._55._data.name, 'thumb_' + imageBlob._55._data.name)
         }
         // 1. 원우 추가된사람 auth 추가
-        if (currentBoardItem.addedJoinMemberList) {
-            currentBoardItem.addedJoinMemberList.forEach(member => {
-                Firestore.collection("users").doc(member.docId).get()
+        // if (currentBoardItem.addedJoinMemberList) {
+        //     currentBoardItem.addedJoinMemberList.forEach(member => {
+        //         Firestore.collection("users").doc(member.docId).get()
+        //             .then(async documentSnapshots => {
+        //                 const data = await documentSnapshots.data();
+        //                 const authKey = currentBoardItem.sectionType + "Auth";
+        //                 const waitingKey = currentBoardItem.sectionType + "Waiting";
+        //                 const authList = data[authKey] || [];
+        //                 const waitingList = data[waitingKey] || [];
+        //                 waitingList.splice(waitingList.indexOf(currentBoardItem.docId), 1);
+        //                 authList.push({authType: 'N', boardId: currentBoardItem.docId});
+        //                 let updateResult = {
+        //                     [authKey]: authList,
+        //                     [waitingKey]: waitingList,
+        //                 };
+        //                 Firestore.collection("users").doc(member.docId).update(updateResult)
+        //             })
+        //     });
+        // }
+        // 원우 제외된사람 제외
+        // if (currentBoardItem.removedJoinMemberList) {
+        //     currentBoardItem.removedJoinMemberList.forEach(member => {
+        //         Firestore.collection("users").doc(member.docId).get()
+        //             .then(async documentSnapshots => {
+        //                 const data = await documentSnapshots.data();
+        //                 const authKey = currentBoardItem.sectionType + "Auth";
+        //                 const authList = data[authKey] || [];
+        //                 authList.splice(authList.indexOf(currentBoardItem.docId), 1);
+        //                 let updateResult = {
+        //                     [authKey]: authList,
+        //                 };
+        //                 Firestore.collection("users").doc(member.docId).update(updateResult)
+        //             })
+        //     });
+        // }
+
+        // 1. 스탭 제외된사람 제외
+        if (removedStaffList.length >= 0) {
+            removedStaffList.forEach(removeMember => {
+                Firestore.collection("users").doc(removeMember.docId).get()
+                            .then(async documentSnapshots => {
+                                const data = await documentSnapshots.data();
+                                const authKey = currentBoardItem.sectionType + "Auth";
+                                const authList = data[authKey] || [];
+                                authList.splice(authList.indexOf(currentBoardItem.docId), 1);
+                                let updateResult = {
+                                    [authKey]: authList,
+                                };
+                                Firestore.collection("users").doc(removeMember.docId).update(updateResult)
+                            }).catch(async (err) => {
+                                await statusMessage(dispatch, 'error', err.message);
+                                throw err.message;
+                            })
+            });
+        }
+        console.log(staffMemberList)
+        // 2. 스탭 추가된사람 추가
+        if (staffMemberList.length >= 0) {
+            staffMemberList.forEach(addedMember => {
+                Firestore.collection("users").doc(addedMember.docId).get()
                     .then(async documentSnapshots => {
                         const data = await documentSnapshots.data();
                         const authKey = currentBoardItem.sectionType + "Auth";
@@ -333,48 +390,23 @@ export function updateBoard(localState) {
                         const authList = data[authKey] || [];
                         const waitingList = data[waitingKey] || [];
                         waitingList.splice(waitingList.indexOf(currentBoardItem.docId), 1);
-                        authList.push({authType: 'N', boardId: currentBoardItem.docId});
+                        authList.push({authType: 'S', boardId: currentBoardItem.docId});
                         let updateResult = {
                             [authKey]: authList,
                             [waitingKey]: waitingList,
                         };
-                        Firestore.collection("users").doc(member.docId).update(updateResult)
-                    })
-            });
-        }
-        // 원우 제외된사람 제외
-        if (currentBoardItem.removedJoinMemberList) {
-            currentBoardItem.removedJoinMemberList.forEach(member => {
-                Firestore.collection("users").doc(member.docId).get()
-                    .then(async documentSnapshots => {
-                        const data = await documentSnapshots.data();
-                        const authKey = currentBoardItem.sectionType + "Auth";
-                        const authList = data[authKey] || [];
-                        authList.splice(authList.indexOf(currentBoardItem.docId), 1);
-                        let updateResult = {
-                            [authKey]: authList,
-                        };
-                        Firestore.collection("users").doc(member.docId).update(updateResult)
+                        Firestore.collection("users").doc(addedMember.docId).update(updateResult)
                     })
             });
         }
 
-        // 2. 스탭 추가된사람 추가, 제외된사람 제외
-        if ((!originalBoardItem.stepMemberList && currentBoardItem.stepMemberList)
-            || (originalBoardItem.stepMemberList && currentBoardItem.stepMemberList && originalBoardItem.stepMemberList.length > currentBoardItem.stepMemberList.length)) {
-            originalBoardItem.stepMemberList.forEach(member => {
-                console.log(currentBoardItem.stepMemberList.find(member))
-            });
-        }
-
-        await Firestore.collection(member.universe + (currentBoardItem.sectionType === 'univ' ? '' : currentBoardItem.sectionType)).doc(currentBoardItem.docId)
+        // 3. board 정보 업데이트
+        await Firestore.collection(member.universe + currentBoardItem.sectionType).doc(currentBoardItem.docId)
             .set({
                 ...currentBoardItem,
+                staffMemberList: currentBoardItem.staffMemberList.concat(staffMemberList),
                 thumb: thumb,
-                removedJoinMemberList: [],
-                addedJoinMemberList: [],
             }, {merge: true})
-
         resolve();
 
     }).catch(async (err) => {
@@ -689,6 +721,9 @@ export function getJoiningBoardList(member) {
         let dataList = [];
         member.univAuth.map(auth => {
             documentSnapshots.docs.forEach(doc => {
+                if(auth.boardId === 'total'){
+                    return;
+                }
                 if (auth.boardId === doc.id && auth.authType === 'S') {
                     dataList.push({...doc.data(), docId: doc.id});
                 }

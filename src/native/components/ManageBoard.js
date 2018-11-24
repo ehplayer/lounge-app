@@ -43,8 +43,10 @@ class ManageBoard extends React.Component {
     super(props);
     this.state = {
         member: props.member,
-        staffList: [],
         currentBoardItem: props.menu.boardList[0],
+        originalBoardItem: props.menu.boardList[0],
+        staffList: props.menu.boardList[0].staffMemberList,
+        removedStaffList:[],
     };
 
     this.getBoardItemByBoardId = this.getBoardItemByBoardId.bind(this);
@@ -53,20 +55,6 @@ class ManageBoard extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.removeStaffMemberList = this.removeStaffMemberList.bind(this);
   }
-  // componentWillReceiveProps (nextProps){
-  //   if(nextProps.menu.boardList && !this.state.currentBoardItem){
-  //     this.setState({
-  //       ...this.state,
-  //       currentBoardItem: nextProps.menu.boardList[0] || {},
-  //       originalBoardItem: nextProps.menu.boardList[0],
-  //     });
-  //   }
-  //
-  //   if(this.state.currentBoardItem){
-  //     let authUserList = this.state.currentBoardItem.authUserList || []
-  //     this.state.staffList = authUserList.concat(nextProps.member.staffMemberList);
-  //   }
-  // }
 
   getBoardItemByBoardId = boardId => this.props.menu.boardList.find(item => item.docId === boardId);
 
@@ -77,14 +65,14 @@ class ManageBoard extends React.Component {
       originalBoardItem: val,
     });
   };
-  handleChange = (name, val) => {
-    let item = this.state.currentBoardItem;
-    item[name] = val;
-    this.setState({
-      ...this.state,
-      currentBoardItem: item,
-    });
-  };
+
+    handleChange = (name, val) => {
+        this.setState({
+            ...this.state,
+            [name]: val,
+        });
+    };
+
   pickImage = async () => {
     await Permissions.askAsync(Permissions.CAMERA);
     await Permissions.askAsync(Permissions.CAMERA_ROLL);
@@ -103,17 +91,26 @@ class ManageBoard extends React.Component {
     }
   };
   handleSubmit = () => {
-    this.props.updateBoard(this.state)
+    this.props.updateBoard(this.state, this.props.member.staffMemberList ? this.props.member.staffMemberList : [])
       .then(() => Actions.pop())
       .catch(e => console.log(`Error: ${e}`));
   }
-  removeStaffMemberList = (index) => {
-    const authUserList = this.state.currentBoardItem.authUserList;
-    if(authUserList.length < index + 1){
-      this.props.removeStaffMemberList(index - authUserList.length)
-    } else {
-      authUserList.splice(index, 1);
-      this.handleChange('authUserList', authUserList)
+  removeStaffMemberList = (item) => {
+    const currentStaffIndex = this.state.staffList.findIndex(staffMember => staffMember.docId === item.docId)
+    if(currentStaffIndex >= 0 ){
+        const removeMember = this.state.staffList.splice(currentStaffIndex, 1);
+        this.state.removedStaffList.push(removeMember[0])
+        this.setState({
+            ...this.state,
+            removedStaffList:this.state.removedStaffList,
+            staffList: this.state.staffList,
+        });
+        return;
+    }
+
+    const addedStaffIndex = this.props.member.staffMemberList && this.props.member.staffMemberList.findIndex(staffMember => staffMember.docId === item.docId)
+    if(addedStaffIndex >= 0) {
+      this.props.removeStaffMemberList(addedStaffIndex);
     }
   }
 
@@ -168,9 +165,11 @@ class ManageBoard extends React.Component {
 
   render() {
     const { loading, error, success, member, menu} = this.props;
-    let {currentBoardItem} = this.state;
-    let {staffList} = menu;
+    let {currentBoardItem, staffList} = this.state;
+    let {staffMemberList} = member;
     if (loading ) return <Loading/>;
+    const totalMemberList = staffMemberList ? staffList.concat(staffMemberList) : staffList;
+
     return (
       <Container>
         <Content style={{backgroundColor:'#ffffff'}}>
@@ -240,49 +239,84 @@ class ManageBoard extends React.Component {
             </ListItem>
           </List>
           <Separator style={{height: 10}}/>
-          <FlatList
-            data={staffList}
-            ListHeaderComponent={() => <ListItem>
-              <Left>
-                <Text style={{width: '30%'}}>스탭 관리</Text>
-                <Left style={{flexDirection: 'row', alignItems:'center'}}>
-                  <Input inlineLabel onChangeText={v => this.handleChange('searchName', v)} style={{borderBottomWidth:1}} value={this.state.searchName} placeholder={'이름으로 검색'}/>
+            <ListItem>
+                <Left>
+                    <Text style={{width: '30%'}}>스탭추가</Text>
+                    <Left style={{flexDirection: 'row', alignItems:'center'}}>
+                        <Input inlineLabel onChangeText={v => this.handleChange('searchName', v)} style={{borderBottomWidth:1}} value={this.state.searchName} placeholder={'이름으로 검색'}/>
+                    </Left>
+                    <Button transparent onPress={() => Actions.memberSearch({searchName: this.state.searchName})}
+                            style={{borderWidth:1, borderColor:'#cccccc', marginLeft:20, marginTop:10, width:70, padding:0, height:35, justifyContent:'center'}}>
+                        <Text style={{color:'#333333'}}>검색</Text>
+                    </Button>
                 </Left>
-                <Button transparent onPress={() => Actions.memberSearch({searchName: this.state.searchName})}
-                        style={{borderWidth:1, borderColor:'#cccccc', marginLeft:20, marginTop:10, width:70, padding:0, height:35, justifyContent:'center'}}>
-                  <Text style={{color:'#333333'}}>검색</Text>
-                </Button>
-              </Left>
-            </ListItem>}
+            </ListItem>
+          <FlatList
+            data={totalMemberList}
             ListEmptyComponent={() =>
               <ListItem noBorder style={{height:70, justifyContent:'center'}}>
                 <Text style={{color:'#cccccc'}}>검색결과가 없습니다.</Text>
               </ListItem> }
             renderItem={({item, index}) => (
-              <ListItem avatar style={{height:70, marginLeft:10, marginRight:10, borderBottomWidth:(index === staffList.length -1 ? 0 : 1), borderBottomColor:'#dddddd'}}>
+              <ListItem avatar style={{height:70, marginLeft:10, marginRight:10, borderBottomWidth:(index === totalMemberList.length -1 ? 0 : 0.3), borderBottomColor:'#dddddd',justifyContent:'center'}}>
                 <Left style={{borderBottomWidth:0}}>
                   <Thumbnail small source={{uri: item.thumb}}/>
                 </Left>
                 <Body style={{borderBottomWidth:0, justifyContent:'center', width:'25%'}}>
                 <Text>{item.name}</Text>
                 </Body>
-                <Body style={{borderBottomWidth:0, margin:0}}>
-                <Text note>{item.className}</Text>
+                <Body style={{borderBottomWidth:0, margin:0,justifyContent:'center'}}>
+                    <Text note>{item.className}</Text>
                 </Body>
-                <Right style={{borderBottomWidth:0,width:'30%'}}>
-                  <Body>
-                  <Text note numberOfLines={1} ellipsizeMode='tail'>{item.mbaType}</Text>
-                  <Text note numberOfLines={1} ellipsizeMode='tail'>{item.company}</Text>
-                  </Body>
-                </Right>
-                <Button transparent  onPress={() => this.removeStaffMemberList(index)}
+                <Left style={{borderBottomWidth:0,width:'30%',justifyContent:'center'}}>
+                  <Text note numberOfLines={2} ellipsizeMode='tail'>{item.company}</Text>
+                </Left>
+                <Button transparent onPress={() => this.removeStaffMemberList(item)}
                         style={{borderWidth:1, borderColor:'#cccccc', marginLeft:5, marginTop:10, width:60, padding:0, height:35, justifyContent:'center'}}>
-                  <Text style={{color:'#333333'}}>취소</Text>
+                  <Text style={{color:'#333333'}}>제외</Text>
                 </Button>
               </ListItem>
             )}
             keyExtractor={(item) => item.docId}
           />
+        <Separator style={{height: 10}}/>
+        <FlatList
+            data={currentBoardItem.authWaiting}
+            ListHeaderComponent={() => <ListItem>
+                <Left>
+                    <Text style={{width: '30%'}}>원우 승인 관리</Text>
+                </Left>
+            </ListItem>}
+            ListEmptyComponent={() =>
+                <ListItem noBorder style={{height:70, justifyContent:'center'}}>
+                    <Text style={{color:'#cccccc'}}>검색결과가 없습니다.</Text>
+                </ListItem> }
+            renderItem={({item, index}) => (
+                <ListItem avatar style={{height:70, marginLeft:10, marginRight:10, borderBottomWidth:(index === currentBoardItem.authWaiting.length -1 ? 0 : 0.3), borderBottomColor:'#dddddd'}}>
+                    <Left style={{borderBottomWidth:0}}>
+                        <Thumbnail small source={{uri: item.thumb}}/>
+                    </Left>
+                    <Body style={{borderBottomWidth:0, justifyContent:'center', width:'25%'}}>
+                    <Text>{item.name}</Text>
+                    </Body>
+                    <Right style={{borderBottomWidth:0,width:'30%'}}>
+                        <Body>
+                        <Text note numberOfLines={1} ellipsizeMode='tail'>{item.mbaType}</Text>
+                        <Text note numberOfLines={1} ellipsizeMode='tail'>{item.company}</Text>
+                        </Body>
+                    </Right>
+                    <Button transparent  onPress={() => this.handleAuthWaiting(index, true)}
+                            style={{borderWidth:1, borderColor:'#cccccc', marginLeft:5, marginTop:10, width:60, padding:0, height:35, justifyContent:'center'}}>
+                        <Text style={{color:'#333333'}}>승인</Text>
+                    </Button>
+                    <Button transparent  onPress={() => this.handleAuthWaiting(index, false)}
+                            style={{borderWidth:1, borderColor:'#cccccc', marginLeft:5, marginTop:10, width:60, padding:0, height:35, justifyContent:'center'}}>
+                        <Text style={{color:'#333333'}}>거절</Text>
+                    </Button>
+                </ListItem>
+            )}
+            keyExtractor={(item) => item.docId}
+        />
           <Separator style={{height: 10}}/>
           <FlatList
             data={currentBoardItem.joinMemberList}
@@ -296,22 +330,19 @@ class ManageBoard extends React.Component {
                 <Text style={{color:'#cccccc'}}>검색결과가 없습니다.</Text>
               </ListItem> }
             renderItem={({item, index}) => (
-              <ListItem avatar style={{height:70, marginLeft:10, marginRight:10, borderBottomWidth:(index === currentBoardItem.joinMemberList.length -1 ? 0 : 1), borderBottomColor:'#dddddd'}}>
-                <Left style={{borderBottomWidth:0}}>
-                  <Thumbnail small source={{uri: item.thumb}}/>
-                </Left>
-                <Body style={{borderBottomWidth:0, justifyContent:'center', width:'25%'}}>
-                <Text>{item.name}</Text>
-                </Body>
-                <Body style={{borderBottomWidth:0, margin:0}}>
-                <Text note>{item.className}</Text>
-                </Body>
-                <Right style={{borderBottomWidth:0,width:'30%'}}>
-                  <Body>
-                  <Text note numberOfLines={1} ellipsizeMode='tail'>{item.mbaType}</Text>
-                  <Text note numberOfLines={1} ellipsizeMode='tail'>{item.company}</Text>
+              <ListItem avatar style={{height:70, marginLeft:10, marginRight:10, borderBottomWidth:(index === currentBoardItem.joinMemberList.length -1 ? 0 : 0.3), borderBottomColor:'#dddddd'}}>
+                  <Left style={{borderBottomWidth:0}}>
+                      <Thumbnail small source={{uri: item.thumb}}/>
+                  </Left>
+                  <Body style={{borderBottomWidth:0, justifyContent:'center', width:'25%'}}>
+                  <Text>{item.name}</Text>
                   </Body>
-                </Right>
+                  <Body style={{borderBottomWidth:0, margin:0,justifyContent:'center'}}>
+                  <Text note>{item.className}</Text>
+                  </Body>
+                  <Right style={{borderBottomWidth:0,width:'30%',justifyContent:'center'}}>
+                      <Text note numberOfLines={2} ellipsizeMode='tail'>{item.company}</Text>
+                  </Right>
                 <Button transparent  onPress={() => this.removeJoinMember(index)}
                         style={{borderWidth:1, borderColor:'#cccccc', marginLeft:5, marginTop:10, width:60, padding:0, height:35, justifyContent:'center'}}>
                   <Text style={{color:'#333333'}}>제외</Text>
@@ -320,44 +351,7 @@ class ManageBoard extends React.Component {
             )}
             keyExtractor={(item) => item.docId}
           />
-          <Separator style={{height: 10}}/>
-          <FlatList
-            data={currentBoardItem.authWaiting}
-            ListHeaderComponent={() => <ListItem>
-              <Left>
-                <Text style={{width: '30%'}}>원우 승인 관리</Text>
-              </Left>
-            </ListItem>}
-            ListEmptyComponent={() =>
-              <ListItem noBorder style={{height:70, justifyContent:'center'}}>
-                <Text style={{color:'#cccccc'}}>검색결과가 없습니다.</Text>
-              </ListItem> }
-            renderItem={({item, index}) => (
-              <ListItem avatar style={{height:70, marginLeft:10, marginRight:10, borderBottomWidth:(index === currentBoardItem.authWaiting.length -1 ? 0 : 1), borderBottomColor:'#dddddd'}}>
-                <Left style={{borderBottomWidth:0}}>
-                  <Thumbnail small source={{uri: item.thumb}}/>
-                </Left>
-                <Body style={{borderBottomWidth:0, justifyContent:'center', width:'25%'}}>
-                <Text>{item.name}</Text>
-                </Body>
-                <Right style={{borderBottomWidth:0,width:'30%'}}>
-                  <Body>
-                  <Text note numberOfLines={1} ellipsizeMode='tail'>{item.mbaType}</Text>
-                  <Text note numberOfLines={1} ellipsizeMode='tail'>{item.company}</Text>
-                  </Body>
-                </Right>
-                <Button transparent  onPress={() => this.handleAuthWaiting(index, true)}
-                        style={{borderWidth:1, borderColor:'#cccccc', marginLeft:5, marginTop:10, width:60, padding:0, height:35, justifyContent:'center'}}>
-                  <Text style={{color:'#333333'}}>승인</Text>
-                </Button>
-                <Button transparent  onPress={() => this.handleAuthWaiting(index, false)}
-                        style={{borderWidth:1, borderColor:'#cccccc', marginLeft:5, marginTop:10, width:60, padding:0, height:35, justifyContent:'center'}}>
-                  <Text style={{color:'#333333'}}>거절</Text>
-                </Button>
-              </ListItem>
-            )}
-            keyExtractor={(item) => item.docId}
-          />
+
           <Body style={{alignItems: 'center', flexDirection:'row', marginTop:20}}>
           <Button style={{width:100, justifyContent:'center', backgroundColor:'#999999', marginRight:5}} onPress={Actions.pop}>
             <Text>취소</Text>

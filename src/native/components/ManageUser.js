@@ -84,7 +84,7 @@ class Scheduler extends React.Component {
                                         height: 70,
                                         marginLeft: 0,
                                         marginRight: 0,
-                                        borderBottomWidth: (index === userList.length - 1 ? 0 : 1),
+                                        borderBottomWidth: (index === userList.length - 1 ? 0 : 0.3),
                                         borderBottomColor: '#dddddd',
                                     }}>
                                         <Left style={{borderBottomWidth: 0}}>

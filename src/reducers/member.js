@@ -60,7 +60,6 @@ export default function userReducer(state = initialState, action) {
             if(!staffMemberList.find(item => item.docId === action.member.docId)){
                 staffMemberList.push(action.member)
             }
-            console.log(staffMemberList)
             return {
                 ...state,
                 loading: false,

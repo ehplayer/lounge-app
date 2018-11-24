@@ -44,7 +44,7 @@ class Scheduler extends React.Component {
                 <Text style={{color:'#cccccc'}}>일치하는 원우가 없습니다.</Text>
               </ListItem> }
               renderItem={({item, index}) => (
-                <ListItem avatar style={{height:70, marginLeft:0, marginRight:0, borderBottomWidth:(index === searchUserList.length -1 ? 0 : 1), borderBottomColor:'#dddddd'}}>
+                <ListItem avatar style={{height:70, marginLeft:0, marginRight:0, borderBottomWidth:(index === searchUserList.length -1 ? 0 : 0.3), borderBottomColor:'#dddddd'}}>
                   <Left style={{borderBottomWidth:0}}>
                     <Thumbnail small source={{uri: item.thumb}}/>
                   </Left>
@@ -52,12 +52,11 @@ class Scheduler extends React.Component {
                     <Text>{item.name}</Text>
                   </Body>
                   <Body style={{borderBottomWidth:0}}>
-                  <Text style={{color: '#6D41DD'}}>{item.type}</Text>
-                  <Text note>{item.class}</Text>
+                  <Text style={{color: '#6D41DD'}}>{item.mbaType}</Text>
+                  <Text note>{item.className}</Text>
                   </Body>
                   <Right style={{borderBottomWidth:0, width:'40%'}}>
                     <Body>
-                    <Text note numberOfLines={1} ellipsizeMode='tail'>{item.mbaType}</Text>
                     <Text note numberOfLines={1} ellipsizeMode='tail'>{item.company}</Text>
                     </Body>
                   </Right>
