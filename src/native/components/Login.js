@@ -97,8 +97,6 @@ class Login extends Component {
     render() {
         const {loading, error, member} = this.props;
         if (loading) return <Loading/>;
-        console.log(Dimensions.get('window'))
-        console.log(Dimensions.get('screen'))
         return (
             <KeyboardAwareScrollView enableOnAndroid enableAutomaticScroll extraScrollHeight={150}
                                      keyboardShouldPersistTaps={'handled'}

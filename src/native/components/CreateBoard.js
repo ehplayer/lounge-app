@@ -71,7 +71,6 @@ class CreateBoard extends React.Component {
     });
   };
   pickImage = async () => {
-    await Permissions.askAsync(Permissions.CAMERA);
     await Permissions.askAsync(Permissions.CAMERA_ROLL);
 
     const result = await ImagePicker.launchImageLibraryAsync({

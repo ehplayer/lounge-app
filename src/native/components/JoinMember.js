@@ -23,6 +23,7 @@ import ArrowDown from '../../images/arrow_down.png';
 import ModalDropDown from 'react-native-modal-dropdown';
 import loungeStyle from "../constants/loungeStyle";
 import ArrowLeft from '../../images/arrow_right_gray.png';
+import moment from "moment/moment";
 
 class ManageBoard extends React.Component {
   static propTypes = {
@@ -244,9 +245,9 @@ class ManageBoard extends React.Component {
             <CardItem style={{paddingBottom:0}}>
                 <List>
                 <Body>
-                    <ListItem style={loungeStyle.listHeaderListItem} onPress={item => Actions.manageWaitingMember({title: '가입 승인 관리', boardItem: currentBoardItem})}>
+                    <ListItem style={loungeStyle.listHeaderListItem} onPress={item => Actions.homeNoticeList({title: '공지사항'})}>
                         <Text style={loungeStyle.listHeaderListItem_Text}
-                              onPress={item => Actions.manageWaitingMember({title: '가입 승인 관리', boardItem: currentBoardItem})}>가입 승인 관리</Text>
+                              onPress={item => Actions.homeNoticeList({title: '공지사항'})}>가입 승인 관리</Text>
                         <Image
                             style={loungeStyle.listHeaderListItem_Image}
                             resizeMode="contain"
@@ -258,9 +259,9 @@ class ManageBoard extends React.Component {
             <CardItem style={{paddingBottom:0}}>
                 <List>
                     <Body>
-                    <ListItem style={loungeStyle.listHeaderListItem} onPress={item => Actions.manageJoinMember({title: '원우 관리', boardItem: currentBoardItem})}>
+                    <ListItem style={loungeStyle.listHeaderListItem} onPress={item => Actions.homeNoticeList({title: '공지사항'})}>
                         <Text style={loungeStyle.listHeaderListItem_Text}
-                              onPress={item => Actions.manageJoinMember({title: '원우 관리', boardItem: currentBoardItem})}>원우 관리</Text>
+                              onPress={item => Actions.homeNoticeList({title: '공지사항'})}>원우 관리</Text>
                         <Image
                             style={loungeStyle.listHeaderListItem_Image}
                             resizeMode="contain"
@@ -310,6 +311,79 @@ class ManageBoard extends React.Component {
             )}
             keyExtractor={(item) => item.docId}
           />
+        {/*<Separator style={{height: 10}}/>*/}
+        {/*<FlatList*/}
+            {/*data={currentBoardItem.authWaiting}*/}
+            {/*ListHeaderComponent={() => <ListItem>*/}
+                {/*<Left>*/}
+                    {/*<Text style={{width: '30%'}}>원우 승인 관리</Text>*/}
+                {/*</Left>*/}
+            {/*</ListItem>}*/}
+            {/*ListEmptyComponent={() =>*/}
+                {/*<ListItem noBorder style={{height:70, justifyContent:'center'}}>*/}
+                    {/*<Text style={{color:'#cccccc'}}>검색결과가 없습니다.</Text>*/}
+                {/*</ListItem> }*/}
+            {/*renderItem={({item, index}) => (*/}
+                {/*<ListItem avatar style={{height:70, marginLeft:10, marginRight:10, borderBottomWidth:(index === currentBoardItem.authWaiting.length -1 ? 0 : 0.3), borderBottomColor:'#dddddd'}}>*/}
+                    {/*<Left style={{borderBottomWidth:0}}>*/}
+                        {/*<Thumbnail small source={{uri: item.thumb}}/>*/}
+                    {/*</Left>*/}
+                    {/*<Body style={{borderBottomWidth:0, justifyContent:'center', width:'25%'}}>*/}
+                    {/*<Text>{item.name}</Text>*/}
+                    {/*</Body>*/}
+                    {/*<Right style={{borderBottomWidth:0,width:'30%'}}>*/}
+                        {/*<Body>*/}
+                        {/*<Text note numberOfLines={1} ellipsizeMode='tail'>{item.mbaType}</Text>*/}
+                        {/*<Text note numberOfLines={1} ellipsizeMode='tail'>{item.company}</Text>*/}
+                        {/*</Body>*/}
+                    {/*</Right>*/}
+                    {/*<Button transparent  onPress={() => this.handleAuthWaiting(index, true)}*/}
+                            {/*style={{borderWidth:1, borderColor:'#cccccc', marginLeft:5, marginTop:10, width:60, padding:0, height:35, justifyContent:'center'}}>*/}
+                        {/*<Text style={{color:'#333333'}}>승인</Text>*/}
+                    {/*</Button>*/}
+                    {/*<Button transparent  onPress={() => this.handleAuthWaiting(index, false)}*/}
+                            {/*style={{borderWidth:1, borderColor:'#cccccc', marginLeft:5, marginTop:10, width:60, padding:0, height:35, justifyContent:'center'}}>*/}
+                        {/*<Text style={{color:'#333333'}}>거절</Text>*/}
+                    {/*</Button>*/}
+                {/*</ListItem>*/}
+            {/*)}*/}
+            {/*keyExtractor={(item) => item.docId}*/}
+        {/*/>*/}
+          {/*<Separator style={{height: 10}}/>*/}
+          {/*<FlatList*/}
+            {/*data={currentBoardItem.joinMemberList}*/}
+            {/*ListHeaderComponent={() => <ListItem>*/}
+              {/*<Left>*/}
+                {/*<Text style={{width: '30%'}}>원우 관리</Text>*/}
+              {/*</Left>*/}
+            {/*</ListItem>}*/}
+            {/*ListEmptyComponent={() =>*/}
+              {/*<ListItem noBorder style={{height:70, justifyContent:'center'}}>*/}
+                {/*<Text style={{color:'#cccccc'}}>검색결과가 없습니다.</Text>*/}
+              {/*</ListItem> }*/}
+            {/*renderItem={({item, index}) => (*/}
+              {/*<ListItem avatar style={{height:70, marginLeft:10, marginRight:10, borderBottomWidth:(index === currentBoardItem.joinMemberList.length -1 ? 0 : 0.3), borderBottomColor:'#dddddd'}}>*/}
+                  {/*<Left style={{borderBottomWidth:0}}>*/}
+                      {/*<Thumbnail small source={{uri: item.thumb}}/>*/}
+                  {/*</Left>*/}
+                  {/*<Body style={{borderBottomWidth:0, justifyContent:'center', width:'25%'}}>*/}
+                  {/*<Text>{item.name}</Text>*/}
+                  {/*</Body>*/}
+                  {/*<Body style={{borderBottomWidth:0, margin:0,justifyContent:'center'}}>*/}
+                  {/*<Text note>{item.className}</Text>*/}
+                  {/*</Body>*/}
+                  {/*<Right style={{borderBottomWidth:0,width:'30%',justifyContent:'center'}}>*/}
+                      {/*<Text note numberOfLines={2} ellipsizeMode='tail'>{item.company}</Text>*/}
+                  {/*</Right>*/}
+                {/*<Button transparent  onPress={() => this.removeJoinMember(index)}*/}
+                        {/*style={{borderWidth:1, borderColor:'#cccccc', marginLeft:5, marginTop:10, width:60, padding:0, height:35, justifyContent:'center'}}>*/}
+                  {/*<Text style={{color:'#333333'}}>제외</Text>*/}
+                {/*</Button>*/}
+              {/*</ListItem>*/}
+            {/*)}*/}
+            {/*keyExtractor={(item) => item.docId}*/}
+          {/*/>*/}
+
           <Body style={{alignItems: 'center', flexDirection:'row', marginTop:20}}>
           <Button style={{width:100, justifyContent:'center', backgroundColor:'#999999', marginRight:5}} onPress={Actions.pop}>
             <Text>취소</Text>

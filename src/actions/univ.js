@@ -322,43 +322,6 @@ export function updateBoard(localState, staffMemberList) {
                 .then(async snapshot => await snapshot.ref.getDownloadURL());
             thumb = thumb.replace(imageBlob._55._data.name, 'thumb_' + imageBlob._55._data.name)
         }
-        // 1. 원우 추가된사람 auth 추가
-        // if (currentBoardItem.addedJoinMemberList) {
-        //     currentBoardItem.addedJoinMemberList.forEach(member => {
-        //         Firestore.collection("users").doc(member.docId).get()
-        //             .then(async documentSnapshots => {
-        //                 const data = await documentSnapshots.data();
-        //                 const authKey = currentBoardItem.sectionType + "Auth";
-        //                 const waitingKey = currentBoardItem.sectionType + "Waiting";
-        //                 const authList = data[authKey] || [];
-        //                 const waitingList = data[waitingKey] || [];
-        //                 waitingList.splice(waitingList.indexOf(currentBoardItem.docId), 1);
-        //                 authList.push({authType: 'N', boardId: currentBoardItem.docId});
-        //                 let updateResult = {
-        //                     [authKey]: authList,
-        //                     [waitingKey]: waitingList,
-        //                 };
-        //                 Firestore.collection("users").doc(member.docId).update(updateResult)
-        //             })
-        //     });
-        // }
-        // 원우 제외된사람 제외
-        // if (currentBoardItem.removedJoinMemberList) {
-        //     currentBoardItem.removedJoinMemberList.forEach(member => {
-        //         Firestore.collection("users").doc(member.docId).get()
-        //             .then(async documentSnapshots => {
-        //                 const data = await documentSnapshots.data();
-        //                 const authKey = currentBoardItem.sectionType + "Auth";
-        //                 const authList = data[authKey] || [];
-        //                 authList.splice(authList.indexOf(currentBoardItem.docId), 1);
-        //                 let updateResult = {
-        //                     [authKey]: authList,
-        //                 };
-        //                 Firestore.collection("users").doc(member.docId).update(updateResult)
-        //             })
-        //     });
-        // }
-
         // 1. 스탭 제외된사람 제외
         if (removedStaffList.length >= 0) {
             removedStaffList.forEach(removeMember => {
@@ -406,6 +369,109 @@ export function updateBoard(localState, staffMemberList) {
                 ...currentBoardItem,
                 staffMemberList: currentBoardItem.staffMemberList.concat(staffMemberList),
                 thumb: thumb,
+            }, {merge: true})
+        resolve();
+
+    }).catch(async (err) => {
+        await statusMessage(dispatch, 'error', err.message);
+        throw err.message;
+    });
+}
+
+export function updateBoardWaiting(localState) {
+    const {
+        currentBoardItem,
+        member,
+        approveMemberList,
+        rejectMemberList,
+        authWaiting
+    } = localState;
+    return dispatch => new Promise(async (resolve, reject) => {
+
+        // 1. 승인된사람 auth 추가
+        if (approveMemberList.length >= 0) {
+            approveMemberList.forEach(approveMember => {
+                Firestore.collection("users").doc(approveMember.docId).get()
+                    .then(async documentSnapshots => {
+                        const data = await documentSnapshots.data();
+                        const authKey = currentBoardItem.sectionType + "Auth";
+                        const waitingKey = currentBoardItem.sectionType + "Waiting";
+                        const authList = data[authKey] || [];
+                        const waitingList = data[waitingKey] || [];
+                        waitingList.splice(waitingList.indexOf(currentBoardItem.docId), 1);
+                        authList.push({authType: 'U', boardId: currentBoardItem.docId});
+                        let updateResult = {
+                            [authKey]: authList,
+                            [waitingKey]: waitingList,
+                        };
+                        Firestore.collection("users").doc(approveMember.docId).update(updateResult)
+                    }).catch(async (err) => {
+                    await statusMessage(dispatch, 'error', err.message);
+                    throw err.message;
+                })
+            });
+        }
+
+        // 2. 거절된사람 auth 제거
+        if (rejectMemberList.length >= 0) {
+            rejectMemberList.forEach(rejectMember => {
+                Firestore.collection("users").doc(rejectMember.docId).get()
+                    .then(async documentSnapshots => {
+                        const data = await documentSnapshots.data();
+                        const waitingKey = currentBoardItem.sectionType + "Waiting";
+                        const waitingList = data[waitingKey] || [];
+                        waitingList.splice(waitingList.indexOf(currentBoardItem.docId), 1);
+                        let updateResult = {
+                            [waitingKey]: waitingList,
+                        };
+                        Firestore.collection("users").doc(rejectMember.docId).update(updateResult)
+                    })
+            });
+        }
+        const authMember = currentBoardItem.authMember || []
+        // 3. board 정보 업데이트
+        await Firestore.collection(member.universe + currentBoardItem.sectionType).doc(currentBoardItem.docId)
+            .set({
+                ...currentBoardItem,
+                authWaiting: authWaiting,
+                authMember: authMember.concat(approveMemberList),
+            }, {merge: true})
+        resolve();
+
+    }).catch(async (err) => {
+        await statusMessage(dispatch, 'error', err.message);
+        throw err.message;
+    });
+}
+
+export function updateBoardMember(localState) {
+    const {
+        currentBoardItem,
+        member,
+        removedJoinMemberList,
+    } = localState;
+    return dispatch => new Promise(async (resolve, reject) => {
+        // 1. 제외된사람 auth 제거
+        if (removedJoinMemberList.length >= 0) {
+            removedJoinMemberList.forEach(rejectMember => {
+                Firestore.collection("users").doc(rejectMember.docId).get()
+                    .then(async documentSnapshots => {
+                        const data = await documentSnapshots.data();
+                        const authKey = currentBoardItem.sectionType + "Auth";
+                        const authList = data[authKey] || [];
+                        authList.splice(authList.indexOf(currentBoardItem.docId), 1);
+                        let updateResult = {
+                            [authKey]: authList,
+                        };
+                        Firestore.collection("users").doc(rejectMember.docId).update(updateResult)
+                    })
+            });
+        }
+        // 2. board 정보 업데이트
+        await Firestore.collection(member.universe + currentBoardItem.sectionType).doc(currentBoardItem.docId)
+            .set({
+                ...currentBoardItem,
+                authMember: currentBoardItem.authMember,
             }, {merge: true})
         resolve();
 

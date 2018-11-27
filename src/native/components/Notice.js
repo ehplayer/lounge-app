@@ -129,6 +129,11 @@ class Notice extends React.Component {
                                 <Text style={{fontSize: 25}}>{article.title}</Text>
                                 </Body>
                             </CardItem>
+                            <CardItem style={{paddingBottom: 10}}>
+                                <Body>
+                                <Text>{article.content}</Text>
+                                </Body>
+                            </CardItem>
                             {(article.urlList && article.urlList[0]) &&
                             <CardItem cardBody style={{paddingBottom: 10}}>
                                 <Image resizeMode={'contain'} source={{uri: article.urlList[0]}}
@@ -154,16 +159,12 @@ class Notice extends React.Component {
                             </CardItem>
                             }
                             {(article.urlList && article.urlList[4]) &&
-                            <CardItem cardBody style={{paddingBottom: 10}}>
+                            <CardItem cardBody style={{paddingBottom: 40}}>
                                 <Image resizeMode={'contain'} source={{uri: article.urlList[4]}}
                                        style={{height: 300, flex: 1}}/>
                             </CardItem>
                             }
-                            <CardItem style={{paddingBottom: 40}}>
-                                <Body>
-                                <Text>{article.content}</Text>
-                                </Body>
-                            </CardItem>
+
                             {article.isSchedule &&
                             <CardItem style={{paddingBottom: 0, height: 60}}>
                                 <Body style={{

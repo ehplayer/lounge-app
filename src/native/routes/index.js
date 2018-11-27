@@ -60,6 +60,12 @@ import CreateBoardComponent from '../components/CreateBoard';
 import ManageBoardContainer from '../../containers/ManageBoard';
 import ManageBoardComponent from '../components/ManageBoard';
 
+import ManageJoinMemberContainer from '../../containers/ManageJoinMember';
+import ManageJoinMemberComponent from '../components/ManageJoinMember';
+
+import ManageWaitingMemberContainer from '../../containers/ManageWaitingMember';
+import ManageWaitingMemberComponent from '../components/ManageWaitingMember';
+
 import ManageUserContainer from '../../containers/ManageUser';
 import ManageUserComponent from '../components/ManageUser';
 
@@ -245,7 +251,6 @@ const Index = (
             Layout={CreateBoardComponent}
         />
         <Scene
-            back
             key="manageBoard"
             //initial
             title="Univ. / Club 관리"
@@ -254,6 +259,27 @@ const Index = (
             component={ManageBoardContainer}
             Layout={ManageBoardComponent}
         />
+
+        <Scene
+            back
+            key="manageWaitingMember"
+            title="가입 승인 관리"
+            titleColorArray={['#394eb7', '#6965dc']}
+            navBar={TextNavBar}
+            component={ManageWaitingMemberContainer}
+            Layout={ManageWaitingMemberComponent}
+        />
+
+        <Scene
+            back
+            key="manageJoinMember"
+            title="원우 관리"
+            titleColorArray={['#394eb7', '#6965dc']}
+            navBar={TextNavBar}
+            component={ManageJoinMemberContainer}
+            Layout={ManageJoinMemberComponent}
+        />
+
         <Scene
             back
             key="approveBoard"
