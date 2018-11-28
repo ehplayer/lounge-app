@@ -174,7 +174,6 @@ class UpdateArticle extends React.Component {
         const checkedIcon = iconMap[sectionType];
         const currentBoardAuth = member[sectionType + 'Auth'] && member[sectionType + 'Auth'].find(item => item.boardId === article.boardDocId);
         const isAdmin = currentBoardAuth && currentBoardAuth.authType === 'S';
-        console.log(article)
         return (
             <Container>
                 <KeyboardAwareScrollView enableOnAndroid enableAutomaticScroll extraScrollHeight={250}

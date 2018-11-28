@@ -174,6 +174,8 @@ export function updateArticle(localState, props) {
         const boardType = localState.isNotice || localState.isSchedule ? 'notice' : 'article'
 
         let article = {
+            urlList:[],
+            fileNameList:[],
             ...props.article,
             author: props.member,
             content: localState.content,
@@ -221,8 +223,8 @@ export function updateArticle(localState, props) {
                     .then(async snapshot => await snapshot.ref.getDownloadURL()));
             }
 
-            article.urlList = urlArray;
-            article.fileNameList = localState.imageBlobList.map(image => now + image._55._data.name);
+            article.urlList = article.urlList.filter(url => url.indexOf('file:///') === -1).concat(urlArray);
+            article.fileNameList = article.fileNameList.concat(localState.imageBlobList.map(image => now + image._55._data.name));
         }
 
         await Firestore.collection(universe).doc(currentUnivId).collection(boardType).doc(props.article.docId).set(article)

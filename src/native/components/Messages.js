@@ -7,12 +7,11 @@ import Colors from '../../../native-base-theme/variables/commonColor';
 
 const Messages = ({ message, type }) => (
   <View style={{
-      backgroundColor: (type === 'error') ? Colors.brandDanger : (type === 'success') ? Colors.brandSuccess : Colors.brandInfo,
       paddingVertical: 10,
       paddingHorizontal: 5,
     }}
   >
-    <Text style={{ color: '#fff', textAlign: 'center' }}>{message}</Text>
+    <Text style={{ color: Colors.brandDanger, textAlign: 'center',fontWeight:'800', fontSize:17}}>{message}</Text>
   </View>
 );
 

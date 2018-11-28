@@ -134,41 +134,10 @@ class Notice extends React.Component {
                                 <Text>{article.content}</Text>
                                 </Body>
                             </CardItem>
-                            {(article.urlList && article.urlList[0]) &&
-                            <CardItem cardBody style={{paddingBottom: 10}}>
-                                <Image resizeMode={'contain'} source={{uri: article.urlList[0]}}
-                                       style={{height: 300, flex: 1}}/>
-                            </CardItem>
-                            }
-                            {(article.urlList && article.urlList[1]) &&
-                            <CardItem cardBody style={{paddingBottom: 10}}>
-                                <Image resizeMode={'contain'} source={{uri: article.urlList[1]}}
-                                       style={{height: 300, flex: 1}}/>
-                            </CardItem>
-                            }
-                            {(article.urlList && article.urlList[2]) &&
-                            <CardItem cardBody style={{paddingBottom: 10}}>
-                                <Image resizeMode={'contain'} source={{uri: article.urlList[2]}}
-                                       style={{height: 300, flex: 1}}/>
-                            </CardItem>
-                            }
-                            {(article.urlList && article.urlList[3]) &&
-                            <CardItem cardBody style={{paddingBottom: 10}}>
-                                <Image resizeMode={'contain'} source={{uri: article.urlList[3]}}
-                                       style={{height: 300, flex: 1}}/>
-                            </CardItem>
-                            }
-                            {(article.urlList && article.urlList[4]) &&
-                            <CardItem cardBody style={{paddingBottom: 40}}>
-                                <Image resizeMode={'contain'} source={{uri: article.urlList[4]}}
-                                       style={{height: 300, flex: 1}}/>
-                            </CardItem>
-                            }
-
                             {article.isSchedule &&
                             <CardItem style={{paddingBottom: 0, height: 60}}>
                                 <Body style={{
-                                    paddingTop: 20,
+                                    paddingTop: 15,
                                     borderWidth: 1,
                                     flexDirection: 'row',
                                     borderBottomWidth: 0.5,
@@ -199,7 +168,7 @@ class Notice extends React.Component {
                             </CardItem>
                             }
                             {article.isSchedule &&
-                            <CardItem style={{marginBottom: 50, paddingTop: 0, height: 50}}>
+                            <CardItem style={{marginBottom: 0, paddingTop: 0, height: 50}}>
                                 <Left style={{
                                     width: '50%',
                                     paddingTop: 0,
@@ -246,6 +215,53 @@ class Notice extends React.Component {
                                 </Left>
                             </CardItem>
                             }
+                            {article.isSchedule &&
+                            <CardItem style={{marginTop:0,paddingTop: 0, height: 50}}>
+                                <Left style={{
+                                    width: '50%',
+                                    paddingTop: 0,
+                                    marginTop: 0,
+                                    flexDirection: 'row',
+                                    borderColor: '#cccccc'
+                                }}>
+                                    {article.isLimitMember &&
+                                    <Text style={{paddingRight: 15, color: '#d9534f'}}>* {article.joinMemberLimit}명까지 참석 가능합니다.</Text>
+                                    }
+                                </Left>
+                            </CardItem>
+                            }
+                            {(article.urlList && article.urlList[0]) &&
+                            <CardItem cardBody style={{paddingBottom: 10}}>
+                                <Image resizeMode={'contain'} source={{uri: article.urlList[0]}}
+                                       style={{height: 300, flex: 1}}/>
+                            </CardItem>
+                            }
+                            {(article.urlList && article.urlList[1]) &&
+                            <CardItem cardBody style={{paddingBottom: 10}}>
+                                <Image resizeMode={'contain'} source={{uri: article.urlList[1]}}
+                                       style={{height: 300, flex: 1}}/>
+                            </CardItem>
+                            }
+                            {(article.urlList && article.urlList[2]) &&
+                            <CardItem cardBody style={{paddingBottom: 10}}>
+                                <Image resizeMode={'contain'} source={{uri: article.urlList[2]}}
+                                       style={{height: 300, flex: 1}}/>
+                            </CardItem>
+                            }
+                            {(article.urlList && article.urlList[3]) &&
+                            <CardItem cardBody style={{paddingBottom: 10}}>
+                                <Image resizeMode={'contain'} source={{uri: article.urlList[3]}}
+                                       style={{height: 300, flex: 1}}/>
+                            </CardItem>
+                            }
+                            {(article.urlList && article.urlList[4]) &&
+                            <CardItem cardBody style={{paddingBottom: 40}}>
+                                <Image resizeMode={'contain'} source={{uri: article.urlList[4]}}
+                                       style={{height: 300, flex: 1}}/>
+                            </CardItem>
+                            }
+
+
                         </Card>
                         <Card transparent>
                             <FlatList
