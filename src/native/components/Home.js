@@ -83,7 +83,7 @@ class HomeComponent extends React.Component {
                     <CardItem style={{paddingBottom:0}}>
                         <Body>
                         <List>
-                            <ListItem style={loungeStyle.listHeaderListItem} onPress={item => Actions.homeNoticeList({title: '공지사항'})}>
+                            <ListItem noBorder={noticeList.length === 0} style={loungeStyle.listHeaderListItem} onPress={item => Actions.homeNoticeList({title: '공지사항'})}>
                                 <Text style={loungeStyle.listHeaderListItem_Text}
                                       onPress={item => Actions.homeNoticeList({title: '공지사항'})}>공지사항</Text>
                                 <Image
@@ -112,7 +112,7 @@ class HomeComponent extends React.Component {
                     <CardItem style={{paddingBottom:0}}>
                         <Body>
                         <List>
-                            <ListItem style={loungeStyle.listHeaderListItem} onPress={item => Actions.homeScheduleList({title: '일정'})}>
+                            <ListItem noBorder={scheduleList.length === 0} style={loungeStyle.listHeaderListItem} onPress={item => Actions.homeScheduleList({title: '일정'})}>
                                 <Text style={loungeStyle.listHeaderListItem_Text}>일정</Text>
                                 <Image
                                     style={loungeStyle.listHeaderListItem_Image}
@@ -127,9 +127,9 @@ class HomeComponent extends React.Component {
               }
               renderItem={({item, index}) => (
                   <ListItem noBorder style={{height: 70, paddingLeft:10, paddingRight:30, marginLeft:0, backgroundColor:'#ffffff'}} onPress={() => this.openArticle(item)}>
-                      <Button transparent style={{marginTop:5, height:29,backgroundColor:'#ffffff', borderColor: '#6D41DD', borderWidth: 0.5, borderRadius:15}} disabled>
-                          <Text style={{fontSize:14, color:'#6D41DD', paddingLeft:5, paddingRight:5}}>{moment(item.startDatetimeLong).format("MM / DD")}</Text>
-                      </Button>
+                      <Text style={{fontSize: 14, color: '#6D41DD', paddingLeft: 5, paddingRight: 5, fontWeight: 'normal', width:60}}>
+                          {moment(item.startDatetimeLong).format("MM / DD")}
+                      </Text>
                       <Left>
                           <Body style={{marginTop:5}}>
                           <Text style={{fontSize:15, fontWeight:'normal', color:'#000000'}}>{item.boardName}</Text>

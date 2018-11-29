@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FlatList, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {FlatList, Image, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
 import moment from 'moment';
 import {Body, Button, Card, CardItem, Container, Form, Input, Left, Right, Text, Thumbnail, View} from 'native-base';
 import trashIcon from '../../images/trash.png'
@@ -82,7 +82,6 @@ class Notice extends React.Component {
 
         this.props.addJoiner(this.props.param, this.props.member);
     }
-
     render() {
         const {loading, article, member} = this.props;
         if (loading || !article || !article.author) return <Loading/>;
@@ -91,12 +90,13 @@ class Notice extends React.Component {
         const isJoined = article.joinerList && article.joinerList.find(item => item.docId === member.docId);
         const isJoinFinish = article.joinerList && article.joinerList.length >= article.joinMemberLimit;
         const isMyArticle = article.author.docId === member.docId;
-
         return (
             <Container>
-                <KeyboardAwareScrollView enableOnAndroid extraScrollHeight={180}
+                <KeyboardAwareScrollView
+                    enableOnAndroid extraScrollHeight={250}
                                          keyboardShouldPersistTaps={'handled'}
                 >
+
                     <Form>
                         <Card transparent style={{marginTop: 0}}>
                             <CardItem>
@@ -233,7 +233,7 @@ class Notice extends React.Component {
                             {(article.urlList && article.urlList[0]) &&
                             <CardItem cardBody style={{paddingBottom: 10}}>
                                 <Image resizeMode={'contain'} source={{uri: article.urlList[0]}}
-                                       style={{height: 300, flex: 1}}/>
+                                       sityle={{height: 300, flex: 1}}/>
                             </CardItem>
                             }
                             {(article.urlList && article.urlList[1]) &&
@@ -339,11 +339,12 @@ class Notice extends React.Component {
                             </Modal>
                             <CardItem style={{borderTopWidth: 1, borderColor: '#dddddd', height: 50, paddingRight: 0}}>
                                 <Left>
-                                    <Body>
-                                    <Input placeholder='댓글을 남겨보세요'
+                                    <TextInput placeholder='댓글을 남겨보세요'
+                                               underlineColorAndroid={'#ffffff'}
                                            onChangeText={v => this.handleChange('commentText', v)}
-                                           value={this.state.commentText}/>
-                                    </Body>
+                                           value={this.state.commentText}
+                                           style={{borderWidth:0,width:300, height:50}}
+                                    />
                                 </Left>
                                 <Right style={{marginRight: 0}}>
                                     <Button onPress={this.addComment} style={{

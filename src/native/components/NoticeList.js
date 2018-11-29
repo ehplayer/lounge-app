@@ -14,7 +14,6 @@ class NoticeList extends React.Component {
     error: PropTypes.object,
     loading: PropTypes.bool.isRequired,
     univNotice: PropTypes.arrayOf(PropTypes.shape()),
-    reFetch: PropTypes.func,
   };
 
   static defaultProps = {
@@ -35,7 +34,6 @@ class NoticeList extends React.Component {
       ...this.state,
       currentUnivId: currentUnivId,
     });
-    this.props.reFetch(currentUnivId);
   };
   openArticle = (boardType, item) => {
     return Actions.notice({

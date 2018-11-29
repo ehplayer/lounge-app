@@ -193,7 +193,7 @@ class BoardComponent extends React.Component {
                           <Body>
                           <List>
                               <ListItem style={loungeStyle.listHeaderListItem}>
-                                  <Text style={loungeStyle.listHeaderListItem_Text} onPress={item => Actions.noticeList({title: '공지사항', sectionType:sectionType})}>공지사항</Text>
+                                  <Text style={loungeStyle.listHeaderListItem_Text} onPress={() => Actions.noticeList({boardItem, sectionType:sectionType})}>공지사항</Text>
                                   <Image
                                       style={loungeStyle.listHeaderListItem_Image}
                                       resizeMode="contain"
@@ -220,9 +220,8 @@ class BoardComponent extends React.Component {
                   <Card transparent style={{marginBottom: 0, paddingBottom:0}}>
                       <CardItem style={{paddingBottom:0, marginBottom:0}}>
                           <Body>
-
                           <List>
-                              <ListItem style={loungeStyle.listHeaderListItem} onPress={() => Actions.scheduleList({boardItem})}>
+                              <ListItem style={loungeStyle.listHeaderListItem} onPress={() => Actions.scheduleList({boardItem, sectionType:sectionType})}>
                                   <Text style={loungeStyle.listHeaderListItem_Text}>일정</Text>
                                   <Image
                                       style={loungeStyle.listHeaderListItem_Image}
@@ -231,17 +230,9 @@ class BoardComponent extends React.Component {
                               </ListItem>
                               {document.scheduleList && document.scheduleList[0] &&
                               <ListItem noBorder style={{marginLeft:0,height:75}} onPress={() => this.openArticle('notice', document.scheduleList[0])}>
-                                  <Button transparent style={{
-                                      marginTop: 15,
-                                      marginLeft:0,
-                                      height: 29,
-                                      backgroundColor: '#ffffff',
-                                      borderColor: boardColor,
-                                      borderWidth: 0.5,
-                                      borderRadius: 15,
-                                  }} disabled>
-                                      <Text style={{fontSize: 14, color: boardColor, paddingLeft: 5, paddingRight: 5}}>{moment(document.scheduleList[0].startDatetimeLong).format('MM / DD')}</Text>
-                                  </Button>
+                                  <Text style={{fontSize: 14, color: boardColor, paddingLeft: 5, paddingRight: 5, fontWeight: 'normal', width:60}}>
+                                      {moment(document.scheduleList[0].startDatetimeLong).format('MM / DD')}
+                                  </Text>
                                   <Left>
                                       <Body style={{alignContent: "center", marginTop: 10, paddingLeft:10}}>
                                       <Text style={{fontSize: 15, fontWeight:'100', color:'#555555'}}>{document.scheduleList[0].title}</Text>

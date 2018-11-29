@@ -63,17 +63,19 @@ class App extends Component {
 
     }
 
-    handleHardwareBack = () => {
+    handleHardwareBack = (e) => {
+        console.log(Actions.currentScene)
         if(Actions.currentScene === 'login' ||
-            Actions.currentScene === 'home' ||
-            Actions.currentScene === 'hall' ||
-            Actions.currentScene === 'univ' ||
-            Actions.currentScene === 'club'){
+            Actions.currentScene === '_home' ||
+            Actions.currentScene === '_hall' ||
+            Actions.currentScene === '_univ' ||
+            Actions.currentScene === '_club'){
+
             this.setState({
                 ...this.state,
                 visibleExitModal: !this.state.visibleExitModal,
             });
-
+            Actions[Actions.currentScene.replace('_', '')]();
         } else{
             Actions.pop();
         }

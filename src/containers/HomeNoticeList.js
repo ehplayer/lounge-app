@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
-import { getHomeNotice} from '../actions/home';
-import { setError, getUnivTotal, getUnivNoticeList} from '../actions/univ';
+import {getHomeNotice} from '../actions/home';
+import {setError} from '../actions/univ';
 
 class HomeNoticeList extends React.Component {
   static propTypes = {
@@ -16,8 +16,6 @@ class HomeNoticeList extends React.Component {
       params: PropTypes.shape({}),
     }),
     univBoardList: PropTypes.array,
-    getUnivTotal: PropTypes.func.isRequired,
-    getUnivNoticeList: PropTypes.func.isRequired,
     setError: PropTypes.func.isRequired,
   }
 
@@ -26,7 +24,6 @@ class HomeNoticeList extends React.Component {
   };
   constructor(props) {
     super(props);
-    //this.props.getUnivNoticeList(props.univ, props.member);
     this.props.getHomeNotice(props.member)
   };
 
@@ -35,17 +32,6 @@ class HomeNoticeList extends React.Component {
       Actions.login();
       return;
     }
-  }
-
-  /**
-    * Fetch Data from API, saving to Redux
-    */
-  fetchUniv = (currentUnivId, member) => {
-    return this.props.getHomeNotice(currentUnivId, member, 'univ')
-      .catch((err) => {
-        console.log(`Error: ${err}`);
-        return this.props.setError(err);
-      });
   }
 
   render = () => {
@@ -69,8 +55,6 @@ const mapStateToProps = state => ({
   member: state.member || {},
 });
 const mapDispatchToProps = {
-  getUnivTotal,
-  getUnivNoticeList,
   setError,
   getHomeNotice,
 };

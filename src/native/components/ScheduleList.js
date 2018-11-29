@@ -55,6 +55,7 @@ class ScheduleList extends React.Component {
         // Error
         if (error) return <Error content={error}/>;
         const {error, loading, univ} = this.props;
+        const now = Date.now();
 
         return (
             <Container>
@@ -76,17 +77,17 @@ class ScheduleList extends React.Component {
                                         </ListItem>
                                     }
                                     renderItem={({item, index}) => (
-                                        <ListItem style={{height: 70, paddingLeft:0, marginLeft:0}} onPress={() => this.openArticle('schedule', item)}>
-                                            <Button transparent style={{marginTop:10, height:27,backgroundColor:'#ffffff', borderColor: '#6D41DD', borderWidth: 0.2, borderRadius:15}} disabled>
-                                                <Text style={{fontSize:14, color:'#6D41DD', paddingLeft:5, paddingRight:5, fontWeight:'normal'}}>{moment(item.startDatetimeLong).format("MM / DD")}</Text>
-                                            </Button>
+                                        <ListItem style={{height: 70, paddingLeft:0, marginLeft:0}} onPress={() => this.openArticle('notice', item)}>
+                                            <Text style={{fontSize:14, color:'#6D41DD', paddingLeft:5, fontWeight:'normal', paddingBottom:5, width:60}}>
+                                                {moment(item.startDatetimeLong).format("MM / DD")}
+                                            </Text>
                                             <Left>
                                                 <Body style={{marginTop:0}}>
                                                 <Text numberOfLines={1} ellipsizeMode='tail' style={{fontSize:15, fontWeight:'100', color:'#000000'}}>{item.title}</Text>
                                                 <Text numberOfLines={1} ellipsizeMode='tail' style={{fontSize:13, marginTop:5, color:'#9a9a9a', fontWeight:'100'}}>
                                                     {item.boardName}
-                                                    {item.joinerList && item.joinerList.length !== 0 ? ' 참석 ' + item.joinerList.length : ''}
-                                                    {item.comment && item.comment.length !== 1 ? ' 댓글 ' + item.comment.length : ''}
+                                                    {item.joinerList && item.joinerList.length > 0 ? ' 참석 ' + item.joinerList.length : ''}
+                                                    {item.comment && item.comment.length > 0 ? ' 댓글 ' + item.comment.length : ''}
                                                 </Text>
                                                 </Body>
                                                 <Thumbnail small source={{uri: item.boardThumb}} />
@@ -113,17 +114,17 @@ class ScheduleList extends React.Component {
                                         </ListItem>
                                     }
                                     renderItem={({item, index}) => (
-                                        <ListItem style={{height: 70, paddingLeft:0, marginLeft:0}} onPress={() => this.openArticle('schedule', item)}>
-                                            <Button transparent style={{marginTop:10, height:27,backgroundColor:'#ffffff', borderColor: '#9b9b9b', borderWidth: 0.2, borderRadius:15}} disabled>
-                                                <Text style={{fontSize:14, color:'#9b9b9b', paddingLeft:5, paddingRight:5, fontWeight:'normal'}}>{moment(item.startDatetimeLong).format("MM / DD")}</Text>
-                                            </Button>
+                                        <ListItem style={{height: 70, paddingLeft:0, marginLeft:0}} onPress={() => this.openArticle('notice', item)}>
+                                            <Text style={{fontSize: 14, color: '#9b9b9b', paddingLeft: 5, paddingRight: 5, fontWeight: 'normal', width:60}}>
+                                                {now < item.endDatetimeLong ? '진행중' : moment(item.startDatetimeLong).format("MM / DD")}
+                                            </Text>
                                             <Left>
                                                 <Body style={{marginTop:0}}>
                                                 <Text numberOfLines={1} ellipsizeMode='tail' style={{fontSize:15, fontWeight:'100', color:'#9b9b9b'}}>{item.title}</Text>
                                                 <Text numberOfLines={1} ellipsizeMode='tail' style={{fontSize:13, marginTop:5, color:'#9a9a9a', fontWeight:'100'}}>
                                                     {item.boardName}
                                                     {item.joinerList && item.joinerList.length !== 0 ? ' 참석 ' + item.joinerList.length : ''}
-                                                    {item.comment && item.comment.length !== 1 ? ' 댓글 ' + item.comment.length : ''}
+                                                    {item.comment && item.comment.length > 0 ? ' 댓글 ' + item.comment.length : ''}
                                                 </Text>
                                                 </Body>
                                                 <Thumbnail small source={{uri: item.boardThumb}} />

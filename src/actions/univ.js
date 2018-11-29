@@ -1,6 +1,6 @@
 import {Firebase, Firestore, FirebaseStorage} from '../lib/firebase';
 import statusMessage from './status';
-import {Actions} from 'react-native-router-flux';
+import moment from "moment";
 
 export function createArticle(localState, props) {
 
@@ -483,65 +483,6 @@ export function updateBoardMember(localState) {
     });
 }
 
-export function getUnivTotal(currentUnivId, member, sectionType) {
-    if (Firebase === null) return () => new Promise(resolve => resolve());
-
-    const isUniv = sectionType === 'univ';
-    const isHall = sectionType === 'hall';
-    const isClub = sectionType === 'club';
-
-    if (isClub && (!member.clubAuth || member.clubAuth.length === 0)) return () => new Promise(resolve => resolve());
-    const universe = isHall ? 'hall' : member.universe + sectionType;
-
-    return dispatch => new Promise(async resolve => {
-        await statusMessage(dispatch, 'loading', true);
-        let collectionReference = Firestore.collection(universe);
-
-        let boardList = [];
-        if (!isHall) {
-            const boardListSnapshots = await collectionReference.get();
-            member[sectionType + 'Auth'].map(auth => {
-                boardListSnapshots.docs.forEach(doc => {
-                    if (auth.boardId === doc.id) {
-                        boardList.push({...doc.data(), docId: doc.id});
-                    }
-                });
-            });
-        } else {
-            currentUnivId = 'total';
-            boardList.push({docId: 'total'})
-        }
-
-        if (boardList.length === 0) {
-            await statusMessage(dispatch, 'loading', false);
-            return resolve();
-        }
-        if (!currentUnivId || currentUnivId === 'default') currentUnivId = boardList[0].docId;
-        let documentReference = collectionReference.doc(currentUnivId);
-
-        const noticeDocument = await documentReference.collection("notice").where("isNotice", "==", true).orderBy("createDateTime", 'desc').limit(3).get();
-        let noticeList = [];
-        noticeDocument.docs.forEach(doc => {
-            noticeList.push({...doc.data(), docId: doc.id});
-        });
-        const scheduleDocument = await documentReference.collection("notice").where("isSchedule", "==", true).orderBy("createDateTime", 'desc').limit(1).get();
-        let scheduleList = [];
-        scheduleDocument.docs.forEach(doc => {
-            scheduleList.push({...doc.data(), docId: doc.id});
-        });
-        await statusMessage(dispatch, 'loading', false);
-        return resolve(dispatch({
-            type: sectionType.toUpperCase() + '_TOTAL',
-            data: {
-                boardList: boardList,
-                noticeList: noticeList,
-                scheduleList: scheduleList,
-                currentUnivId: currentUnivId,
-            },
-        }));
-    });
-}
-
 export function getBoardList(currentUnivId, member, sectionType) {
     if (Firebase === null) return () => new Promise(resolve => resolve());
 
@@ -719,15 +660,11 @@ export function getArticleListMore(currentUnivId, member, sectionType, lastUnivA
     });
 }
 
-export function getUnivNoticeList(univ, member, sectionType) {
+export function getUnivNoticeList(member, boardItem) {
     if (Firebase === null) return () => new Promise(resolve => resolve());
-    const isUniv = sectionType === 'univ';
-    const isHall = sectionType === 'hall';
-    const isClub = sectionType === 'club';
+    const universe = boardItem.sectionType === 'hall' ? 'hall' : member.universe + boardItem.sectionType;
 
-    const universe = isHall ? 'hall' : member.universe + sectionType;
-
-    return dispatch => new Promise(async resolve => await Firestore.collection(universe).doc(univ.currentUnivId).collection("notice").where("isNotice", "==", true).orderBy("createDateTime", 'desc').limit(10)
+    return dispatch => new Promise(async resolve => await Firestore.collection(universe).doc(boardItem.docId).collection("notice").where("isNotice", "==", true).orderBy("createDateTime", 'desc').limit(10)
         .get().then(function (documentSnapshots) {
             let dataList = [];
             documentSnapshots.docs.forEach(doc => {
@@ -751,17 +688,16 @@ export function getScheduleDetailList(member, boardItem) {
 
     return dispatch => new Promise(async resolve => {
         await statusMessage(dispatch, 'loading', true);
-
-        const scheduleDetailListData = await Firestore.collection(universe).doc(boardItem.docId).collection('notice').where("isSchedule", "==", true).limit(10).get();
+        const scheduleDetailListData = await Firestore.collection(universe).doc(boardItem.docId).collection('notice').where("endDatetimeLong", ">", moment().subtract(7, 'days').valueOf()).where("isSchedule", "==", true).limit(10).get();
         let beforeScheduleList = [];
         let afterScheduleList = [];
         const now = Date.now();
         scheduleDetailListData.docs.forEach(article => {
             const articleData = article.data();
             if (articleData.startDatetimeLong > now) {
-                afterScheduleList.push({...articleData, currentUnivId: boardItem.docId, sectionType: 'univ'})
+                afterScheduleList.push({...articleData, currentUnivId: boardItem.docId, sectionType: 'univ', docId:article.id})
             } else {
-                beforeScheduleList.push({...articleData, currentUnivId: boardItem.docId, sectionType: 'univ'})
+                beforeScheduleList.push({...articleData, currentUnivId: boardItem.docId, sectionType: 'univ', docId:article.id})
             }
         });
 

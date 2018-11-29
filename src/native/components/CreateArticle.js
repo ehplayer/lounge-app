@@ -157,11 +157,10 @@ class CreateArticle extends React.Component {
             [name]: val,
         });
     };
-    changeDatetime = (startDatetime, startDatetimeLong) => {
+    changeDatetime = (dateTime) => {
         this.setState({
             ...this.state,
-            startDatetime: startDatetime,
-            startDatetimeLong: startDatetimeLong,
+            ...dateTime
         });
     };
 
@@ -176,7 +175,7 @@ class CreateArticle extends React.Component {
 
         return (
             <Container>
-                <KeyboardAwareScrollView enableOnAndroid enableAutomaticScroll extraScrollHeight={250}
+                <KeyboardAwareScrollView enableOnAndroid extraScrollHeight={180}
                                          keyboardShouldPersistTaps={'handled'}
                 >
                     {error && <Messages message={error}/>}
@@ -285,9 +284,7 @@ class CreateArticle extends React.Component {
                                             }
                                         }}
                                         minuteInterval={10}
-                                        onDateChange={(datetime, origin) => {
-                                            this.changeDatetime(datetime, origin.valueOf())
-                                        }}
+                                        onDateChange={(datetime, origin) => this.changeDatetime({startDatetime:datetime, startDatetimeLong:origin.valueOf()})}
                                         locale='ko'
                                         showIcon={false}
                                         minDate={new Date()}
@@ -309,9 +306,7 @@ class CreateArticle extends React.Component {
                                             }
                                         }}
                                         minuteInterval={10}
-                                        onDateChange={(datetime, origin) => {
-                                            this.handleChange('endDatetime', datetime);
-                                        }}
+                                        onDateChange={(datetime, origin) => this.changeDatetime({endDatetime:datetime, endDatetimeLong:origin.valueOf()})}
                                         locale='ko'
                                         showIcon={false}
                                         minDate={this.state.startDatetime || new Date()}

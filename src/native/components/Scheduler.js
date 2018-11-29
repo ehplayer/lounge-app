@@ -42,9 +42,9 @@ class Scheduler extends React.Component {
                   <Text style={{color: '#6D41DD'}}>{item.mbaType}</Text>
                   <Text note>{item.className}</Text>
                   </Body>
-                  <Right style={{borderBottomWidth:0,justifyContent:'center', width:'30%'}}>
+                  <Left style={{borderBottomWidth:0,justifyContent:'flex-start', width:'30%'}}>
                     <Text note numberOfLines={3} ellipsizeMode='tail'>{item.company}</Text>
-                  </Right>
+                  </Left>
                 </ListItem>
               )}
               keyExtractor={(item) => item.docId}

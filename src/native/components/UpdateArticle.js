@@ -176,7 +176,7 @@ class UpdateArticle extends React.Component {
         const isAdmin = currentBoardAuth && currentBoardAuth.authType === 'S';
         return (
             <Container>
-                <KeyboardAwareScrollView enableOnAndroid enableAutomaticScroll extraScrollHeight={250}
+                <KeyboardAwareScrollView enableOnAndroid extraScrollHeight={180}
                                          keyboardShouldPersistTaps={'handled'}
                 >
                     {error && <Messages message={error}/>}

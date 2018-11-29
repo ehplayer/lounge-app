@@ -43,7 +43,7 @@ class ManageBoard extends React.Component {
 
   constructor(props) {
     super(props);
-    const boardItem = props.menu && props.menu.boardList[0];
+    const boardItem = props.menu && props.menu.boardList && props.menu.boardList[0];
     this.state = {
         member: props.member,
         currentBoardItem: boardItem,
@@ -117,38 +117,16 @@ class ManageBoard extends React.Component {
     }
   }
 
-  handleAuthWaiting = (index, isApprove) => {
-    if(isApprove){
-      let joinMemberList = this.state.currentBoardItem.joinMemberList || [];
-      joinMemberList.push(this.state.currentBoardItem.authWaiting[index]);
-      this.handleChange('joinMemberList', joinMemberList);
-
-      let addedJoinMemberList = this.state.currentBoardItem.addedJoinMemberList || [];
-      addedJoinMemberList.push(this.state.currentBoardItem.authWaiting[index]);
-      this.handleChange('addedJoinMemberList', addedJoinMemberList);
-    }
-
-    const authWaiting = this.state.currentBoardItem.authWaiting;
-    authWaiting.splice(index, 1);
-    this.handleChange('authWaiting', authWaiting)
-  }
-  removeJoinMember = (index) => {
-    const joinMemberList = this.state.currentBoardItem.joinMemberList;
-    const removedJoinMemberList = this.state.currentBoardItem.removedJoinMemberList || [];
-    removedJoinMemberList.push(joinMemberList[index]);
-    this.handleChange('removedJoinMemberList', removedJoinMemberList)
-
-    joinMemberList.splice(index, 1);
-    this.handleChange('joinMemberList', joinMemberList);
-
-  };
-
-  onChangeBoard = (index, value) => {
-      this.setState({
-          ...this.state,
-          currentBoardItem: this.props.menu.boardList[index]
-      });
-  };
+   onChangeBoard = (index, value) => {
+        const boardItem = this.props.menu.boardList[index];
+        this.setState({
+            ...this.state,
+            currentBoardItem: boardItem,
+            originalBoardItem: boardItem,
+            staffList: boardItem.staffMemberList,
+            removedStaffList:[],
+        });
+    };
 
   renderRow(boardItem) {
       return (
@@ -204,7 +182,7 @@ class ManageBoard extends React.Component {
                                defaultValue={currentBoardItem && currentBoardItem.name}
                                renderButtonText={(rowData) => rowData.name}
                                renderRow={this.renderRow.bind(this)}
-                               renderSeparator={(sectionID, rowID) => this.renderSeparator(sectionID, rowID, menu.boardList.length)}
+                               //renderSeparator={(sectionID, rowID) => this.renderSeparator(sectionID, rowID, menu.boardList.length)}
                                adjustFrame={(adjust) => {return {...adjust, left:0, top: adjust.top + (Platform.OS === 'ios' ? 25 : 0)};}}
                                onSelect={(index, value) => this.onChangeBoard(index, value)}
                 />

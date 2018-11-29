@@ -197,6 +197,7 @@ const Index = (
             navBar={SchedulerSearchNavBar}
             component={MemberSearchContainer} Layout={MemberSearchComponent}/>
 
+
         <Drawer
             key="drawer"
             //initial
@@ -205,15 +206,15 @@ const Index = (
             drawerImage={MenuIcon}
         >
             <Scene key="hall" navBar={MenuNavBar} component={HallContainer} Layout={BoardComponent}/>
-            <Scene key="home" navBar={MenuNavBar} component={HomeContainer} Layout={HomeComponent}/>
-            <Scene initial key="univ" navBar={MenuNavBar} component={UnivContainer} Layout={BoardComponent}/>
+            <Scene initial key="home" navBar={MenuNavBar} component={HomeContainer} Layout={HomeComponent}/>
+            <Scene key="univ" navBar={MenuNavBar} component={UnivContainer} Layout={BoardComponent}/>
             <Scene key="club" navBar={MenuNavBar} component={ClubContainer} Layout={BoardComponent}/>
         </Drawer>
         <Scene
             back
             key="noticeList"
             titleColorArray={['#2867ae', '#2867ae']}
-            navBar={TextNavBar} component={NoticeListContainer} Layout={NoticeListComponent}/>
+            navBar={CreateArticleNavBar} component={NoticeListContainer} Layout={NoticeListComponent}/>
 
         <Scene
             back
@@ -232,7 +233,7 @@ const Index = (
             key="scheduleList"
             titleColorArray={['#2867ae', '#2867ae']}
             title="일정"
-            navBar={TextNavBar} component={ScheduleListContainer} Layout={ScheduleListComponent}/>
+            navBar={CreateArticleNavBar} component={ScheduleListContainer} Layout={ScheduleListComponent}/>
 
         <Scene
             back
