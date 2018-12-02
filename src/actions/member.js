@@ -114,7 +114,7 @@ export function getSearchMemberList(name) {
   if (Firebase === null) return () => new Promise(resolve => resolve());
   return dispatch => new Promise( async (resolve) => {
     //const documentSnapshots = await Firestore.collection("users").where('name', '==', name).get();
-    const documentSnapshots = await Firestore.collection("users").orderBy('name').startAt(name).endAt(name + "\uf8ff").get();
+    const documentSnapshots = await Firestore.collection("users").orderBy('name').startAt(name).endAt(name + "\uf8ff").limit(20).get();
     let docList = [];
     documentSnapshots.docs.forEach(doc => {
       docList.push({...doc.data(), docId: doc.id});

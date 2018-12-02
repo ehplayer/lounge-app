@@ -44,7 +44,8 @@ class Scheduler extends React.Component {
                 <Text style={{color:'#cccccc'}}>일치하는 원우가 없습니다.</Text>
               </ListItem> }
               renderItem={({item, index}) => (
-                <ListItem avatar style={{height:70, marginLeft:0, marginRight:0, borderBottomWidth:(index === searchUserList.length -1 ? 0 : 0.3), borderBottomColor:'#dddddd'}}>
+                <ListItem avatar style={{height:70, marginLeft:0, marginRight:0, borderBottomWidth:(index === searchUserList.length -1 ? 0 : 0.3), borderBottomColor:'#dddddd'}}
+                          onPress={() => Actions.otherProfile({docId:item.docId})}>
                   <Left style={{borderBottomWidth:0}}>
                     <Thumbnail small source={{uri: item.thumb}}/>
                   </Left>

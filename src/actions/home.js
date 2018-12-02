@@ -9,7 +9,7 @@ export function getHomeNotice(member) {
   return dispatch => new Promise(async resolve => {
     await statusMessage(dispatch, 'loading', true);
     const homeNoticeListData = await Firestore.collection(member.universe + 'home').doc('notice').get();
-    const homeNotice = homeNoticeListData.data();
+    const homeNotice = homeNoticeListData.data() || {};
     let noticeList = [];
 
     member.univAuth.forEach(auth =>{
@@ -44,7 +44,7 @@ export function getHomeSchedule(member) {
 
     return dispatch => new Promise(async resolve => {
         const homeScheduleListData = await Firestore.collection(member.universe + 'home').doc('schedule').get();
-        const homeSchedule = homeScheduleListData.data();
+        const homeSchedule = homeScheduleListData.data() || {};
         let scheduleList = [];
         const now = Date.now();
 

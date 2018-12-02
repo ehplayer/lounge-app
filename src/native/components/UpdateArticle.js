@@ -73,6 +73,7 @@ class UpdateArticle extends React.Component {
         this.state = {
             ...props.article,
             imageUrlList: props.article.urlList,
+            fileNameList: props.article.fileNameList,
             imageBlobList: [],
         };
 
@@ -148,8 +149,10 @@ class UpdateArticle extends React.Component {
     removeImage = (idx) => {
         const imageUrlList = this.state.imageUrlList;
         const imageBlobList = this.state.imageBlobList;
+        const fileNameList = this.state.fileNameList;
         imageUrlList.splice(idx, 1);
         imageBlobList.splice(idx, 1);
+        fileNameList.splice(idx, 1);
         this.handleChange('imageUrlList', imageUrlList);
         this.handleChange('imageBlob', imageBlobList);
     };

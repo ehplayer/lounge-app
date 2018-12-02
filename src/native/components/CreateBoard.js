@@ -87,12 +87,10 @@ class CreateBoard extends React.Component {
   };
   handleSubmit = () => {
       let errorMessage = '';
-      console.log(this.state.staffMemberList)
-      console.log(this.props.member.staffMemberList)
       if(!this.state.boardName || this.state.boardName === ''){
           errorMessage = '게시판명을 입력해주세요';
           this.handleChange('emailError', true);
-      } else if(!this.props.member.staffMemberList || this.state.member.staffMemberList.length === 0){
+      } else if(!this.props.member.staffMemberList || this.props.member.staffMemberList.length === 0){
           errorMessage = '스탭이 최소 한명은 존재해야 합니다.';
           this.handleChange('emailError', true);
       }

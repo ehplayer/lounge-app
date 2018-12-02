@@ -5,16 +5,17 @@
     "slug": "mba-lounge",
     "icon": "src/images/app-icon.png",
     "privacy": "public",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "splash": {
       "image": "src/images/splash.png",
       "resizeMode": "cover"
     },
     "ios": {
       "bundleIdentifier": "com.mbalounge.lounge",
-      "buildNumber": "4",
+      "buildNumber": "5",
       "infoPlist": {
-        "NSPhotoLibraryUsageDescription": "프로필 사진, 게시글 작성을 위해 사용자의 사진에 접근합니다."
+        "NSPhotoLibraryUsageDescription": "프로필 사진, 게시글 작성을 위해 사용자의 사진에 접근합니다.",
+        "NSCameraUsageDescription": "프로필 사진, 게시글 작성을 위해 사용자의 사진에 접근합니다."
       }
     },
     "android": {

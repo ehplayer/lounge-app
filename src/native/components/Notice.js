@@ -70,6 +70,14 @@ class Notice extends React.Component {
     removeComment = (item) => {
         this.props.removeComment(item, this.props.param, this.props.member);
     };
+
+    staffDeleteArticle = (article) => {
+        this.props.adminDeleteArticle(article, this.props)
+            .then(() => {
+                Actions.pop();
+            })
+            .catch(e => console.log(`Error: ${e}`));
+    };
     handleJoiner = (isJoined, isJoinFinish) => {
         if (isJoinFinish) {
             return;
@@ -90,6 +98,8 @@ class Notice extends React.Component {
         const isJoined = article.joinerList && article.joinerList.find(item => item.docId === member.docId);
         const isJoinFinish = article.joinerList && article.joinerList.length >= article.joinMemberLimit;
         const isMyArticle = article.author.docId === member.docId;
+        const myAuth = member[sectionType + 'Auth'].find(auth => auth.boardId === article.boardDocId);
+        const isStaff = myAuth.authType === 'S';
         return (
             <Container>
                 <KeyboardAwareScrollView
@@ -106,14 +116,20 @@ class Notice extends React.Component {
                                     <Text>{article.author.name}</Text>
                                     <Text note>{moment(article.createDateTime).format("YYYY년 MM월 DD일 A hh:mm")}</Text>
                                     </Body>
-                                    {isMyArticle &&
+                                    {(isMyArticle || isStaff) &&
                                     <TouchableOpacity
-                                        onPress={() => Actions.updateArticle({
-                                            boardType: member.universe + sectionType,
-                                            article: article,
-                                            sectionType: sectionType,
-                                            needBackButtonText: '취소'
-                                        })}
+                                        onPress={() => {
+                                            if(!isMyArticle && isStaff){
+                                                return this.setState({visibleDeleteModal: true})
+                                            }
+                                            return Actions.updateArticle({
+                                                boardType: member.universe + sectionType,
+                                                article: article,
+                                                sectionType: sectionType,
+                                                needBackButtonText: '취소'
+                                            })
+                                        }
+                                        }
                                     >
                                         <Image
                                             style={{width: 20, height: 20, marginLeft: 60, marginBottom: 5}}
@@ -233,7 +249,7 @@ class Notice extends React.Component {
                             {(article.urlList && article.urlList[0]) &&
                             <CardItem cardBody style={{paddingBottom: 10}}>
                                 <Image resizeMode={'contain'} source={{uri: article.urlList[0]}}
-                                       sityle={{height: 300, flex: 1}}/>
+                                       style={{height: 300, flex: 1}}/>
                             </CardItem>
                             }
                             {(article.urlList && article.urlList[1]) &&
@@ -260,7 +276,6 @@ class Notice extends React.Component {
                                        style={{height: 300, flex: 1}}/>
                             </CardItem>
                             }
-
 
                         </Card>
                         <Card transparent>
@@ -331,6 +346,44 @@ class Notice extends React.Component {
                                     }} onPress={() => {
                                         this.removeComment(this.state.removeItem);
                                         this.setState({visibleModal: false})
+                                    }}>
+                                        <Text>확인</Text>
+                                    </Button>
+                                    </Body>
+                                </View>
+                            </Modal>
+                            <Modal
+                                isVisible={this.state.visibleDeleteModal}
+                                onBackdropPress={() => this.setState({visibleDeleteModal: false})}
+                            >
+                                <View style={styles.modalContent}>
+                                    <Text style={{paddingTop: 70, fontSize: 16, fontWeight: '100'}}>현재글을 삭제하시겠습니까?</Text>
+                                    <Body style={{
+                                        alignItems: 'center',
+                                        flexDirection: 'row',
+                                        paddingTop: 70,
+                                        paddingBottom: 40
+                                    }}>
+                                    <Button style={{
+                                        width: 120,
+                                        height: 50,
+                                        justifyContent: 'center',
+                                        borderRadius: 0,
+                                        marginRight: 5,
+                                        backgroundColor: '#dddddd'
+                                    }} onPress={() => this.setState({visibleDeleteModal: false})}>
+                                        <Text>취소</Text>
+                                    </Button>
+                                    <Button style={{
+                                        width: 120,
+                                        height: 50,
+                                        justifyContent: 'center',
+                                        borderRadius: 0,
+                                        marginLeft: 5,
+                                        backgroundColor: bgColor
+                                    }} onPress={() => {
+                                        this.staffDeleteArticle(article);
+                                        this.setState({visibleDeleteModal: false})
                                     }}>
                                         <Text>확인</Text>
                                     </Button>
