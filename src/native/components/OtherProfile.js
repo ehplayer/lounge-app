@@ -53,7 +53,6 @@ class OtherProfileComponent extends React.Component {
                                 </Body>
                             </Left>
                         </ListItem>
-
                         {user.isProfileOpen &&
                         <ListItem noBorder>
                             <Left>
@@ -65,7 +64,8 @@ class OtherProfileComponent extends React.Component {
                                 </Body>
                             </Left>
                         </ListItem>
-                        } {user.isProfileOpen &&
+                        }
+                        {user.isProfileOpen &&
                         <ListItem noBorder>
                             <Left>
                                 <Text style={{paddingLeft: '5%', width: '25%'}}>학번</Text>
@@ -74,7 +74,8 @@ class OtherProfileComponent extends React.Component {
                                 </Body>
                             </Left>
                         </ListItem>
-                        }{user.isProfileOpen &&
+                        }
+                        {user.isProfileOpen &&
                         <ListItem noBorder>
                             <Left>
                                 <Text style={{paddingLeft: '5%', width: '25%'}}>기수</Text>
@@ -83,7 +84,8 @@ class OtherProfileComponent extends React.Component {
                                 </Body>
                             </Left>
                         </ListItem>
-                        }{user.isProfileOpen &&
+                        }
+                        {user.isProfileOpen &&
                         <ListItem noBorder>
                             <Left>
                                 <Text style={{paddingLeft: '5%', width: '25%'}}>MBA과정</Text>
@@ -92,7 +94,8 @@ class OtherProfileComponent extends React.Component {
                                 </Body>
                             </Left>
                         </ListItem>
-                        }{user.isProfileOpen &&
+                        }
+                        {user.isProfileOpen &&
                         <ListItem noBorder>
                             <Left>
                                 <Text style={{paddingLeft: '5%', width: '25%'}}>직장</Text>

@@ -47,7 +47,7 @@ export function getMemberListData(member) {
   return dispatch => new Promise(async (resolve) => {
     return resolve(Firestore.collection("scheduler").doc(member.universe)
       .get().then(async doc => {
-        const userListSnapshots = await Firestore.collection("users").orderBy("name", 'asc').limit(10).get();
+        const userListSnapshots = await Firestore.collection("users").where('authWaiting', '==', false).orderBy("name", 'asc').limit(10).get();
         let userList = [];
         userListSnapshots.docs.forEach(doc => {
           userList.push({...doc.data(), docId: doc.id});
@@ -95,7 +95,6 @@ export function approveUser(userMap) {
 
 export function getOtherUserData(docId) {
     if (Firebase === null) return () => new Promise(resolve => resolve());
-
     return dispatch => new Promise(async resolve => {
         await statusMessage(dispatch, 'loading', true);
         const documentSnapshots = await Firestore.collection('users').doc(docId).get();

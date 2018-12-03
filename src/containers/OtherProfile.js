@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Actions } from 'react-native-router-flux';
-import { logout, getOtherUserData } from '../actions/member';
+import { getOtherUserData } from '../actions/member';
 
 class OtherProfile extends Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,
-    memberLogout: PropTypes.func.isRequired,
   getOtherUserData: PropTypes.func.isRequired,
     member: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
@@ -32,7 +30,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-    memberLogout: logout,
     getOtherUserData,
 };
 
