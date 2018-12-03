@@ -118,7 +118,7 @@ class CreateArticle extends React.Component {
             return false;
         }
         this.props.createArticle(this.state, this.props)
-            .then(() => Actions.pop())
+            .then(() => Actions.pop({needUpdate:true}))
             .catch(e => console.log(`Error: ${e}`));
     };
 

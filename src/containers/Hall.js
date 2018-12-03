@@ -31,6 +31,9 @@ class HallContainer extends React.Component {
     };
 
     componentWillReceiveProps (nextProps){
+        if(nextProps.status.needUpdate){
+            this.fetchData('total', nextProps.member);
+        }
         if(!nextProps.member.name){
             Actions.login();
         }

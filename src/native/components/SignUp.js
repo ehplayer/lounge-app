@@ -217,7 +217,7 @@ class SignUp extends React.Component {
                             <Left>
                                 <Text style={{paddingLeft: '5%', width: '30%', color: this.state.nameError ? 'red' : '#000000'}}>이름</Text>
                                 <Body style={{flexDirection: 'row'}}>
-                                <Input style={styles.signUpInput} value={this.state.name} onChangeText={v => this.handleChange('name', v)}/>
+                                <Input style={styles.signUpInput} value={this.state.name} onChangeText={v => this.handleChange('name', v)} placeholder={'홍길동'}/>
                                 </Body>
                             </Left>
                         </ListItem>
@@ -297,7 +297,7 @@ class SignUp extends React.Component {
                             <Left>
                                 <Text style={{paddingLeft: '5%', width: '25%'}}>기수</Text>
                                 <Body style={{flexDirection: 'row'}}>
-                                <Input style={styles.signUpInput} value={this.state.className} onChangeText={v => this.handleChange('className', v)} />
+                                <Input style={styles.signUpInput} value={this.state.className} onChangeText={v => this.handleChange('className', v)} placeholder={'OO기'} />
                                 </Body>
                             </Left>
                         </ListItem>
@@ -305,7 +305,7 @@ class SignUp extends React.Component {
                             <Left>
                                 <Text style={{paddingLeft: '5%', width: '25%'}}>MBA과정</Text>
                                 <Body style={{flexDirection: 'row'}}>
-                                <Input style={styles.signUpInput} value={this.state.mbaType} onChangeText={v => this.handleChange('mbaType', v)}/>
+                                <Input style={styles.signUpInput} value={this.state.mbaType} onChangeText={v => this.handleChange('mbaType', v)} placeholder={'CMBA'}/>
                                 </Body>
                             </Left>
                         </ListItem>

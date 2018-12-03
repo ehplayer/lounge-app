@@ -10,7 +10,6 @@ class CreateArticle extends Component {
     createArticle: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
     errorMessage: PropTypes.string,
-    successMessage: PropTypes.string,
   };
 
   static defaultProps = {
@@ -25,7 +24,6 @@ class CreateArticle extends Component {
       member,
       isLoading,
       errorMessage,
-      successMessage,
       boardType,
       boardItem,
     } = this.props;
@@ -37,7 +35,6 @@ class CreateArticle extends Component {
       member={member}
       loading={isLoading}
       error={errorMessage}
-      success={successMessage}
       createArticle={createArticle}
     />);
   }

@@ -70,10 +70,10 @@ class ScheduleList extends React.Component {
                                     ListHeaderComponent={
                                         <ListItem style={{height: 40, paddingLeft:0, marginLeft:0,}}>
                                             <Text style={{width: '90%', paddingLeft:0, marginLeft:0, paddingBottom:20}}>예정된 일정</Text>
-                                            <Image
-                                                style={{width: 25, height: 20, marginLeft:10}}
-                                                resizeMode="contain"
-                                                source={ArrowDown}/>
+                                            {/*<Image*/}
+                                                {/*style={{width: 25, height: 20, marginLeft:10}}*/}
+                                                {/*resizeMode="contain"*/}
+                                                {/*source={ArrowDown}/>*/}
                                         </ListItem>
                                     }
                                     renderItem={({item, index}) => (

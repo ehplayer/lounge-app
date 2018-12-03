@@ -102,6 +102,7 @@ export function createArticle(localState, props) {
                     });
             }
             statusMessage(dispatch, 'loading', false);
+            statusMessage(dispatch, 'needUpdate', true);
             return resolve();
         }).catch(error => console.log(error));
 
@@ -566,6 +567,7 @@ export function getBoardList(currentUnivId, member, sectionType) {
             boardList.push({...data, docId: 'total'});
         }
         await statusMessage(dispatch, 'loading', false);
+        await statusMessage(dispatch, 'needUpdate', false);
         return resolve(dispatch({
             type: sectionType.toUpperCase() + '_TOTAL',
             data: {
