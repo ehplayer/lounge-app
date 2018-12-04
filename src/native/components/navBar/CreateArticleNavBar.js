@@ -53,7 +53,7 @@ const mapStateToProps = state => ({
   univ: state.univ || {},
   univNotice: state.univNotice || {},
   member: state.member || {},
-  currentUnivId: state.currentUnivId || '전체',
+  currentUnivId: state.currentUnivId || 'total',
 });
 
 export default connect(mapStateToProps)(CreateArticleNavBar);

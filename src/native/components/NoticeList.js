@@ -37,7 +37,7 @@ class NoticeList extends React.Component {
   };
   openArticle = (boardType, item) => {
     return Actions.notice({
-      title: item.title,
+      title: item.boardName,
       param: {
         sectionType: this.props.sectionType,
         universe:this.props.member.universe,

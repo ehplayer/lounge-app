@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {SafeAreaView, Platform, BackHandler, DeviceEventEmitter, StyleSheet, Dimensions} from 'react-native';
 import PropTypes from 'prop-types';
 import {Provider} from 'react-redux';
@@ -9,10 +9,9 @@ import {Body, Button, Root, StyleProvider, Text, View} from 'native-base';
 import Routes from './routes/index';
 import platform from '../../native-base-theme/variables/platform'
 import getTheme from "../../native-base-theme/components";
-import { PersistGate } from 'redux-persist/es/integration/react';
+import {PersistGate} from 'redux-persist/es/integration/react';
 import {Actions} from "react-native-router-flux";
 import Modal from "react-native-modal";
-import {LinearGradient} from "expo";
 // Hide StatusBar on Android as it overlaps tabs
 //if (Platform.OS === 'ios') StatusBar.setHidden(true);
 
@@ -21,14 +20,16 @@ class App extends Component {
         store: PropTypes.shape({}).isRequired,
         persistor: PropTypes.shape({}).isRequired,
     };
-    constructor(props){
+
+    constructor(props) {
         super(props);
         this.backPressSubscriptions = new Set();
 
         this.state = {
-            visibleExitModal : false,
+            visibleExitModal: false,
         };
     }
+
     componentDidMount() {
         if (Platform.OS === 'android') {
             // there is a bug/workaround on android https://github.com/facebook/react-native/issues/3223#issuecomment-355064410
@@ -64,22 +65,19 @@ class App extends Component {
     }
 
     handleHardwareBack = (e) => {
-        console.log(Actions.currentScene)
-        if(Actions.currentScene === 'login' ||
+        if (Actions.currentScene === 'login' ||
             Actions.currentScene === '_home' ||
             Actions.currentScene === '_hall' ||
             Actions.currentScene === '_univ' ||
-            Actions.currentScene === '_club'){
+            Actions.currentScene === '_club') {
 
             this.setState({
                 ...this.state,
                 visibleExitModal: !this.state.visibleExitModal,
             });
-            Actions[Actions.currentScene.replace('_', '')]();
-        } else{
+        } else {
             Actions.pop();
         }
-
         return true;
     };
     exitApp = () => {
@@ -90,14 +88,15 @@ class App extends Component {
         BackHandler.exitApp();
     }
 
-    render(){
+    render() {
         const {store, persistor} = this.props;
 
         return <Root>
             <Provider store={store}>
                 <PersistGate loading={null} persistor={persistor}>
                     <StyleProvider style={getTheme(platform)}>
-                        <SafeAreaView style={{flex: 1, backgroundColor: '#fff', paddingTop: Platform.OS === 'android' ? 24 : 0}}>
+                        <SafeAreaView
+                            style={{flex: 1, backgroundColor: '#fff', paddingTop: Platform.OS === 'android' ? 24 : 0}}>
                             <Router>
                                 {Routes}
                             </Router>
@@ -106,12 +105,31 @@ class App extends Component {
                                 onBackdropPress={() => this.setState({visibleExitModal: false})}
                             >
                                 <View style={styles.exitModal}>
-                                    <Text style={{paddingTop:70, fontSize:16, fontWeight:'100'}}>앱을 종료하시겠습니까?</Text>
-                                    <Body style={{alignItems: 'center', flexDirection: 'row', paddingTop: 70, paddingBottom: 40}}>
-                                    <Button style={{width:120, height:50, justifyContent:'center', borderRadius:0, marginRight:5, backgroundColor:'#dddddd'}} onPress={() => this.setState({visibleExitModal: false})}>
+                                    <Text style={{paddingTop: 70, fontSize: 16, fontWeight: '100'}}>앱을 종료하시겠습니까?</Text>
+                                    <Body style={{
+                                        alignItems: 'center',
+                                        flexDirection: 'row',
+                                        paddingTop: 70,
+                                        paddingBottom: 40
+                                    }}>
+                                    <Button style={{
+                                        width: 120,
+                                        height: 50,
+                                        justifyContent: 'center',
+                                        borderRadius: 0,
+                                        marginRight: 5,
+                                        backgroundColor: '#dddddd'
+                                    }} onPress={() => this.setState({visibleExitModal: false})}>
                                         <Text>취소</Text>
                                     </Button>
-                                    <Button style={{width:120, height:50, justifyContent:'center', borderRadius:0, marginLeft:5, backgroundColor: '#535acb'}} onPress={this.exitApp}>
+                                    <Button style={{
+                                        width: 120,
+                                        height: 50,
+                                        justifyContent: 'center',
+                                        borderRadius: 0,
+                                        marginLeft: 5,
+                                        backgroundColor: '#535acb'
+                                    }} onPress={this.exitApp}>
                                         <Text>확인</Text>
                                     </Button>
                                     </Body>
@@ -124,6 +142,7 @@ class App extends Component {
         </Root>
     }
 }
+
 const styles = StyleSheet.create({
     exitModal: {
         backgroundColor: "white",
@@ -132,7 +151,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         borderRadius: 4,
         borderColor: "rgba(0, 0, 0, 0.1)",
-        height:260
+        height: 260
     },
 });
 

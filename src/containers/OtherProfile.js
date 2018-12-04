@@ -19,14 +19,15 @@ class OtherProfile extends Component {
   }
 
   render = () => {
-    const { Layout, member, memberLogout, title} = this.props;
+    const { Layout, member, memberLogout, title, status} = this.props;
 
-    return <Layout member={member} logout={memberLogout} title={title}/>;
+    return <Layout member={member} logout={memberLogout} title={title} loading={status.loading}/>;
   }
 }
 
 const mapStateToProps = state => ({
   member: state.member || {},
+  status: state.status || {},
 });
 
 const mapDispatchToProps = {

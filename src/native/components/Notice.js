@@ -99,7 +99,7 @@ class Notice extends React.Component {
         const isJoinFinish = article.joinerList && article.joinerList.length >= article.joinMemberLimit;
         const isMyArticle = article.author.docId === member.docId;
         const myAuth = member[sectionType + 'Auth'].find(auth => auth.boardId === article.boardDocId);
-        const isStaff = myAuth.authType === 'S';
+        const isStaff = myAuth && myAuth.authType === 'S';
         return (
             <Container>
                 <KeyboardAwareScrollView
@@ -221,7 +221,7 @@ class Notice extends React.Component {
                                         width: '100%',
                                         borderRadius: 0
                                     }}
-                                            onPress={() => this.handleJoiner(isJoined, isJoinFinish)}>
+                                            onPress={() => this.handleJoiner(isJoined, isJoinFinish && article.isLimitMember)}>
                                         <Text style={{
                                             fontSize: 15,
                                             paddingRight: 15,

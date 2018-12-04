@@ -23,4 +23,13 @@ export default {
     listHeaderListItem_Image: {
         width: 17, height: 17, marginLeft:10
     },
+    exitModal: {
+        backgroundColor: "white",
+        padding: 22,
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 4,
+        borderColor: "rgba(0, 0, 0, 0.1)",
+        height: 260
+    },
 };

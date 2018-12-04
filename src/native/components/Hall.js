@@ -49,7 +49,7 @@ class HallComponent extends React.Component {
     openArticle = (boardType, item) => {
         console.log(item)
         return Actions.notice({
-            title: item.title,
+            title: item.boardName,
             param: {
                 universe: 'hall',
                 currentUnivId: 'total',

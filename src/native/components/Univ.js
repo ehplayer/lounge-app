@@ -47,7 +47,7 @@ class UnivComponent extends React.Component {
 
   openArticle = (boardType, item) => {
     return Actions.notice({
-      title: item.title,
+      title: item.boardName,
       param: {
         universe:this.props.member.universe,
         currentUnivId:this.props.univ.currentUnivId,
