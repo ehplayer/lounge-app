@@ -1,43 +1,45 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { logout, getMemberData } from '../actions/member';
-import { univLogout } from '../actions/univ';
+import {connect} from 'react-redux';
+import {logout, getMemberData} from '../actions/member';
+import {univLogout, menuLogout} from '../actions/univ';
 
 class Profile extends Component {
-  static propTypes = {
-    Layout: PropTypes.func.isRequired,
-    memberLogout: PropTypes.func.isRequired,
-    getMemberData: PropTypes.func.isRequired,
-    member: PropTypes.shape({
-      loading: PropTypes.bool.isRequired,
-      error: PropTypes.string,
-    }).isRequired,
-  }
+    static propTypes = {
+        Layout: PropTypes.func.isRequired,
+        memberLogout: PropTypes.func.isRequired,
+        getMemberData: PropTypes.func.isRequired,
+        member: PropTypes.shape({
+            loading: PropTypes.bool.isRequired,
+            error: PropTypes.string,
+        }).isRequired,
+    }
 
-  componentDidMount = () => {
-    this.props.getMemberData();
-  }
+    componentDidMount = () => {
+        this.props.getMemberData();
+    }
 
-  logout = () => {
-    this.props.univLogout();
-    this.props.memberLogout();
-  };
+    logout = () => {
+        this.props.univLogout();
+        this.props.memberLogout();
+        this.props.menuLogout();
+    };
 
-  render = () => {
-    const { Layout, member, title} = this.props;
-    return <Layout member={member} logout={this.logout} title={title}/>;
-  }
+    render = () => {
+        const {Layout, member, title} = this.props;
+        return <Layout member={member} logout={this.logout} title={title}/>;
+    }
 }
 
 const mapStateToProps = state => ({
-  member: state.member || {},
+    member: state.member || {},
 });
 
 const mapDispatchToProps = {
-  memberLogout: logout,
-  univLogout: univLogout,
-  getMemberData,
+    memberLogout: logout,
+    univLogout: univLogout,
+    menuLogout,
+    getMemberData,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

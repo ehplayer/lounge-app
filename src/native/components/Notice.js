@@ -217,7 +217,7 @@ class Notice extends React.Component {
                                     <Button transparent style={{
                                         height: 40,
                                         justifyContent: 'center',
-                                        backgroundColor: isJoinFinish ? '#cccccc' : bgColor,
+                                        backgroundColor: isJoinFinish && article.isLimitMember ? '#cccccc' : bgColor,
                                         width: '100%',
                                         borderRadius: 0
                                     }}
@@ -226,7 +226,7 @@ class Notice extends React.Component {
                                             fontSize: 15,
                                             paddingRight: 15,
                                             color: '#ffffff'
-                                        }}>{isJoinFinish ? '마감' : isJoined ? '참석취소' : '참석하기'}</Text>
+                                        }}>{isJoinFinish && article.isLimitMember ? '마감' : isJoined ? '참석취소' : '참석하기'}</Text>
                                     </Button>
                                 </Left>
                             </CardItem>

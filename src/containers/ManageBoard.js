@@ -22,17 +22,10 @@ class ManageBoard extends React.Component {
       Actions.login();
       return;
     }
+    this.props.getJoiningBoardList(props.member)
     this.props.resetStaffMemberList();
-    this.fetchBoardData(props.member);
   };
 
-  fetchBoardData = (member) => {
-    return this.props.getJoiningBoardList(member)
-      .catch((err) => {
-        console.log(`Error: ${err}`);
-        return this.props.setError(err);
-      });
-  }
 
   render = () => {
     const { Layout, menu, member, status, removeStaffMemberList, updateBoard} = this.props;

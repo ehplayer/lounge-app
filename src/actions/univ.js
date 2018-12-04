@@ -774,6 +774,7 @@ export function getScheduleDetailList(member, boardItem) {
 export function getJoiningBoardList(member) {
     if (Firebase === null) return () => new Promise(resolve => resolve());
     return dispatch => new Promise(async resolve => {
+        await statusMessage(dispatch, 'loading', true);
         const documentSnapshots = await Firestore.collection(member.universe + 'univ').get().catch(error => {
             console.error(error);
         });
@@ -799,7 +800,7 @@ export function getJoiningBoardList(member) {
                 }
             });
         });
-
+        await statusMessage(dispatch, 'loading', false);
         return resolve(dispatch({
             type: 'JOINING_BOARD_REPLACE',
             boardList: dataList,
@@ -953,7 +954,6 @@ export function addJoiner(param, member) {
 
     return dispatch => new Promise(async (resolve, reject) => {
         await statusMessage(dispatch, 'loading', true);
-        console.log(param)
         const documentRef = await Firestore.collection(param.sectionType === 'hall' ? 'hall' : param.universe + param.sectionType).doc(param.currentUnivId).collection(param.boardType).doc(param.docId);
         const documentSnapShat = await documentRef.get();
         const boardItem = documentSnapShat.data();
@@ -1028,6 +1028,14 @@ export function setError(message) {
 export function univLogout() {
     return dispatch => new Promise((resolve, reject) => {
         return dispatch({type: 'UNIV_RESET'});
+    }).catch(async (err) => {
+        await statusMessage(dispatch, 'error', err.message);
+        throw err.message;
+    });
+}
+export function menuLogout() {
+    return dispatch => new Promise((resolve, reject) => {
+        return dispatch({type: 'MENU_RESET'});
     }).catch(async (err) => {
         await statusMessage(dispatch, 'error', err.message);
         throw err.message;

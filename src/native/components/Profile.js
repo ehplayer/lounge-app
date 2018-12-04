@@ -1,24 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Body,
-  Button,
-  CheckBox,
-  Container,
-  Content,
-  Form,
-  Input,
-  Left,
-  ListItem,
-  Right,
-  Text,
-  Thumbnail
-} from 'native-base';
+import {Body, Button, Container, Content, Form, Left, ListItem, Text, Thumbnail} from 'native-base';
 import checkedIcon from '../../images/checkO.png'
 import uncheckedIcon from '../../images/checkX.png'
 import {Actions} from 'react-native-router-flux';
-
-import Loading from './Loading';
 import {Image} from "react-native";
 
 class ProfileHome extends React.Component {

@@ -123,70 +123,80 @@ class BoardListComponent extends React.Component {
             ...this.state,
             visibleModal: true,
             isJoinConfirm: true,
-            currentSectionType : sectionType,
+            currentSectionType: sectionType,
             boardItem: boardItem,
             modalMessage: '정말 가입하시겠습니까?'
         });
     }
 
-    out= (sectionType, boardItem) =>{
+    out = (sectionType, boardItem) => {
         this.setState({
             ...this.state,
             visibleModal: true,
             isJoinConfirm: false,
-            currentSectionType : sectionType,
+            currentSectionType: sectionType,
             boardItem: boardItem,
             modalMessage: '정말 탈퇴하시겠습니까?'
         });
     }
-    submit = () =>{
+    submit = () => {
         this.setState({
             ...this.state,
             visibleModal: false,
         });
         return this.state.isJoinConfirm ? this.props.applyBoard(this.state.currentSectionType, this.state.boardItem, this.props.member)
-                            : this.props.outBoard(this.state.currentSectionType, this.state.boardItem, this.props.member);
+            : this.props.outBoard(this.state.currentSectionType, this.state.boardItem, this.props.member);
     }
-    renderEmptyComponent = () => <ListItem noBorder style={{height: 70, justifyContent: 'center'}}><Text style={{color: '#cccccc'}}>검색결과가 없습니다.</Text></ListItem>;
-    renderTitleComponent = (title) => <ListItem style={{height: 50, marginLeft: 0, marginRight: 0}}><Text style={{width: '95%'}}>{title}</Text></ListItem>
-    renderItemComponent = (item, index, length, sectionType) => (
-        <ListItem avatar style={{
-            height: 70,
-            marginLeft: 0,
-            marginRight: 0,
-            borderBottomWidth: (index === length - 1 ? 0 : 0.3),
-            borderBottomColor: '#cccccc'
-        }}>
-            <Left style={{borderBottomWidth: 0}}>
-                {item.thumb && item.thumb !== '#' ?
-                    <Thumbnail source={{uri: item.thumb}}
-                               style={{width: 44, height: 44, borderRadius: 22}}/>
-                    :
-                    <Button style={{
-                        width: 44,
-                        height: 44,
-                        borderRadius: 40,
-                        backgroundColor: '#cccccc'
-                    }}/>
-                }
-            </Left>
-            <Body style={{borderBottomWidth: 0, justifyContent: 'center', width: '50%'}}>
-            <Text>{item.name}</Text>
-            </Body>
-            <Right style={{borderBottomWidth: 0, width: 100, margin: 0, padding: 0}}>
-                <Body style={{padding: 0, margin: 0}}>
-                {this.isJoined(item, sectionType + 'Auth')
-                    ? <Button transparent onPress={() => this.out(sectionType, item)} style={styles.joinedButton}><Text
-                        style={{color: '#333333', fontWeight: '200'}}>탈퇴</Text></Button>
-                    : this.isJoinWaiting(item, sectionType) ?
-                        <Button transparent disabled style={styles.waitingButton}><Text
-                            style={{color: '#333333', fontWeight: '200'}}>대기중</Text></Button>
-                        : <Button transparent onPress={() => this.join(sectionType, item)}
-                                  style={styles.joiningButton}><Text style={{color: '#394eb7', fontWeight: '200'}}>가입</Text></Button>}
+    renderEmptyComponent = () => <ListItem noBorder style={{height: 70, justifyContent: 'center'}}><Text
+        style={{color: '#cccccc'}}>검색결과가 없습니다.</Text></ListItem>;
+    renderTitleComponent = (title) => <ListItem style={{height: 50, marginLeft: 0, marginRight: 0}}><Text
+        style={{width: '95%'}}>{title}</Text></ListItem>
+    renderItemComponent = (item, index, length, sectionType) => {
+        if(item.isAdmin){
+            return;
+        }
+        return (
+            <ListItem avatar style={{
+                height: 70,
+                marginLeft: 0,
+                marginRight: 0,
+                borderBottomWidth: (index === length - 1 ? 0 : 0.3),
+                borderBottomColor: '#cccccc'
+            }}>
+                <Left style={{borderBottomWidth: 0}}>
+                    {item.thumb && item.thumb !== '#' ?
+                        <Thumbnail source={{uri: item.thumb}}
+                                   style={{width: 44, height: 44, borderRadius: 22}}/>
+                        :
+                        <Button style={{
+                            width: 44,
+                            height: 44,
+                            borderRadius: 40,
+                            backgroundColor: '#cccccc'
+                        }}/>
+                    }
+                </Left>
+                <Body style={{borderBottomWidth: 0, justifyContent: 'center', width: '50%'}}>
+                <Text>{item.name}</Text>
                 </Body>
-            </Right>
-        </ListItem>
-    );
+                <Right style={{borderBottomWidth: 0, width: 100, margin: 0, padding: 0}}>
+                    <Body style={{padding: 0, margin: 0}}>
+                    {this.isJoined(item, sectionType + 'Auth')
+                        ? <Button transparent onPress={() => this.out(sectionType, item)}
+                                  style={styles.joinedButton}><Text
+                            style={{color: '#333333', fontWeight: '200'}}>탈퇴</Text></Button>
+                        : this.isJoinWaiting(item, sectionType) ?
+                            <Button transparent disabled style={styles.waitingButton}><Text
+                                style={{color: '#333333', fontWeight: '200'}}>대기중</Text></Button>
+                            : <Button transparent onPress={() => this.join(sectionType, item)}
+                                      style={styles.joiningButton}><Text
+                                style={{color: '#394eb7', fontWeight: '200'}}>가입</Text></Button>}
+                    </Body>
+                </Right>
+            </ListItem>
+        );
+    }
+
     render() {
         const {loading, member, universeBoardList, clubBoardList} = this.props;
         if (loading) return <Loading/>;
@@ -221,7 +231,11 @@ class BoardListComponent extends React.Component {
                         onBackdropPress={() => this.setState({visibleModal: false})}
                     >
                         <View style={styles.exitModal}>
-                            <Text style={{paddingTop: 70, fontSize: 16, fontWeight: '100'}}>{this.state.modalMessage}</Text>
+                            <Text style={{
+                                paddingTop: 70,
+                                fontSize: 16,
+                                fontWeight: '100'
+                            }}>{this.state.modalMessage}</Text>
                             <Body
                                 style={{alignItems: 'center', flexDirection: 'row', paddingTop: 70, paddingBottom: 40}}>
                             <Button style={{
