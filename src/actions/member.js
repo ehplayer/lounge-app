@@ -309,7 +309,6 @@ export function updateProfile(formData) {
 
 export function createProfile(formData) {
     let {
-        email,
         name,
         phone,
         studentNum,
@@ -326,6 +325,7 @@ export function createProfile(formData) {
         checkedTermsService,
         checkedTermsUser,
     } = formData;
+    const email = formData.email.trim();
     className = className || '';
     mbaType = mbaType || '';
     company = company || '';
