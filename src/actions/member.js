@@ -195,6 +195,27 @@ export function login(formData) {
   }).catch(async (err) => { await statusMessage(dispatch, 'error', err.message);});
 }
 
+export function updatePushNotiAllow(status, pushToken) {
+    return dispatch => new Promise(async (resolve, reject) => {
+        const UID = Firebase.auth().currentUser.uid;
+        if (!UID) return reject({ message: ErrorMessages.missingFirstName });
+
+        return Firestore.collection("users").doc(UID)
+                        .set({
+                            pushNotificationStatus:status,
+                            pushToken: pushToken
+                        }, {merge:true})
+            .then(async () => {
+                return resolve(dispatch({
+                    type: 'USER_DETAILS_UPDATE',
+                    data: {
+                        termsCheck:true
+                    },
+                }));
+            }).catch(reject);
+    }).catch(async (err) => { await statusMessage(dispatch, 'error', err.message); throw err.message; });
+}
+
 export function findEmail(formData) {
     const { name, studentNum, phone } = formData;
     if (Firebase === null) return () => new Promise(resolve => resolve());
