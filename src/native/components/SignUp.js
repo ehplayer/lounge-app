@@ -150,10 +150,10 @@ class SignUp extends React.Component {
 
     render() {
         const {loading, error, success, member} = this.props;
-        const universeList = [{name:'연세대', value:'yonsei', thumb: "http://www.yonsei.ac.kr/_res/sc/img/intro/img_symbol6.png"},
-            {name:'고려대', value:'korea'},
-            {name:'이화여대', value:'ewha'},
-            {name:'한양대', value:'hanyang'},
+        const universeList = [{name:'연세대학교', value:'yonsei', thumb: "http://www.yonsei.ac.kr/_res/sc/img/intro/img_symbol6.png"},
+            {name:'고려대학교', value:'korea', thumb: "http://www.korea.ac.kr/mbshome/mbs/university/images/img/img_1_1_5_1_3_1.gif"},
+            {name:'이화여자대학', value:'ewha', thumb: "https://www.ewha.ac.kr/mbs/ewhakr/images/contents/img_con01070602_1.gif"},
+            {name:'한양대학교', value:'hanyang', thumb: "http://www.hanyang.ac.kr/html-repositories/images/custom/introduction/img_hy0104_02_0102.png"},
         ];
         if (loading) return <Loading/>;
 
@@ -262,7 +262,7 @@ class SignUp extends React.Component {
                                                        borderWidth:1,
                                                    }}
                                                    options={universeList}
-                                                   defaultValue={'연세대'}
+                                                   defaultValue={'연세대학교'}
                                                    renderButtonText={(rowData) => rowData.name}
                                                    renderRow={this.renderRow.bind(this)}
                                                    //renderSeparator={(sectionID, rowID) => this.renderSeparator(sectionID, rowID, 3)}

@@ -39,13 +39,12 @@ class HomeContainer extends React.Component {
         if (!this.props.member.name) {
             return Actions.login();
         }
-
         if(!this.props.member.pushNotificationStatus && this.props.member.email == 'mbalounge@lounge.com'){
             this.registerForPushNotificationsAsync()
         }
     }
 
-    registerForPushNotificationsAsync = async (currentUser) => {
+    registerForPushNotificationsAsync = async () => {
         const { existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
         let finalStatus = existingStatus;
 
@@ -65,6 +64,7 @@ class HomeContainer extends React.Component {
 
         // Get the token that uniquely identifies this device
         let token = await Notifications.getExpoPushTokenAsync();
+        console.log(token)
         this.props.updatePushNotiAllow(finalStatus, token);
     }
 

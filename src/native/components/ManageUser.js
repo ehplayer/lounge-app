@@ -79,8 +79,8 @@ class Scheduler extends React.Component {
                                     <ListItem noBorder style={{height: 70, justifyContent: 'center'}}>
                                         <Text style={{color: '#cccccc'}}>신청자가 없습니다.</Text>
                                     </ListItem>}
-                                renderItem={({item, index}) => (
-                                    <ListItem avatar onPress={() => this.showMemberInfo(item)} style={{
+                                renderItem={({item, index}) => {
+                                    return <ListItem avatar onPress={() => this.showMemberInfo(item)} style={{
                                         height: 70,
                                         marginLeft: 0,
                                         marginRight: 0,
@@ -90,24 +90,30 @@ class Scheduler extends React.Component {
                                         <Left style={{borderBottomWidth: 0}}>
                                             <Thumbnail small source={{uri: item.thumb}}/>
                                         </Left>
-                                        <Body style={{borderBottomWidth: 0, justifyContent: 'center', width: '25%', overflow: "hidden"}}>
-                                        <Text style={{width:100, }}>{item.name}</Text>
+                                        <Body style={{
+                                            borderBottomWidth: 0,
+                                            justifyContent: 'center',
+                                            width: '25%',
+                                            overflow: "hidden"
+                                        }}>
+                                        <Text style={{width: 100,}}>{item.name}</Text>
                                         </Body>
-                                        <Body style={{borderBottomWidth: 0, margin: 0, padding:0, width: '25%'}}>
-                                            <Text style={{width:100}} note>{item.phone}</Text>
+                                        <Body style={{borderBottomWidth: 0, margin: 0, padding: 0, width: '25%'}}>
+                                        <Text style={{width: 100}} note>{item.phone}</Text>
                                         </Body>
-                                        <Right style={{borderBottomWidth: 0, width:'20%'}}>
-                                        <Button transparent onPress={() => this.checkMember(item)}>
-                                            <Image
-                                                style={{width: 35, height: 35}}
-                                                resizeMode="contain"
-                                                source={this.state.checkMap.get(item.docId) ? checkedIcon : uncheckedIcon}
-                                            />
-                                        </Button>
+                                        <Right style={{borderBottomWidth: 0, width: '20%'}}>
+                                            <Button transparent onPress={() => this.checkMember(item)}>
+                                                <Image
+                                                    style={{width: 35, height: 35}}
+                                                    resizeMode="contain"
+                                                    source={this.state.checkMap.get(item.docId) ? checkedIcon : uncheckedIcon}
+                                                />
+                                            </Button>
                                         </Right>
 
                                     </ListItem>
-                                )}
+                                }
+                                }
                                 keyExtractor={(item) => item.docId}
                             />
                         </CardItem>

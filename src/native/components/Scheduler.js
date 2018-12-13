@@ -30,7 +30,7 @@ class Scheduler extends React.Component {
                 <Text style={{color:'#cccccc'}}>일치하는 원우가 없습니다.</Text>
               </ListItem> }
               renderItem={({item, index}) => {
-                  if(item.email === 'mbalounge@lounge.com') {
+                  if(item.isAdmin) {
                       return;
                   }
                   return <ListItem avatar style={{height:70, marginLeft:0, marginRight:0,justifyContent:'center', borderBottomWidth:(index === userList.length - 1 ? 0 : 0.3), borderBottomColor:'#cccccc'}}

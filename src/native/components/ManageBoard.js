@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
     Body,
-    Button, CardItem,
+    Button, Card, CardItem,
     Container,
     Content,
     Input,
@@ -151,10 +151,22 @@ class ManageBoard extends React.Component {
         let {currentBoardItem, staffList} = this.state;
         if(!currentBoardItem) {
             currentBoardItem = menu && menu.boardList && menu.boardList[0];
-            staffList = currentBoardItem.staffMemberList
+            staffList = currentBoardItem && currentBoardItem.staffMemberList
         }
         let {staffMemberList} = member;
-        const totalMemberList = staffMemberList ? staffList.concat(staffMemberList) : staffList;
+        const totalMemberList = staffMemberList && staffList ? staffList.concat(staffMemberList) : staffList;
+
+        if (!currentBoardItem) {
+            return <Container>
+                <Card transparent style={{marginTop: 0, paddingTop: 0}}>
+                    <CardItem style={{paddingTop: 130, paddingBottom: 0, marginBottom: 0}}>
+                        <Left style={{alignContent: 'center', justifyContent: 'center'}}>
+                            <Text style={{paddingLeft: 0, marginLeft: 0, color: '#cccccc', fontSize: 15}}>관리 가능한 게시판이 없습니다.</Text>
+                        </Left>
+                    </CardItem>
+                </Card>
+            </Container>;
+        }
 
         return (
             <Container>

@@ -47,7 +47,7 @@ export function getMemberListData(member) {
   return dispatch => new Promise(async (resolve) => {
     return resolve(Firestore.collection("scheduler").doc(member.universe)
       .get().then(async doc => {
-        const userListSnapshots = await Firestore.collection("users").where('authWaiting', '==', false).orderBy("name", 'asc').limit(10).get();
+        const userListSnapshots = await Firestore.collection("users").where('universe', '==', member.universe).where('authWaiting', '==', false).orderBy("name", 'asc').limit(10).get();
         let userList = [];
         userListSnapshots.docs.forEach(doc => {
           userList.push({...doc.data(), docId: doc.id});
@@ -67,11 +67,14 @@ export function getAuthRequestMemberListData(member) {
 
     // Ensure token is up to date
     return dispatch => new Promise(async (resolve) => {
-        return resolve(Firestore.collection("users").where('authWaiting', '==', true).limit(10).get()
+        return resolve(Firestore.collection("users").where('universe', '==', member.universe).where('authWaiting', '==', true).limit(20).get()
             .then(async userListSnapshots => {
                 let userList = [];
                 userListSnapshots.docs.forEach(doc => {
-                    userList.push({...doc.data(), docId: doc.id});
+                    const data = doc.data();
+                    if(!data.isAdmin){
+                        userList.push({...doc.data(), docId: doc.id});
+                    }
                 });
 
                 return dispatch({
