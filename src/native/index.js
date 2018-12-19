@@ -7,8 +7,6 @@ import {Router} from 'react-native-router-flux';
 import {Body, Button, Root, StyleProvider, Text, View} from 'native-base';
 
 import Routes from './routes/index';
-import platform from '../../native-base-theme/variables/platform'
-import getTheme from "../../native-base-theme/components";
 import {PersistGate} from 'redux-persist/es/integration/react';
 import {Actions} from "react-native-router-flux";
 import Modal from "react-native-modal";
@@ -94,49 +92,47 @@ class App extends Component {
         return <Root>
             <Provider store={store}>
                 <PersistGate loading={null} persistor={persistor}>
-                    <StyleProvider style={getTheme(platform)}>
-                        <SafeAreaView
-                            style={{flex: 1, backgroundColor: '#fff', paddingTop: Platform.OS === 'android' ? 24 : 0}}>
-                            <Router>
-                                {Routes}
-                            </Router>
-                            <Modal
-                                isVisible={this.state.visibleExitModal}
-                                onBackdropPress={() => this.setState({visibleExitModal: false})}
-                            >
-                                <View style={styles.exitModal}>
-                                    <Text style={{paddingTop: 70, fontSize: 16, fontWeight: '100'}}>앱을 종료하시겠습니까?</Text>
-                                    <Body style={{
-                                        alignItems: 'center',
-                                        flexDirection: 'row',
-                                        paddingTop: 70,
-                                        paddingBottom: 40
-                                    }}>
-                                    <Button style={{
-                                        width: 120,
-                                        height: 50,
-                                        justifyContent: 'center',
-                                        borderRadius: 0,
-                                        marginRight: 5,
-                                        backgroundColor: '#dddddd'
-                                    }} onPress={() => this.setState({visibleExitModal: false})}>
-                                        <Text>취소</Text>
-                                    </Button>
-                                    <Button style={{
-                                        width: 120,
-                                        height: 50,
-                                        justifyContent: 'center',
-                                        borderRadius: 0,
-                                        marginLeft: 5,
-                                        backgroundColor: '#535acb'
-                                    }} onPress={this.exitApp}>
-                                        <Text>확인</Text>
-                                    </Button>
-                                    </Body>
-                                </View>
-                            </Modal>
-                        </SafeAreaView>
-                    </StyleProvider>
+                    <SafeAreaView
+                        style={{flex: 1, backgroundColor: '#fff', paddingTop: Platform.OS === 'android' ? 24 : 0}}>
+                        <Router>
+                            {Routes}
+                        </Router>
+                        <Modal
+                            isVisible={this.state.visibleExitModal}
+                            onBackdropPress={() => this.setState({visibleExitModal: false})}
+                        >
+                            <View style={styles.exitModal}>
+                                <Text style={{paddingTop: 70, fontSize: 16, fontWeight: '100'}}>앱을 종료하시겠습니까?</Text>
+                                <Body style={{
+                                    alignItems: 'center',
+                                    flexDirection: 'row',
+                                    paddingTop: 70,
+                                    paddingBottom: 40
+                                }}>
+                                <Button style={{
+                                    width: 120,
+                                    height: 50,
+                                    justifyContent: 'center',
+                                    borderRadius: 0,
+                                    marginRight: 5,
+                                    backgroundColor: '#dddddd'
+                                }} onPress={() => this.setState({visibleExitModal: false})}>
+                                    <Text>취소</Text>
+                                </Button>
+                                <Button style={{
+                                    width: 120,
+                                    height: 50,
+                                    justifyContent: 'center',
+                                    borderRadius: 0,
+                                    marginLeft: 5,
+                                    backgroundColor: '#535acb'
+                                }} onPress={this.exitApp}>
+                                    <Text>확인</Text>
+                                </Button>
+                                </Body>
+                            </View>
+                        </Modal>
+                    </SafeAreaView>
                 </PersistGate>
             </Provider>
         </Root>

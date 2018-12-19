@@ -101,17 +101,19 @@ exports.sendPushNotification = functions.firestore
         const universe = sectionId.replace('univ', '');
         return admin.firestore().collection('users').where('universe', '==', universe)
             .get().then(memberDoc => {
-            const memberData = memberDoc.data();
-            return fetch('https://exp.host/--/api/v2/push/send', {
-                method: "POST",
-                headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    "to": memberData.pushToken,
-                    "title": noticeDocument.title,
-                    "body":noticeDocument.content
+            return memberDoc.docs.forEach(memberData => {
+                const member = memberData.data();
+                return fetch('https://exp.host/--/api/v2/push/send', {
+                    method: "POST",
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "to": member.pushToken,
+                        "title": noticeDocument.title,
+                        "body":noticeDocument.content
+                    })
                 })
             })
         }).catch(e => console.log(e))

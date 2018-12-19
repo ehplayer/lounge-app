@@ -1,9 +1,3 @@
-/**
- * NOTE: This file is ignored from git tracking. In a CI environment, it is
- * generated using build/create-config.js by calling npm run create-config (or
- * using firebase-ci if deploying to Firebase hosting). This is done so that
- * environment specific settings can be applied.
- */
 
 export const env = 'development'
 

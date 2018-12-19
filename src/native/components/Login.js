@@ -8,7 +8,6 @@ import Messages from './Messages';
 import MainLogo from '../../images/logo_splash.png';
 import {LinearGradient} from "expo";
 import Modal from "react-native-modal";
-import Colors from "../../../native-base-theme/variables/commonColor";
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 
 let scrollYPos = 0;
@@ -182,7 +181,7 @@ class Login extends Component {
                         {this.state.requestFindEmail && !member.findEmail &&
                             <View style={styles.idFindModal}>
                                 <Left style={{paddingTop:250}}>
-                                <ActivityIndicator size="large" color={Colors.brandPrimary} />
+                                <ActivityIndicator size="large" color={'#007aff'} />
                                 </Left>
                             </View>
                         }
