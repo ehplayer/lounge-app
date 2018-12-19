@@ -223,7 +223,7 @@ class BoardComponent extends React.Component {
                         ListHeaderComponent={
                             <View>
                                 {!hideBoardSelectMenu &&
-                                <Card transparent style={{marginBottom: 0, paddingBottom: 0, height: 70}}>
+                                <Card transparent style={{marginTop:0, borderTopWidth:0, marginBottom: 0, paddingBottom: 0, height: 70}}>
                                     <TouchableOpacity onPress={this.showDropDown}>
                                         <CardItem style={{margin: 0, paddingBottom: 0}}>
                                             <Thumbnail source={{uri: boardItem && boardItem.thumb}}
@@ -275,7 +275,7 @@ class BoardComponent extends React.Component {
                                 }
                                 {!hideBoardSelectMenu && <Separator style={{height: 10}}/>}
 
-                                <Card transparent style={{marginBottom: 0, paddingBottom: 0}}>
+                                <Card transparent style={{marginTop:0, borderTopWidth:0, marginBottom: 0, paddingBottom: 0}}>
                                     <CardItem style={{paddingBottom: 0}}>
                                         <Body>
                                         <List>
@@ -321,7 +321,7 @@ class BoardComponent extends React.Component {
                                     </CardItem>
                                 </Card>
                                 <Separator style={{height: 10}}/>
-                                <Card transparent style={{marginBottom: 0, paddingBottom: 0}}>
+                                <Card transparent style={{marginTop:0, borderTopWidth:0, marginBottom: 0, paddingBottom: 0}}>
                                     <CardItem style={{paddingBottom: 0, marginBottom: 0}}>
                                         <Body>
                                         <List>
@@ -373,7 +373,7 @@ class BoardComponent extends React.Component {
                                     </CardItem>
                                 </Card>
                                 <Separator style={{height: 10}}/>
-                                <Card transparent style={{marginBottom: 0}}>
+                                <Card transparent style={{marginTop:0, borderTopWidth:0, marginBottom: 0}}>
                                     <CardItem style={{paddingBottom: 0, marginBottom: 0}}>
                                         <Body>
                                         <List>

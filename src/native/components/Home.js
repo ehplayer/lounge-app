@@ -143,7 +143,7 @@ class HomeComponent extends React.Component {
                     numColumns={1}
                     data={scheduleList}
                     ListHeaderComponent={
-                        <Card transparent style={{marginBottom: 0}}>
+                        <Card transparent style={{marginTop:0, borderTopWidth:0, marginBottom: 0}}>
                             <CardItem style={{paddingBottom: 0}}>
                                 <Body>
                                 <List>

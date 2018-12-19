@@ -27,9 +27,6 @@ import ScheduleListComponent from '../components/ScheduleList';
 import HomeScheduleListContainer from '../../containers/HomeScheduleList';
 import HomeScheduleListComponent from '../components/HomeScheduleList';
 
-import ForgotPasswordContainer from '../../containers/ForgotPassword';
-import ForgotPasswordComponent from '../components/ForgotPassword';
-
 import UpdateProfileContainer from '../../containers/UpdateProfile';
 import UpdateProfileComponent from '../components/UpdateProfile';
 
@@ -143,13 +140,6 @@ const Index = (
             component={MemberContainer}
             Layout={AuthWaitingComponent}/>
 
-        <Scene
-            back
-            key="forgotPassword"
-            title="FORGOT PASSWORD"
-            component={ForgotPasswordContainer}
-            Layout={ForgotPasswordComponent}
-        />
         <Scene
             back
             key="updateProfile"

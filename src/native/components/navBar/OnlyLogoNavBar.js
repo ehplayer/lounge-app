@@ -34,7 +34,6 @@ class CustomNavBar extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  recipes: state.recipes || {},
   univNotice: state.univNotice || {},
   member: state.member || {},
   currentUnivId: state.currentUnivId || '전체',

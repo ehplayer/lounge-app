@@ -108,7 +108,7 @@ class Notice extends React.Component {
                 >
 
                     <Form>
-                        <Card transparent style={{marginTop: 0}}>
+                        <Card transparent style={{margin: 0}}>
                             <CardItem>
                                 <Left>
                                     <Thumbnail source={{uri: article.author.thumb}}/>
@@ -390,7 +390,7 @@ class Notice extends React.Component {
                                     </Body>
                                 </View>
                             </Modal>
-                            <CardItem style={{borderTopWidth: 1, borderColor: '#dddddd', height: 50, paddingRight: 0}}>
+                            <CardItem style={{borderTopWidth: 0.3, borderColor: '#dddddd', height: 50, paddingRight: 0}}>
                                 <Left>
                                     <TextInput placeholder='댓글을 남겨보세요'
                                                underlineColorAndroid={'#ffffff'}

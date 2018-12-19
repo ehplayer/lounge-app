@@ -203,8 +203,8 @@ class BoardListComponent extends React.Component {
         return (
             <Container>
                 <Content style={{backgroundColor: '#ffffff'}}>
-                    <Card transparent style={{marginTop: 0}}>
-                        <CardItem style={{margin: 0, padding: 0}}>
+                    <Card transparent style={{marginBottom:0, borderTopWidth:0, marginTop: 0}}>
+                        <CardItem style={{marginTop:0, borderTopWidth:0, margin: 0, padding: 0}}>
                             <FlatList
                                 data={universeBoardList}
                                 ListHeaderComponent={() => this.renderTitleComponent('Univ. 목록')}
@@ -215,7 +215,7 @@ class BoardListComponent extends React.Component {
                         </CardItem>
                     </Card>
                     <Separator style={{height: 10}}/>
-                    <Card transparent style={{marginTop: 0}}>
+                    <Card transparent style={{marginBottom:0,borderTopWidth:0, marginTop: 0}}>
                         <CardItem style={{margin: 0, padding: 0}}>
                             <FlatList
                                 data={clubBoardList}
