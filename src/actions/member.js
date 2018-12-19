@@ -45,6 +45,7 @@ export function getMemberListData(member) {
 
   // Ensure token is up to date
   return dispatch => new Promise(async (resolve) => {
+    await statusMessage(dispatch, 'loading', true);
     return resolve(Firestore.collection("scheduler").doc(member.universe)
       .get().then(async doc => {
         const userListSnapshots = await Firestore.collection("users").where('universe', '==', member.universe).where('authWaiting', '==', false).orderBy("name", 'asc').limit(10).get();
@@ -52,6 +53,7 @@ export function getMemberListData(member) {
         userListSnapshots.docs.forEach(doc => {
           userList.push({...doc.data(), docId: doc.id});
         });
+        await statusMessage(dispatch, 'loading', false);
         const data = doc.data();
         return dispatch({
           type: 'SCHEDULER_OWNER_UPDATE',

@@ -154,6 +154,7 @@ class SignUp extends React.Component {
             {name:'고려대학교', value:'korea', thumb: "http://www.korea.ac.kr/mbshome/mbs/university/images/img/img_1_1_5_1_3_1.gif"},
             {name:'이화여자대학', value:'ewha', thumb: "https://www.ewha.ac.kr/mbs/ewhakr/images/contents/img_con01070602_1.gif"},
             {name:'한양대학교', value:'hanyang', thumb: "http://www.hanyang.ac.kr/html-repositories/images/custom/introduction/img_hy0104_02_0102.png"},
+            //{name:'라운지대학교', value:'lounge', thumb: "http://www.hanyang.ac.kr/html-repositories/images/custom/introduction/img_hy0104_02_0102.png"},
         ];
         if (loading) return <Loading/>;
 

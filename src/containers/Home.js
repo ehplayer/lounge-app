@@ -39,7 +39,7 @@ class HomeContainer extends React.Component {
         if (!this.props.member.name) {
             return Actions.login();
         }
-        if(!this.props.member.pushNotificationStatus && this.props.member.email == 'mbalounge@lounge.com'){
+        if(!this.props.member.pushNotificationStatus ){
             this.registerForPushNotificationsAsync()
         }
     }

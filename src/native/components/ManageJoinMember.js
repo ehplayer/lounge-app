@@ -67,12 +67,12 @@ class ManageJoinMember extends React.Component {
     }
 
     removeJoinMember = (index) => {
-        const authMember = this.state.currentBoardItem.authMember;
+        const authMemberList = this.state.currentBoardItem.authMemberList;
         const removedJoinMemberList = this.state.removedJoinMemberList || [];
-        removedJoinMemberList.push(authMember[index]);
+        removedJoinMemberList.push(authMemberList[index]);
         this.handleChange('removedJoinMemberList', removedJoinMemberList)
-        authMember.splice(index, 1);
-        this.handleChange('currentAuthMember', authMember);
+        authMemberList.splice(index, 1);
+        this.handleChange('currentAuthMember', authMemberList);
 
     };
 
@@ -85,7 +85,7 @@ class ManageJoinMember extends React.Component {
             <Container>
                 <Content style={{backgroundColor: '#ffffff'}}>
                     <FlatList
-                        data={currentBoardItem.authMember}
+                        data={currentBoardItem.authMemberList}
                         ListHeaderComponent={() => <ListItem>
                             <Left>
                                 <Text style={{width: '30%'}}>원우 관리</Text>
@@ -100,7 +100,7 @@ class ManageJoinMember extends React.Component {
                                 height: 70,
                                 marginLeft: 10,
                                 marginRight: 10,
-                                borderBottomWidth: (index === currentBoardItem.authMember.length - 1 ? 0 : 0.3),
+                                borderBottomWidth: (index === currentBoardItem.authMemberList.length - 1 ? 0 : 0.3),
                                 borderBottomColor: '#dddddd'
                             }}>
                                 <Left style={{borderBottomWidth: 0}}>

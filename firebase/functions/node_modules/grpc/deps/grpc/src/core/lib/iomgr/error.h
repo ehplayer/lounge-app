@@ -123,6 +123,11 @@ typedef enum {
 #define GRPC_ERROR_OOM ((grpc_error*)2)
 #define GRPC_ERROR_CANCELLED ((grpc_error*)4)
 
+// debug only toggles that allow for a sanity to check that ensures we will
+// never create any errors in the per-RPC hotpath.
+void grpc_disable_error_creation();
+void grpc_enable_error_creation();
+
 const char* grpc_error_string(grpc_error* error);
 
 /// Create an error - but use GRPC_ERROR_CREATE instead
@@ -180,8 +185,16 @@ bool grpc_error_get_str(grpc_error* error, grpc_error_strs which,
 /// error occurring. Allows root causing high level errors from lower level
 /// errors that contributed to them. The src error takes ownership of the
 /// child error.
+///
+/// Edge Conditions -
+/// 1) If either of \a src or \a child is GRPC_ERROR_NONE, returns a reference
+/// to the other argument. 2) If both \a src and \a child are GRPC_ERROR_NONE,
+/// returns GRPC_ERROR_NONE. 3) If \a src and \a child point to the same error,
+/// returns a single reference. (Note that, 2 references should have been
+/// received to the error in this case.)
 grpc_error* grpc_error_add_child(grpc_error* src,
                                  grpc_error* child) GRPC_MUST_USE_RESULT;
+
 grpc_error* grpc_os_error(const char* file, int line, int err,
                           const char* call_name) GRPC_MUST_USE_RESULT;
 

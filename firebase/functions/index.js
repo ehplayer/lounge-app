@@ -15,14 +15,18 @@
  */
 'use strict';
 
+
 // [START import]
 const functions = require('firebase-functions');
+const admin = require('firebase-admin');
+admin.initializeApp(functions.config().firestore);
 const gcs = require('@google-cloud/storage')();
 const spawn = require('child-process-promise').spawn;
 const path = require('path');
 const os = require('os');
 const fs = require('fs');
-
+const fetch = require('node-fetch')
+const utils = {};
 // [END import]
 
 // [START generateThumbnail]
@@ -86,26 +90,56 @@ exports.generateThumbnail = functions.storage.object().onFinalize((object) => {
 });
 // [END generateThumbnail]
 
+exports.sendPushNotification = functions.firestore
+    .document('{sectionId}/{boardId}/notice/{noticeId}')
+    .onWrite((change, context) => {
+    const {sectionId, boardId} = context.params;
+    // 1. 새로 생성된 게시글 획득
+    const noticeDocument = change.after.exists ? change.after.data() : null;
+    // 2. total 게시판일 경우 해당 대학 전체 push
+    if(boardId === 'total'){
+        const universe = sectionId.replace('univ', '');
+        return admin.firestore().collection('users').where('universe', '==', universe)
+            .get().then(memberDoc => {
+            const memberData = memberDoc.data();
+            return fetch('https://exp.host/--/api/v2/push/send', {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "to": memberData.pushToken,
+                    "title": noticeDocument.title,
+                    "body":noticeDocument.content
+                })
+            })
+        }).catch(e => console.log(e))
+    }
+    // 3. 게시판 정보 획득 후 push 전송
+    const boardRef = admin.firestore().collection(sectionId).doc(boardId);
+    return boardRef.get().then(doc => {
+        const data = doc.data();
+        const pushTargetList = data.authMemberList ? data.staffMemberList.concat(data.authMemberList) : data.staffMemberList
+        return pushTargetList.forEach(member => {
+            admin.firestore().collection('users').doc(member.docId)
+                .get().then(memberDoc => {
+                const memberData = memberDoc.data();
+                return fetch('https://exp.host/--/api/v2/push/send', {
+                    method: "POST",
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "to": memberData.pushToken,
+                        "title": noticeDocument.title,
+                        "body":noticeDocument.content
+                    })
+                })
+            }).catch(e => console.log(e))
+        });
+    })
+    .catch(e => console.log(e))
 
-// exports.modifyNotice = functions.firestore
-//   .document('연세대/{boardId}/notice/{noticeId}')
-//   .onWrite((change, context) => {
-//     const document = change.after.exists ? change.after.data() : null;
-//     const oldDocument = change.before.data();
-//     console.log('current document is ', document);
-//     console.log(document);
-//
-//     //functions.firestore.document('연세대/latestNotice').set()
-//   });
-
-exports.modifyNotice = functions.firestore
-  .document('yonsei/{boardId}/notice/{noticeId}')
-  .onWrite((change, context) => {
-    const document = change.after.exists ? change.after.data() : null;
-    const oldDocument = change.before.data();
-    console.log('current document is ', document);
-    console.log(document);
-    console.log(context);
-
-    // perform desired operations ...
-  });
+})

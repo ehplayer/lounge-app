@@ -485,13 +485,13 @@ export function updateBoardWaiting(localState) {
                     })
             });
         }
-        const authMember = currentBoardItem.authMember || []
+        const authMemberList = currentBoardItem.authMemberList || []
         // 3. board 정보 업데이트
         await Firestore.collection(member.universe + currentBoardItem.sectionType).doc(currentBoardItem.docId)
             .set({
                 ...currentBoardItem,
                 authWaiting: authWaiting,
-                authMember: authMember.concat(approveMemberList),
+                authMemberList: authMemberList.concat(approveMemberList),
             }, {merge: true})
         resolve();
 
@@ -528,7 +528,7 @@ export function updateBoardMember(localState) {
         await Firestore.collection(member.universe + currentBoardItem.sectionType).doc(currentBoardItem.docId)
             .set({
                 ...currentBoardItem,
-                authMember: currentBoardItem.authMember,
+                authMemberList: currentBoardItem.authMemberList,
             }, {merge: true})
         resolve();
 
@@ -782,10 +782,7 @@ export function getJoiningBoardList(member) {
         let dataList = [];
         member.univAuth.map(auth => {
             documentSnapshots.docs.forEach(doc => {
-                if(auth.boardId === 'total'){
-                    return;
-                }
-                if (auth.boardId === doc.id && auth.authType === 'S') {
+                if (member.isAdmin || (auth.boardId === doc.id && auth.authType === 'S')) {
                     dataList.push({...doc.data(), docId: doc.id});
                 }
             });
@@ -795,7 +792,7 @@ export function getJoiningBoardList(member) {
         });
         member.clubAuth.map(auth => {
             clubDocumentSnapshots.docs.forEach(doc => {
-                if (auth.boardId === doc.id && auth.authType === 'S') {
+                if (member.isAdmin || (auth.boardId === doc.id && auth.authType === 'S')) {
                     dataList.push({...doc.data(), docId: doc.id});
                 }
             });

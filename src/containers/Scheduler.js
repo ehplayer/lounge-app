@@ -17,8 +17,8 @@ class Scheduler extends Component {
   };
 
   render = () => {
-    const { Layout, userList, memberLogout, ownerList } = this.props;
-    return <Layout userList={userList} logout={memberLogout} ownerList={ownerList}/>;
+    const { Layout, userList, memberLogout, ownerList, loading} = this.props;
+    return <Layout userList={userList} logout={memberLogout} ownerList={ownerList} loading={loading}/>;
   }
 }
 
