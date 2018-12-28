@@ -44,6 +44,15 @@ export default function userReducer(state = initialState, action) {
                 ...action,
             };
         }
+        case 'SCHEDULER_MORE': {
+            const totalList = state.userList.concat(action.userList);
+            return {
+                ...state,
+                loading: false,
+                error: null,
+                userList: totalList
+            };
+        }
         case 'SCHEDULER_SEARCH_LIST': {
             if (action.searchUserList) {
                 return {

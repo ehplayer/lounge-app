@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {getMemberListData, logout} from '../actions/member';
+import {getMemberListData, getMemberListMoreData} from '../actions/member';
 
 class Scheduler extends Component {
   static propTypes = {
@@ -17,8 +17,8 @@ class Scheduler extends Component {
   };
 
   render = () => {
-    const { Layout, userList, memberLogout, ownerList, loading} = this.props;
-    return <Layout userList={userList} logout={memberLogout} ownerList={ownerList} loading={loading}/>;
+    const { Layout, userList, memberLogout, ownerList, loading, getMemberListMoreData} = this.props;
+    return <Layout userList={userList} logout={memberLogout} ownerList={ownerList} loading={loading} getMemberListMoreData={getMemberListMoreData}/>;
   }
 }
 
@@ -30,8 +30,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  memberLogout: logout,
   getMemberListData,
+  getMemberListMoreData,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Scheduler);

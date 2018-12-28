@@ -10,9 +10,7 @@ import {LinearGradient} from "expo";
 import Modal from "react-native-modal";
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 
-let scrollYPos = 0;
-
-class Login extends Component {
+class LoginComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -31,7 +29,7 @@ class Login extends Component {
         }),
         error: PropTypes.string,
         loading: PropTypes.bool.isRequired,
-        onFormSubmit: PropTypes.func.isRequired,
+        login: PropTypes.func.isRequired,
     }
 
     static defaultProps = {
@@ -48,7 +46,7 @@ class Login extends Component {
     }
 
     handleSubmit = () => {
-        this.props.onFormSubmit(this.state)
+        this.props.login(this.state)
             .then((result) => {
                 if (!result) {
                     return;
@@ -449,4 +447,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Login;
+export default LoginComponent;

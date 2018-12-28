@@ -43,25 +43,40 @@ export function getMemberData() {
 export function getMemberListData(member) {
   if (Firebase === null) return () => new Promise(resolve => resolve());
 
-  // Ensure token is up to date
   return dispatch => new Promise(async (resolve) => {
-    await statusMessage(dispatch, 'loading', true);
-    return resolve(Firestore.collection("scheduler").doc(member.universe)
-      .get().then(async doc => {
-        const userListSnapshots = await Firestore.collection("users").where('universe', '==', member.universe).where('authWaiting', '==', false).orderBy("name", 'asc').limit(10).get();
-        let userList = [];
-        userListSnapshots.docs.forEach(doc => {
+      await statusMessage(dispatch, 'loading', true);
+      const userListSnapshots = await Firestore.collection("users").where('universe', '==', member.universe).where('authWaiting', '==', false).orderBy("name", 'asc').limit(20).get();
+      const userList = [];
+      userListSnapshots.docs.forEach(doc => {
           userList.push({...doc.data(), docId: doc.id});
-        });
-        await statusMessage(dispatch, 'loading', false);
-        const data = doc.data();
-        return dispatch({
+      });
+      await statusMessage(dispatch, 'loading', false);
+      return resolve(dispatch({
           type: 'SCHEDULER_OWNER_UPDATE',
-          ownerList: data ? data.userList : [],
           userList: userList,
-        });
       }));
   });
+}
+
+export function getMemberListMoreData(lastMember) {
+    if (Firebase === null) return () => new Promise(resolve => resolve());
+
+    return dispatch => new Promise(async (resolve) => {
+        await statusMessage(dispatch, 'loading', true);
+        const userListSnapshots = await Firestore.collection("users")
+                                        .where('universe', '==', lastMember.universe)
+                                        .where('authWaiting', '==', false)
+                                        .orderBy("name", 'asc').where('name', '>', lastMember.name).limit(20).get();
+        const userList = [];
+        userListSnapshots.docs.forEach(doc => {
+            userList.push({...doc.data(), docId: doc.id});
+        });
+        await statusMessage(dispatch, 'loading', false);
+        return resolve(dispatch({
+            type: 'SCHEDULER_MORE',
+            userList: userList,
+        }));
+    });
 }
 
 export function getAuthRequestMemberListData(member) {

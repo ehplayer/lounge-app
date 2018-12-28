@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
 import {getHomeNotice, getHomeSchedule} from '../actions/home';
-import {updatePushNotiAllow} from '../actions/member';
+import {clearFindEmail, findEmail, login, resetPassword, updatePushNotiAllow} from '../actions/member';
 import {Notifications, Permissions} from "expo";
+import Login from "../native/components/Login";
 
 class HomeContainer extends React.Component {
     static propTypes = {
@@ -64,7 +65,6 @@ class HomeContainer extends React.Component {
 
         // Get the token that uniquely identifies this device
         let token = await Notifications.getExpoPushTokenAsync();
-        console.log(token)
         this.props.updatePushNotiAllow(finalStatus, token);
     }
 
@@ -87,11 +87,20 @@ class HomeContainer extends React.Component {
     }
 
     render = () => {
-        const {Layout, home, match, member, status} = this.props;
-        const id = (match && match.params && match.params.id) ? match.params.id : null;
+        const {Layout, home, member, status, login, findEmail, clearFindEmail, resetPassword} = this.props;
+        if (!this.props.member || !this.props.member.name) {
+            return <Login
+                member={member}
+                loading={status.loading}
+                login={login}
+                findEmail={findEmail}
+                clearFindEmail={clearFindEmail}
+                resetPassword={resetPassword}
+                fromLogin={true}
+            />;
+        }
         return (
             <Layout
-                recipeId={id}
                 error={home.error}
                 loading={status.loading}
                 home={home}
@@ -112,6 +121,10 @@ const mapDispatchToProps = {
     getHomeNotice,
     getHomeSchedule,
     updatePushNotiAllow,
+    login,
+    findEmail,
+    clearFindEmail,
+    resetPassword
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeContainer);

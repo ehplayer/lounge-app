@@ -95,7 +95,7 @@ const Index = (
     <Stack key="root">
         <Scene
             hideNavBar
-            initial
+            //initial
             key="login"
             component={LoginContainer}
             Layout={LoginComponent}
@@ -190,7 +190,7 @@ const Index = (
 
         <Drawer
             key="drawer"
-            //initial
+            initial
             hideNavBar
             contentComponent={DrawerContent}
             drawerImage={MenuIcon}

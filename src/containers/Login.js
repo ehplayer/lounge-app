@@ -8,11 +8,10 @@ class LoginContainer extends React.Component {
     static propTypes = {
         Layout: PropTypes.func.isRequired,
         member: PropTypes.shape({}).isRequired,
-        onFormSubmit: PropTypes.func.isRequired,
+        login: PropTypes.func.isRequired,
         isLoading: PropTypes.bool.isRequired,
         infoMessage: PropTypes.string,
         errorMessage: PropTypes.string,
-        successMessage: PropTypes.string,
     };
 
     static defaultProps = {
@@ -22,15 +21,14 @@ class LoginContainer extends React.Component {
     };
 
     render = () => {
-        const { Layout, onFormSubmit, isLoading, member, infoMessage, errorMessage, successMessage, findEmail, clearFindEmail, resetPassword, backPressSubscriptions} = this.props;
+        const { Layout, login, isLoading, member, infoMessage, errorMessage, successMessage, findEmail, clearFindEmail, resetPassword, backPressSubscriptions} = this.props;
 
         return <Layout
             member={member}
             loading={isLoading}
             info={infoMessage}
             error={errorMessage}
-            success={successMessage}
-            onFormSubmit={onFormSubmit}
+            login={login}
             findEmail={findEmail}
             clearFindEmail={clearFindEmail}
             resetPassword={resetPassword}
@@ -48,7 +46,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-    onFormSubmit: login,
+    login,
     findEmail,
     clearFindEmail,
     resetPassword
