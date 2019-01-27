@@ -223,11 +223,11 @@ class BoardComponent extends React.Component {
                         ListHeaderComponent={
                             <View>
                                 {!hideBoardSelectMenu &&
-                                <Card transparent style={{marginTop:0, borderTopWidth:0, marginBottom: 0, paddingBottom: 0, height: 70}}>
+                                <Card transparent style={{marginTop:0, marginLeft:0, marginRight:0, marginBottom:0, padding:0, borderTopWidth:0, paddingBottom: 0, height: 76}}>
                                     <TouchableOpacity onPress={this.showDropDown}>
-                                        <CardItem style={{margin: 0, paddingBottom: 0}}>
+                                        <CardItem style={{margin: 0, paddingBottom: 0, borderBottomWidth:0, justifyContent:'center'}}>
                                             <Thumbnail source={{uri: boardItem && boardItem.thumb}}
-                                                       style={{width: 44, height: 44, borderRadius: 22}}/>
+                                                       style={{width: 44, height: 44, borderRadius: 22, marginTop:7}}/>
                                             <ModalDropDown ref="dropdown"
                                                            style={{
                                                                alignSelf: 'flex-end',
@@ -273,13 +273,13 @@ class BoardComponent extends React.Component {
                                     </TouchableOpacity>
                                 </Card>
                                 }
-                                {!hideBoardSelectMenu && <Separator style={{height: 10}}/>}
+                                {!hideBoardSelectMenu && <Separator style={{height: 5, backgroundColor: '#f2f4f7'}}/>}
 
-                                <Card transparent style={{marginTop:0, borderTopWidth:0, marginBottom: 0, paddingBottom: 0}}>
+                                <Card transparent style={{marginTop:0, marginLeft:0, marginRight:0, marginBottom:0, borderWidth:0, paddingBottom: 0}}>
                                     <CardItem style={{paddingBottom: 0}}>
                                         <Body>
                                         <List>
-                                            <ListItem style={loungeStyle.listHeaderListItem}
+                                            <ListItem noBorder={document.noticeList.length < 1} style={loungeStyle.listHeaderListItem}
                                                       onPress={() => Actions.noticeList({
                                                           boardItem,
                                                           sectionType: sectionType
@@ -300,7 +300,7 @@ class BoardComponent extends React.Component {
                                                         onPress={() => this.openArticle('notice', item)} style={{
                                                         height: 50,
                                                         paddingLeft: 0,
-                                                        marginLeft: 0,
+                                                        marginLeft: 10,
                                                         marginRight: 0
                                                     }}>
                                                         <Left style={{marginLeft: 0}}>
@@ -320,12 +320,12 @@ class BoardComponent extends React.Component {
                                         </Body>
                                     </CardItem>
                                 </Card>
-                                <Separator style={{height: 10}}/>
-                                <Card transparent style={{marginTop:0, borderTopWidth:0, marginBottom: 0, paddingBottom: 0}}>
-                                    <CardItem style={{paddingBottom: 0, marginBottom: 0}}>
+                                <Separator style={{height: 5, backgroundColor: '#f2f4f7'}}/>
+                                <Card transparent style={{marginTop:0, marginLeft:0, marginRight:0, marginBottom:0, borderWidth:0, paddingBottom: 0}}>
+                                    <CardItem style={{paddingBottom: 0, marginBottom: 0, }}>
                                         <Body>
                                         <List>
-                                            <ListItem style={loungeStyle.listHeaderListItem}
+                                            <ListItem noBorder={document.scheduleList.length < 1} style={loungeStyle.listHeaderListItem}
                                                       onPress={() => Actions.scheduleList({
                                                           boardItem,
                                                           sectionType: sectionType
@@ -337,7 +337,7 @@ class BoardComponent extends React.Component {
                                                     source={ArrowRight}/>
                                             </ListItem>
                                             {document.scheduleList && document.scheduleList[0] &&
-                                            <ListItem noBorder style={{marginLeft: 0, height: 75}}
+                                            <ListItem noBorder style={{marginLeft: 10, height: 75}}
                                                       onPress={() => this.openArticle('notice', document.scheduleList[0])}>
                                                 <Text style={{
                                                     fontSize: 14,
@@ -372,46 +372,54 @@ class BoardComponent extends React.Component {
                                         </Body>
                                     </CardItem>
                                 </Card>
-                                <Separator style={{height: 10}}/>
-                                <Card transparent style={{marginTop:0, borderTopWidth:0, marginBottom: 0}}>
-                                    <CardItem style={{paddingBottom: 0, marginBottom: 0}}>
-                                        <Body>
-                                        <List>
-                                            <ListItem style={loungeStyle.listHeaderListItem}>
-                                                <Text style={{
-                                                    width: '100%',
-                                                    paddingLeft: 0,
-                                                    marginLeft: 0,
-                                                    color: '#000000'
-                                                }}>게시글</Text>
-                                            </ListItem>
-                                        </List>
-                                        </Body>
-                                    </CardItem>
-                                </Card>
+                                <View style={{flexDirection: 'row', marginLeft:25, paddingVertical:12}}>
+                                    <Text style={{color: '#6d7381', fontSize:14.5}}>최신 게시물</Text>
+                                </View>
                             </View>
                         }
+                        style={{backgroundColor: '#f2f4f7'}}
                         renderItem={({item, index}) => (
                             <ListItem key={item.articleId}
-                                      style={{height: 70, backgroundColor: '#ffffff', width: '92%'}}
+                                      style={{height: item.urlList && item.urlList.length > 0 ? 300 : 170,
+                                          backgroundColor: '#ffffff', width: '92%', borderWidth:0.3,
+                                          borderColor:'#979797', justifyContent:'flex-start',marginBottom:5,}}
                                       onPress={() => this.openArticle('article', item)}>
-                                <Left style={{marginLeft: 0, paddingLeft: 0}}>
-                                    <Body style={{marginLeft: 0, paddingLeft: 0, marginTop: 5}}>
-                                    <Text numberOfLines={2}
-                                          style={{fontWeight: '100', color: '#555555'}}>{item.title}</Text>
-                                    <Text note style={{marginTop: 3}}>
-                                        <Text note style={{fontSize: 13}}>{item.author.name} </Text>
-                                        <Text note
-                                              style={{fontSize: 13}}> {moment(item.createDateTime).format("MM.DD") === now ? '오늘' : moment(item.createDateTime).format("MM.DD")} </Text>
+                                <View style={{backgroundColor: '#ffffff', paddingBottom:5, margin:0, width:'100%'}}>
+                                    <View style={{marginTop:25, marginLeft:17, flexDirection:'row', height:22}}>
+                                        <Text numberOfLines={1} ellipsizeMode='tail' style={{paddingLeft:0, fontSize:17, fontWeight: '500', color: '#4a4a4a'}}>{item.title}</Text>
+                                    </View>
+                                    <View style={{paddingTop:10, marginLeft:17, flexDirection:'row'}}>
+                                        <Text style={{fontSize: 13, color: '#979797', fontWeight:'700'}}>{item.author.name} </Text>
+                                        <Text style={{fontSize: 13, color: '#979797', fontWeight:'400', marginLeft:5}}> {moment(item.createDateTime).format("MM.DD") === now ? '오늘' : moment(item.createDateTime).format("MM.DD")} </Text>
                                         <Text style={{
-                                            color: boardColor,
-                                            fontSize: 13
+                                            color: boardColor, fontSize: 13, fontWeight:'600', marginLeft:5
                                         }}> {item.comment && item.comment.length !== 0 ? '댓글 ' + item.comment.length : ''}</Text>
-                                    </Text>
-                                    </Body>
-                                    {item.urlList && item.urlList.length > 0 && <Thumbnail square
-                                                                                           source={{uri: (item.urlList && item.fileNameList && item.urlList[0].replace(item.fileNameList[0], 'thumb_' + item.fileNameList[0]))}}/>}
-                                </Left>
+                                    </View>
+                                    {item.urlList && item.urlList.length > 0 &&
+                                    <View style={{height:150, paddingTop:10, width:'100%', marginLeft:17, flexDirection:'row'}}>
+                                        <Image resizeMode={'contain'} source={{uri: item.urlList[0]}} style={{height: 150, flex: 1}}/>
+                                    </View>
+                                    }
+                                    <View style={{height: item.urlList && item.urlList.length > 0 ? 40 : 70, marginTop:10, marginLeft:17, flexDirection:'row'}}>
+                                        <Text numberOfLines={item.urlList && item.urlList.length > 0 ? 2 : 3} ellipsizeMode='tail' style={{paddingLeft:0, fontSize:14, fontWeight: '100', color: '#4a4a4a'}}>{item.content}</Text>
+                                    </View>
+
+
+                                    {/*<Body style={{marginLeft: 0, paddingLeft: 0, marginTop: 5}}>*/}
+                                    {/*<Text numberOfLines={1} style={{fontWeight: '100', color: '#555555'}}>{item.title}</Text>*/}
+                                    {/*<Text note style={{marginTop: 3}}>*/}
+                                        {/*<Text note style={{fontSize: 13}}>{item.author.name} </Text>*/}
+                                        {/*<Text note*/}
+                                              {/*style={{fontSize: 13}}> {moment(item.createDateTime).format("MM.DD") === now ? '오늘' : moment(item.createDateTime).format("MM.DD")} </Text>*/}
+                                        {/*<Text style={{*/}
+                                            {/*color: boardColor,*/}
+                                            {/*fontSize: 13*/}
+                                        {/*}}> {item.comment && item.comment.length !== 0 ? '댓글 ' + item.comment.length : ''}</Text>*/}
+                                    {/*</Text>*/}
+                                    {/*</Body>*/}
+                                    {/*{item.urlList && item.urlList.length > 0 && <Thumbnail square*/}
+                                                                                           {/*source={{uri: (item.urlList && item.fileNameList && item.urlList[0].replace(item.fileNameList[0], 'thumb_' + item.fileNameList[0]))}}/>}*/}
+                                </View>
                             </ListItem>
                         )}
                         keyExtractor={(item, index) => index + item.toString()}

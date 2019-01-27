@@ -20,9 +20,9 @@ const styles = StyleSheet.create({
 })
 const bgColorMap = {
     hall: ['#488cdf', '#3953b9'],
-    home: ['#394eb7', '#6965dc'],
-    univ: ['#2867ae', '#2867ae'],
-    club: ['#549806', '#549806'],
+    home: ['#5347c2', '#2c216e'],
+    univ: ['#2867ad', '#153763'],
+    club: ['#f97463', '#541008'],
 }
 class MenuNavBar extends React.Component {
     render() {
@@ -32,73 +32,66 @@ class MenuNavBar extends React.Component {
         return (
             <View style={{flexDirection: 'column'}}>
                 <LinearGradient colors={bgColor}
-                                style={{height: 42, flexDirection: 'row'}} start={[0, 0]} end={[1, 0]}>
-                    <TouchableOpacity
-                        onPress={Actions.drawerOpen}
-                        style={{justifyContent: 'center', paddingLeft: 23, paddingBottom: 1, paddingTop: 15, flex: 2}}>
-                        <Image
-                            style={{width: 28, height: 20,}}
-                            resizeMode="contain"
-                            source={MenuButton}/>
-                    </TouchableOpacity>
-                    <View style={{width: '65%', paddingTop: 20}}>
-                        <Image
-                            style={{width: 104, height: 22,}}
-                            resizeMode="contain"
-                            source={TopLogo}/>
+                                 start={[0, 0]} end={[0, 1]}>
+                    <View style={{height: 70, flexDirection: 'row'}}>
+                        <TouchableOpacity
+                            onPress={Actions.drawerOpen}
+                            style={{justifyContent: 'center', paddingLeft: 23, paddingBottom: 1, paddingTop: 45, flex: 2}}>
+                            <Image
+                                style={{width: 28, height: 20,}}
+                                resizeMode="contain"
+                                source={MenuButton}/>
+                        </TouchableOpacity>
+                        <View style={{width: '65%', paddingTop: 45}}>
+                            <Image
+                                style={{width: 124, height: 26}}
+                                resizeMode="contain"
+                                source={TopLogo}/>
+                        </View>
                     </View>
-                </LinearGradient>
-                <LinearGradient style={[styles.container, {flexDirection: 'row', height: 56}]} colors={bgColor}
-                                start={[0, 0]} end={[1, 0]}>
-                    <View style={[styles.navBarItem, {flexDirection: 'row', justifyContent: 'flex-end'}]}>
-                        <TouchableOpacity
-                            onPress={Actions.hall}
-                            style={{width: '25%'}}>
-                            <Button onPress={Actions.hall} style={{
-                                color: this.props.navigation.state.key === 'hall' ? '#ffffff' : '#ffffff50',
-                                paddingBottom: 9,
-                                fontSize: 19,
-                                fontWeight: '100'
-                            }}>Union</Button>
-                            {this.props.navigation.state.key === 'hall' ?
-                                <View style={{backgroundColor: '#ffffff', width: '100%', height: 4}}/> : null}
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={Actions.home}
-                            style={{width: '25%'}}>
-                            <Button onPress={Actions.home} style={{
-                                color: this.props.navigation.state.key === 'home' ? '#ffffff' : '#ffffff50',
-                                paddingBottom: 9,
-                                fontSize: 19,
-                                fontWeight: '100'
-                            }}>Home</Button>
-                            {this.props.navigation.state.key === 'home' ?
-                                <View style={{backgroundColor: '#ffffff', width: '100%', height: 4}}/> : null}
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={Actions.univ}
-                            style={{width: '25%'}}>
-                            <Button onPress={Actions.univ} style={{
-                                color: this.props.navigation.state.key === 'univ' ? '#ffffff' : '#ffffff50',
-                                paddingBottom: 9,
-                                fontSize: 19,
-                                fontWeight: '100'
-                            }}>Univ.</Button>
-                            {this.props.navigation.state.key === 'univ' ?
-                                <View style={{backgroundColor: '#ffffff', width: '100%', height: 4}}/> : null}
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={Actions.club}
-                            style={{width: '25%'}}>
-                            <Button onPress={Actions.club} style={{
-                                color: this.props.navigation.state.key === 'club' ? '#ffffff' : '#ffffff50',
-                                paddingBottom: 9,
-                                fontSize: 19,
-                                fontWeight: '100'
-                            }}>Club</Button>
-                            {this.props.navigation.state.key === 'club' ?
-                                <View style={{backgroundColor: '#ffffff', width: '100%', height: 4}}/> : null}
-                        </TouchableOpacity>
+                    <View style={[styles.container, {flexDirection: 'row', height: 54}]}>
+                        <View style={[styles.navBarItem, {flexDirection: 'row', justifyContent: 'flex-end'}]}>
+                            <TouchableOpacity
+                                onPress={Actions.hall}
+                                style={{width: '25%'}}>
+                                <Button onPress={Actions.hall} style={{
+                                    color: this.props.navigation.state.key === 'hall' ? '#ffffff' : '#ffffff50',
+                                    paddingBottom: 9,
+                                    fontSize: 19,
+                                    fontWeight: this.props.navigation.state.key === 'hall' ? 'bold' : '100'
+                                }}>Union</Button>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={Actions.home}
+                                style={{width: '25%'}}>
+                                <Button onPress={Actions.home} style={{
+                                    color: this.props.navigation.state.key === 'home' ? '#ffffff' : '#ffffff50',
+                                    paddingBottom: 9,
+                                    fontSize: 19,
+                                    fontWeight: this.props.navigation.state.key === 'home' ? 'bold' : '100'
+                                }}>Home</Button>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={Actions.univ}
+                                style={{width: '25%'}}>
+                                <Button onPress={Actions.univ} style={{
+                                    color: this.props.navigation.state.key === 'univ' ? '#ffffff' : '#ffffff50',
+                                    paddingBottom: 9,
+                                    fontSize: 19,
+                                    fontWeight: this.props.navigation.state.key === 'univ' ? 'bold' : '100'
+                                }}>Univ.</Button>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={Actions.club}
+                                style={{width: '25%'}}>
+                                <Button onPress={Actions.club} style={{
+                                    color: this.props.navigation.state.key === 'club' ? '#ffffff' : '#ffffff50',
+                                    paddingBottom: 9,
+                                    fontSize: 19,
+                                    fontWeight: this.props.navigation.state.key === 'club' ? 'bold' : '100'
+                                }}>Club</Button>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </LinearGradient>
             </View>

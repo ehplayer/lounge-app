@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FlatList, Image, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
+import {FlatList, Image, StyleSheet, TextInput, TouchableOpacity, Text} from 'react-native';
 import moment from 'moment';
-import {Body, Button, Card, CardItem, Container, Form, Input, Left, Right, Text, Thumbnail, View} from 'native-base';
+import {Body, Button, Card, CardItem, Container, Form, Input, Left, Right, Thumbnail, View} from 'native-base';
 import trashIcon from '../../images/trash.png'
 import menuDotIcon from '../../images/menu_dot.png'
 import Loading from "./Loading";
@@ -147,7 +147,7 @@ class Notice extends React.Component {
                             </CardItem>
                             <CardItem style={{paddingBottom: 10}}>
                                 <Body>
-                                <Text>{article.content}</Text>
+                                <Text selectable>{article.content}</Text>
                                 </Body>
                             </CardItem>
                             {article.isSchedule &&

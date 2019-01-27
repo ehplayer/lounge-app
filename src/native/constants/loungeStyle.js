@@ -13,7 +13,8 @@ export default {
     listHeaderListItem: {
         height: 40,
         paddingLeft:0,
-        marginLeft:0,
+        marginLeft:10,
+        marginRight:10,
         alignItems:'center',
         paddingTop:5,
     },
@@ -21,7 +22,7 @@ export default {
         width: '93%', paddingLeft:0, marginLeft:0, color: '#000000'
     },
     listHeaderListItem_Image: {
-        width: 17, height: 17, marginLeft:10
+        width: 14, height: 14, marginLeft:20
     },
     exitModal: {
         backgroundColor: "white",

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {Body, Button, Container, Content, Form, Input, Left, ListItem, Right, Text, Thumbnail, View, Separator, } from 'native-base';
 import checkedIcon from '../../images/checkO.png'
 import uncheckedIcon from '../../images/checkX.png'
+
 import Loading from './Loading';
 import {Image, Platform, StyleSheet, TouchableHighlight} from "react-native";
 import {Actions} from 'react-native-router-flux';
@@ -150,10 +151,15 @@ class SignUp extends React.Component {
 
     render() {
         const {loading, error, success, member} = this.props;
-        const universeList = [{name:'연세대학교', value:'yonsei', thumb: "http://www.yonsei.ac.kr/_res/sc/img/intro/img_symbol6.png"},
-            {name:'고려대학교', value:'korea', thumb: "http://www.korea.ac.kr/mbshome/mbs/university/images/img/img_1_1_5_1_3_1.gif"},
-            {name:'이화여자대학', value:'ewha', thumb: "https://www.ewha.ac.kr/mbs/ewhakr/images/contents/img_con01070602_1.gif"},
-            {name:'한양대학교', value:'hanyang', thumb: "http://www.hanyang.ac.kr/html-repositories/images/custom/introduction/img_hy0104_02_0102.png"},
+        const universeList = [{name:'연세대학교', value:'yonsei', thumb: 'https://firebasestorage.googleapis.com/v0/b/club-mba.appspot.com/o/image%2Funiv_icon%2Fyonsei.png?alt=media&token=8928b49c-9a3e-49d6-9ccb-4bdee478cde4'},
+            {name:'고려대학교', value:'korea', thumb: "https://firebasestorage.googleapis.com/v0/b/club-mba.appspot.com/o/image%2Funiv_icon%2Fkorea.gif?alt=media&token=66334b99-486a-465d-935e-d549e8f1b872"},
+            {name:'서강대학교', value:'sogang', thumb: "https://firebasestorage.googleapis.com/v0/b/club-mba.appspot.com/o/image%2Funiv_icon%2Fsogang.png?alt=media&token=bdd752cf-56fc-4189-875a-24ead426b890"},
+            {name:'서울대학교', value:'seoul', thumb: "https://firebasestorage.googleapis.com/v0/b/club-mba.appspot.com/o/image%2Funiv_icon%2Fseoul.gif?alt=media&token=dcf6ef2b-fd22-46ba-9ddc-386e3b432524"},
+            {name:'성균관대학교', value:'skk', thumb: "https://firebasestorage.googleapis.com/v0/b/club-mba.appspot.com/o/image%2Funiv_icon%2Fskk.jpg?alt=media&token=5e7be9a5-052d-43a1-9393-ef1eef4b192a"},
+            {name:'이화여자대학교', value:'ewha', thumb: "https://firebasestorage.googleapis.com/v0/b/club-mba.appspot.com/o/image%2Funiv_icon%2Fewha.gif?alt=media&token=5d708eb8-f9fa-468a-9159-0b20a5279c57"},
+            {name:'중앙대학교', value:'ca', thumb: "https://firebasestorage.googleapis.com/v0/b/club-mba.appspot.com/o/image%2Funiv_icon%2Fca.png?alt=media&token=57868bf9-cdef-4d3e-ac8b-b3eacf837ca1"},
+            {name:'카이스트', value:'kaist', thumb: "https://firebasestorage.googleapis.com/v0/b/club-mba.appspot.com/o/image%2Funiv_icon%2Fkaist.gif?alt=media&token=81dcb490-ec67-4052-a05e-6d5d00dea11f"},
+            {name:'한양대학교', value:'hanyang', thumb: "https://firebasestorage.googleapis.com/v0/b/club-mba.appspot.com/o/image%2Funiv_icon%2Fhanyang.png?alt=media&token=cd7bbce2-faae-4a51-a90a-98f1bfb77a8a"},
             //{name:'라운지대학교', value:'lounge', thumb: "http://www.hanyang.ac.kr/html-repositories/images/custom/introduction/img_hy0104_02_0102.png"},
         ];
         if (loading) return <Loading/>;
@@ -351,7 +357,7 @@ class SignUp extends React.Component {
                                 <Button style={{width:120, height:50, justifyContent:'center', borderRadius:0, marginLeft:5, backgroundColor: '#535acb'}} onPress={() => {
                                     this.setState({visibleModal: false})
                                     if(this.state.isSignUpComplete){
-                                        Actions.login();
+                                        Actions.home();
                                     }
                                 }}>
                                     <Text>확인</Text>

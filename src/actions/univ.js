@@ -624,12 +624,16 @@ export function getScheduleList(currentUnivId, member, sectionType) {
             currentUnivId = member[sectionType + 'Auth'][0].boardId;
         }
 
-        const scheduleDocument = await Firestore.collection(universe).doc(currentUnivId).collection("notice").where("isSchedule", "==", true).orderBy("createDateTime", 'desc').limit(1).get();
+        const scheduleDocument = await Firestore.collection(universe).doc(currentUnivId)
+            .collection("notice")
+            .where("isSchedule", "==", true).orderBy("createDateTime", 'desc').limit(10).get();
         let scheduleList = [];
         scheduleDocument.docs.forEach(doc => {
-            scheduleList.push({...doc.data(), docId: doc.id});
+            const scheduleData = doc.data()
+            if(scheduleData.endDatetimeLong > moment().valueOf()){
+                scheduleList.push({...doc.data(), docId: doc.id});
+            }
         });
-
         return resolve(dispatch({
             type: sectionType.toUpperCase() + '_TOTAL',
             data: {
