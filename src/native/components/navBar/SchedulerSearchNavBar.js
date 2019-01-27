@@ -15,7 +15,7 @@ class SchedulerSearchNavBar extends React.Component {
       searchValue: this.props.searchName || '',
     };
     if(this.props.searchName){
-      this.props.getSearchMemberList(this.props.searchName);
+      this.props.getSearchMemberList(this.props.searchName, this.props.member);
     }
     this.handleChange = this.handleChange.bind(this);
     this.search = this.search.bind(this)
@@ -29,7 +29,7 @@ class SchedulerSearchNavBar extends React.Component {
   }
 
   search = () => {
-    this.props.getSearchMemberList(this.state.searchValue);
+    this.props.getSearchMemberList(this.state.searchValue, this.props.member);
   }
 
   render() {

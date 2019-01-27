@@ -1,4 +1,4 @@
-import {Image, Platform, StyleSheet, TouchableOpacity, View} from 'react-native'
+import {Image, Platform, StatusBar, StyleSheet, TouchableOpacity, View} from 'react-native'
 import React from 'react'
 import {Actions} from 'react-native-router-flux'
 import Button from 'react-native-button'
@@ -31,6 +31,7 @@ class MenuNavBar extends React.Component {
 
         return (
             <View style={{flexDirection: 'column'}}>
+                <StatusBar backgroundColor={bgColor[0]} barStyle="dark-content" />
                 <LinearGradient colors={bgColor}
                                  start={[0, 0]} end={[0, 1]}>
                     <View style={{height: 70, flexDirection: 'row'}}>

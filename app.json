@@ -1,11 +1,11 @@
 {
   "expo": {
     "sdkVersion": "30.0.0",
-    "name": "mba-lounge",
+    "name": "MBA 라운지",
     "slug": "mba-lounge",
     "icon": "src/images/app-icon.png",
     "privacy": "public",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "splash": {
       "image": "src/images/splash.png",
       "resizeMode": "cover"

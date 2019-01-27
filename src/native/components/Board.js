@@ -260,7 +260,7 @@ class BoardComponent extends React.Component {
                                                                return {
                                                                    ...adjust,
                                                                    left: 0,
-                                                                   top: adjust.top + (Platform.OS === 'ios' ? 25 : 0)
+                                                                   top: adjust.top + (Platform.OS === 'ios' ? 18 : -7)
                                                                };
                                                            }}
                                                            onSelect={(index, value) => this.onChangeBoard(value, index === document.boardList.length - 1 + "")}
@@ -381,8 +381,8 @@ class BoardComponent extends React.Component {
                         renderItem={({item, index}) => (
                             <ListItem key={item.articleId}
                                       style={{height: item.urlList && item.urlList.length > 0 ? 300 : 170,
-                                          backgroundColor: '#ffffff', width: '92%', borderWidth:0.3,
-                                          borderColor:'#979797', justifyContent:'flex-start',marginBottom:5,}}
+                                          backgroundColor: '#ffffff', borderWidth:0.3,
+                                          borderColor:'#979797', justifyContent:'flex-start', marginBottom:5, marginRight:17}}
                                       onPress={() => this.openArticle('article', item)}>
                                 <View style={{backgroundColor: '#ffffff', paddingBottom:5, margin:0, width:'100%'}}>
                                     <View style={{marginTop:25, marginLeft:17, flexDirection:'row', height:22}}>

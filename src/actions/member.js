@@ -129,11 +129,10 @@ export function getOtherUserData(docId) {
     });
 }
 
-export function getSearchMemberList(name) {
+export function getSearchMemberList(name, member) {
   if (Firebase === null) return () => new Promise(resolve => resolve());
   return dispatch => new Promise( async (resolve) => {
-    //const documentSnapshots = await Firestore.collection("users").where('name', '==', name).get();
-    const documentSnapshots = await Firestore.collection("users").orderBy('name').startAt(name).endAt(name + "\uf8ff").limit(20).get();
+    const documentSnapshots = await Firestore.collection("users").where('universe', '==', member.universe).orderBy('name').startAt(name).endAt(name + "\uf8ff").limit(20).get();
     let docList = [];
     documentSnapshots.docs.forEach(doc => {
       docList.push({...doc.data(), docId: doc.id});

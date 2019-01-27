@@ -21,7 +21,7 @@ class MemberSearch extends React.Component {
   };
 
   render() {
-    const {loading, error, searchUserList} = this.props;
+    const {loading, error, searchUserList, member} = this.props;
     if (loading) return <Loading/>;
     return (
       <Container>

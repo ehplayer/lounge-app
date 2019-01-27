@@ -28,7 +28,10 @@ class MemberSearch extends Component {
 
   render = () => {
     const { Layout, searchUserList, getSearchMemberList, addStaffMemberList, member} = this.props;
-    return <Layout searchUserList={this.state.initialize ? searchUserList : []} addStaffMemberList={addStaffMemberList} getSearchMemberList={getSearchMemberList}/>;
+    return <Layout searchUserList={this.state.initialize ? searchUserList : []}
+                   addStaffMemberList={addStaffMemberList}
+                   getSearchMemberList={getSearchMemberList}
+                   member={member}/>;
   }
 }
 

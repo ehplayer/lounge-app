@@ -143,7 +143,7 @@ class HomeComponent extends React.Component {
                     numColumns={1}
                     data={scheduleList}
                     ListHeaderComponent={
-                        <Card transparent style={{marginTop:0, borderTopWidth:0, marginBottom: 0}}>
+                        <Card transparent style={{marginLeft:0, marginRight:0, marginTop:0, borderTopWidth:0, marginBottom: 0}}>
                             <CardItem style={{paddingBottom: 0}}>
                                 <Body>
                                 <List>
@@ -162,7 +162,7 @@ class HomeComponent extends React.Component {
                                         renderItem={({item, index}) => (
                                             <ListItem noBorder={index === noticeList.length - 1} key={item.articleId}
                                                       onPress={() => this.openArticle(item)}
-                                                      style={{height: 50, paddingLeft: 0, marginLeft: 0}}>
+                                                      style={{height: 50, paddingLeft: 0, marginLeft: 10}}>
                                                 <Text style={{
                                                     color: this.sectionColorMap[item.sectionType],
                                                     width: '13%'
@@ -182,11 +182,11 @@ class HomeComponent extends React.Component {
                                 </List>
                                 </Body>
                             </CardItem>
-                            <Separator style={{height: 10}}/>
+                            <Separator style={{height: 5, backgroundColor: '#f2f4f7'}}/>
                             <CardItem style={{paddingBottom: 0}}>
                                 <Body>
                                 <List>
-                                    <ListItem noBorder={scheduleList.length === 0}
+                                    <ListItem noBorder
                                               style={loungeStyle.listHeaderListItem}
                                               onPress={item => Actions.homeScheduleList({title: '일정'})}>
                                         <Text style={loungeStyle.listHeaderListItem_Text}>일정</Text>
@@ -204,7 +204,7 @@ class HomeComponent extends React.Component {
                     renderItem={({item, index}) => (
                         <ListItem noBorder style={{
                             height: 70,
-                            paddingLeft: 10,
+                            paddingLeft: 20,
                             paddingRight: 30,
                             marginLeft: 0,
                             backgroundColor: '#ffffff'
