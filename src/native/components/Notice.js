@@ -403,8 +403,10 @@ class Notice extends React.Component {
                                     <Button onPress={this.addComment} style={{
                                         backgroundColor: bgColor,
                                         borderRadius: null,
-                                        height: 50
-                                    }}><Text>등록</Text></Button>
+                                        height: 50,
+                                        width:60,
+                                        justifyContent: 'center',
+                                    }}><Text style={{color:'#ffffff'}}>등록</Text></Button>
                                 </Right>
                             </CardItem>
                         </Card>

@@ -59,7 +59,7 @@ class ClubContainer extends React.Component {
               loading={status.loading}
               document={club}
               sectionType={sectionType}
-              boardColor={'#549806'}
+              boardColor={'#a64235'}
               member={member}
               reFetch={this.fetchData}
               moreFetch={this.props.getArticleListMore}
