@@ -541,11 +541,7 @@ export function updateBoardMember(localState) {
 export function getBoardList(currentUnivId, member, sectionType) {
     if (Firebase === null) return () => new Promise(resolve => resolve());
 
-    const isUniv = sectionType === 'univ';
     const isHall = sectionType === 'hall';
-    const isClub = sectionType === 'club';
-
-    if (isClub && (!member.clubAuth || member.clubAuth.length === 0)) return () => new Promise(resolve => resolve());
     const universe = isHall ? 'hall' : member.universe + sectionType;
 
     return dispatch => new Promise(async resolve => {
@@ -568,6 +564,7 @@ export function getBoardList(currentUnivId, member, sectionType) {
         }
         await statusMessage(dispatch, 'loading', false);
         await statusMessage(dispatch, 'needUpdate', false);
+
         return resolve(dispatch({
             type: sectionType.toUpperCase() + '_TOTAL',
             data: {

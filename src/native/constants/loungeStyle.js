@@ -1,6 +1,16 @@
-
-
 export default {
+    bgGradientColorMap : {
+        hall: ['#488cdf', '#3953b9'],
+        home: ['#5347c2', '#2c216e'],
+        univ: ['#2867ad', '#153763'],
+        club: ['#f97463', '#541008'],
+    },
+    bgColorMap : {
+        hall: '#2867ae',
+        home: '#6D41DD',
+        univ: '#2867ae',
+        club: '#a64235',
+    },
     modalContent: {
         backgroundColor: "white",
         padding: 22,

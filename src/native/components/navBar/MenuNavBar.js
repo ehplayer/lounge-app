@@ -6,6 +6,7 @@ import {LinearGradient} from 'expo';
 import TopLogo from '../../../images/logo_menu.png';
 import MenuButton from '../../../images/hamburger_button.png';
 import {connect} from "react-redux";
+import loungeStyle from '../../constants/loungeStyle'
 
 const styles = StyleSheet.create({
     container: {
@@ -18,12 +19,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     }
 })
-const bgColorMap = {
-    hall: ['#488cdf', '#3953b9'],
-    home: ['#5347c2', '#2c216e'],
-    univ: ['#2867ad', '#153763'],
-    club: ['#f97463', '#541008'],
-}
+const bgColorMap = loungeStyle.bgGradientColorMap;
+
 class MenuNavBar extends React.Component {
     render() {
         const bgColor = bgColorMap[this.props.navigation.state.key];

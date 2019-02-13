@@ -3,6 +3,7 @@ import React from 'react'
 import {Actions} from 'react-native-router-flux'
 import {connect} from "react-redux";
 import ArrowLeft from '../../../images/arrow_left.png';
+import loungeStyle from '../../constants/loungeStyle'
 
 const styles = StyleSheet.create({
   container: {
@@ -15,12 +16,7 @@ const styles = StyleSheet.create({
 
   }
 })
-const bgColorMap = {
-    hall: '#4581d9',
-    home: '#535acb',
-    univ: '#2b66ae',
-    club: '#5b8b2b',
-}
+const bgColorMap = loungeStyle.bgColorMap;
 
 class CreateArticleNavBar extends React.Component {
   render() {

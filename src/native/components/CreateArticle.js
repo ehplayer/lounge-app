@@ -38,12 +38,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#D8D8D8'
     }
 });
-const bgColorMap = {
-    hall: '#4581d9',
-    home: '#535acb',
-    univ: '#2b66ae',
-    club: '#5b8b2b',
-}
+const bgColorMap = loungeStyle.bgColorMap;
+
 const iconMap = {
     hall: checkedIconPurple,
     home: checkedIconPurple,
@@ -171,7 +167,9 @@ class CreateArticle extends React.Component {
 
         const checkedIcon = iconMap[sectionType];
         const currentBoardAuth = member[sectionType + 'Auth'] && member[sectionType + 'Auth'].find(item => item.boardId === boardItem.docId);
-        const isAdmin = currentBoardAuth && currentBoardAuth.authType === 'S';
+        const isSectionAdmin = currentBoardAuth && currentBoardAuth.authType === 'S';
+        const isUnionAdmin = member.memberType === 'M' && sectionType === 'hall';
+        const isAdmin = isSectionAdmin || isUnionAdmin;
 
         return (
             <Container>

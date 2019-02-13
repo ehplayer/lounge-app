@@ -98,7 +98,7 @@ class Notice extends React.Component {
         const isJoined = article.joinerList && article.joinerList.find(item => item.docId === member.docId);
         const isJoinFinish = article.joinerList && article.joinerList.length >= article.joinMemberLimit;
         const isMyArticle = article.author.docId === member.docId;
-        const myAuth = member[sectionType + 'Auth'].find(auth => auth.boardId === article.boardDocId);
+        const myAuth = member[sectionType + 'Auth'] && member[sectionType + 'Auth'].find(auth => auth.boardId === article.boardDocId);
         const isStaff = myAuth && myAuth.authType === 'S';
         return (
             <Container>

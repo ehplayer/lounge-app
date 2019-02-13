@@ -39,11 +39,11 @@ class ClubContainer extends React.Component {
   }
 
   fetchData = (currentUnivId, member) => {
+      this.props.getBoardList(currentUnivId, member, this.props.sectionType).catch((err) => console.log(`Error: ${err}`));
       if(!member.clubAuth || member.clubAuth.length === 0){
           return;
       }
 
-      this.props.getBoardList(currentUnivId, member, this.props.sectionType).catch((err) => console.log(`Error: ${err}`));
       this.props.getNoticeList(currentUnivId, member, this.props.sectionType).catch((err) => console.log(`Error: ${err}`));
       this.props.getScheduleList(currentUnivId, member, this.props.sectionType).catch((err) => console.log(`Error: ${err}`));
       return this.props.getArticleList(currentUnivId, member, this.props.sectionType);

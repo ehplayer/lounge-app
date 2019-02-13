@@ -154,7 +154,7 @@ class ManageBoard extends React.Component {
             staffList = currentBoardItem && currentBoardItem.staffMemberList
         }
         let {staffMemberList} = member;
-        const totalMemberList = staffMemberList && staffList ? staffList.concat(staffMemberList) : staffList;
+        const totalMemberList = staffMemberList && staffList ? staffList.concat(staffMemberList) : staffMemberList;
 
         if (!currentBoardItem) {
             return <Container>

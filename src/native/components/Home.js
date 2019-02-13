@@ -22,6 +22,7 @@ import ArrowLeft from '../../images/arrow_right_gray.png';
 import loungeStyle from "../constants/loungeStyle";
 import Modal from "react-native-modal";
 
+
 class HomeComponent extends React.Component {
 
     static propTypes = {
@@ -118,11 +119,8 @@ class HomeComponent extends React.Component {
         this.props.reFetch(this.props.member);
     }
 
-    sectionColorMap = {
-        hall: '#4a90e2',
-        univ: '#2b66ae',
-        club: '#5b8b2b'
-    };
+    sectionColorMap = loungeStyle.bgColorMap;
+
     sectionTextMap = {
         hall: 'Hall',
         univ: 'Univ.',
