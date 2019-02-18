@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { logout, updateProfile } from '../actions/member';
+import { logout, updateProfile, deleteUser} from '../actions/member';
 
 const UpdateProfile = ({
   Layout,
@@ -11,7 +11,8 @@ const UpdateProfile = ({
   isLoading,
   errorMessage,
   successMessage,
-   logout
+  logout,
+  deleteUser
 }) => (
   <Layout
     member={member}
@@ -20,6 +21,7 @@ const UpdateProfile = ({
     success={successMessage}
     onFormSubmit={onFormSubmit}
     logout={logout}
+    deleteUser={deleteUser}
   />
 );
 
@@ -47,6 +49,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   onFormSubmit: updateProfile,
   logout: logout,
+  deleteUser,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UpdateProfile);

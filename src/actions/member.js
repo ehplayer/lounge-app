@@ -479,3 +479,17 @@ export function logout() {
       }).catch(reject);
   }).catch(async (err) => { await statusMessage(dispatch, 'error', err.message); throw err.message; });
 }
+
+export function deleteUser() {
+    return dispatch => new Promise((resolve, reject) => {
+        const currentUser = Firebase.auth().currentUser
+        Firestore.collection("users").doc(currentUser.uid).delete()
+            .catch(err => reject({ message: err }));
+
+        currentUser.delete()
+            .then(() => {
+                dispatch({ type: 'USER_RESET' });
+                setTimeout(resolve, 1000); // Resolve after 1s so that user sees a message
+            }).catch(reject);
+    }).catch(async (err) => { await statusMessage(dispatch, 'error', err.message); throw err.message; });
+}
