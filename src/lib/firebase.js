@@ -23,7 +23,7 @@ if (
   FirebaseModule.initializeApp({
     ...firebaseConfig
   });
-  FirebaseModule.firestore().settings({ timestampsInSnapshots: true })
+  FirebaseModule.firestore().settings({})
   firebaseInitialized = true;
 }
 

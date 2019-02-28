@@ -92,7 +92,7 @@ exports.generateThumbnail = functions.storage.object().onFinalize((object) => {
 
 exports.sendPushNotification = functions.firestore
     .document('{sectionId}/{boardId}/notice/{noticeId}')
-    .onWrite((change, context) => {
+    .onCreate((change, context) => {
     const {sectionId, boardId} = context.params;
     // 1. 새로 생성된 게시글 획득
     const noticeDocument = change.after.exists ? change.after.data() : null;

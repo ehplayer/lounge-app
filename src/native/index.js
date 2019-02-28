@@ -25,6 +25,7 @@ class App extends Component {
 
         this.state = {
             visibleExitModal: false,
+            initialLoading : true,
         };
     }
 
@@ -53,18 +54,20 @@ class App extends Component {
             this.backPressSubscriptions.add(this.handleHardwareBack);
         }
     }
+    async componentWillMount() {
+        await Expo.Font.loadAsync({
+            Roboto: require("native-base/Fonts/Roboto.ttf"),
+            Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
+            Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf"),
+        });
+        this.setState({ initialLoading: false });
+    }
 
     async componentWillUnmount() {
         if (Platform.OS === 'android') {
             DeviceEventEmitter.removeAllListeners('hardwareBackPress');
             this.backPressSubscriptions.clear();
         }
-        await Expo.Font.loadAsync({
-            'Roboto': require('native-base/Fonts/Roboto.ttf'),
-            'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
-            'Ionicons': require('@expo/vector-icons/fonts/Ionicons.ttf'),
-        });
-
     }
 
     handleHardwareBack = (e) => {
@@ -92,8 +95,10 @@ class App extends Component {
     }
 
     render() {
-        const {store, persistor} = this.props;
-
+        const {store, persistor, } = this.props;
+        if(this.state.initialLoading){
+            return <Expo.AppLoading />;
+        }
         return <Root>
             <Provider store={store}>
                 <PersistGate loading={null} persistor={persistor}>

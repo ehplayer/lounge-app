@@ -543,13 +543,15 @@ export function getBoardList(currentUnivId, member, sectionType) {
 
     const isHall = sectionType === 'hall';
     const universe = isHall ? 'hall' : member.universe + sectionType;
-
+    console.log("getBoardList start")
     return dispatch => new Promise(async resolve => {
         await statusMessage(dispatch, 'loading', true);
         let collectionReference = Firestore.collection(universe);
         let boardList = [];
         if (!isHall) {
-            const boardListSnapshots = await collectionReference.get();
+            console.log("getBoardList before api call")
+            const boardListSnapshots = await collectionReference.get().catch(e => console.log(`Error: ${e}`));
+            console.log("getBoardList after api call")
             member[sectionType + 'Auth'].map(auth => {
                 boardListSnapshots.docs.forEach(doc => {
                     if (auth.boardId === doc.id) {
@@ -558,13 +560,15 @@ export function getBoardList(currentUnivId, member, sectionType) {
                 });
             });
         } else {
-            const boardListSnapshots = await collectionReference.doc('total').get();
+            console.log("getBoardList before total api call")
+            const boardListSnapshots = await collectionReference.doc('total').get().catch(e => console.log(`Error: ${e}`));
+            console.log("getBoardList after total api call")
             const data = boardListSnapshots.data();
             boardList.push({...data, docId: 'total'});
         }
         await statusMessage(dispatch, 'loading', false);
         await statusMessage(dispatch, 'needUpdate', false);
-
+        console.log("getBoardList finish")
         return resolve(dispatch({
             type: sectionType.toUpperCase() + '_TOTAL',
             data: {
@@ -583,19 +587,19 @@ export function getNoticeList(currentUnivId, member, sectionType) {
 
     if (isClub && (!member.clubAuth || member.clubAuth.length === 0)) return () => new Promise(resolve => resolve());
     const universe = isHall ? 'hall' : member.universe + sectionType;
-
+    console.log("getNoticeList start")
     return dispatch => new Promise(async resolve => {
 
         if (!currentUnivId || currentUnivId === 'default') {
             currentUnivId = member[sectionType + 'Auth'][0].boardId;
         }
-
-        const noticeDocument = await Firestore.collection(universe).doc(currentUnivId).collection("notice").where("isNotice", "==", true).orderBy("createDateTime", 'desc').limit(3).get();
+        console.log("getNoticeList before API call")
+        const noticeDocument = await Firestore.collection(universe).doc(currentUnivId).collection("notice").where("isNotice", "==", true).orderBy("createDateTime", 'desc').limit(3).get().catch(e => console.log(`Error: ${e}`));
         let noticeList = [];
         noticeDocument.docs.forEach(doc => {
             noticeList.push({...doc.data(), docId: doc.id});
         });
-
+        console.log("getNoticeList after API call")
         return resolve(dispatch({
             type: sectionType.toUpperCase() + '_TOTAL',
             data: {
@@ -611,7 +615,7 @@ export function getScheduleList(currentUnivId, member, sectionType) {
     const isUniv = sectionType === 'univ';
     const isHall = sectionType === 'hall';
     const isClub = sectionType === 'club';
-
+    console.log("getNoticeList before API call")
     if (isClub && (!member.clubAuth || member.clubAuth.length === 0)) return () => new Promise(resolve => resolve());
     const universe = isHall ? 'hall' : member.universe + sectionType;
 
@@ -620,11 +624,12 @@ export function getScheduleList(currentUnivId, member, sectionType) {
         if (!currentUnivId || currentUnivId === 'default') {
             currentUnivId = member[sectionType + 'Auth'][0].boardId;
         }
-
+        console.log("getNoticeList before API call")
         const scheduleDocument = await Firestore.collection(universe).doc(currentUnivId)
             .collection("notice")
-            .where("isSchedule", "==", true).orderBy("createDateTime", 'desc').limit(10).get();
+            .where("isSchedule", "==", true).orderBy("createDateTime", 'desc').limit(10).get().catch(e => console.log(`Error: ${e}`));
         let scheduleList = [];
+        console.log("getNoticeList before API call")
         scheduleDocument.docs.forEach(doc => {
             const scheduleData = doc.data()
             if(scheduleData.endDatetimeLong > moment().valueOf()){
