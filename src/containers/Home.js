@@ -6,6 +6,7 @@ import {getHomeNotice, getHomeSchedule} from '../actions/home';
 import {clearFindEmail, findEmail, login, resetPassword, updatePushNotiAllow} from '../actions/member';
 import {Notifications, Permissions} from "expo";
 import Login from "../native/components/Login";
+import AuthWating from "../native/components/AuthWating";
 
 class HomeContainer extends React.Component {
     static propTypes = {
@@ -30,23 +31,28 @@ class HomeContainer extends React.Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            memberEmail : this.props.member.email,
+        };
+
         if (!props.member.name) {
             return Actions.login();
         }
 
-        this.fetchTotalHome(props.member);
     };
     componentDidMount() {
         if (!this.props.member.name) {
             return Actions.login();
         }
-        if(!this.props.member.pushNotificationStatus ){
-            this.registerForPushNotificationsAsync()
-        }
+        
+        this.registerForPushNotificationsAsync()
+
+        this.fetchTotalHome(this.props.member);
     }
 
     registerForPushNotificationsAsync = async () => {
         const { existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+
         let finalStatus = existingStatus;
 
         // only ask if permissions have not already been determined, because
@@ -56,6 +62,9 @@ class HomeContainer extends React.Component {
             // install, so this will only ask on iOS
             const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
             finalStatus = status;
+        }
+        if (finalStatus === 'undetermined'){
+            return;
         }
 
         if (finalStatus !== 'granted') {
@@ -71,6 +80,9 @@ class HomeContainer extends React.Component {
     componentWillReceiveProps(nextProps) {
         if (!nextProps.member.name) {
             Actions.login();
+        }
+        if(nextProps.status.needUpdate){
+            this.fetchTotalHome(this.props.member);
         }
     }
 
@@ -99,6 +111,11 @@ class HomeContainer extends React.Component {
                 fromLogin={true}
             />;
         }
+
+        if (this.props.member.authWaiting) {
+            return <AuthWating/>;
+        }
+
         return (
             <Layout
                 error={home.error}

@@ -136,7 +136,7 @@ class HomeComponent extends React.Component {
         if (error) return <Error content={error}/>;
 
         return (
-            <Container>
+            <Container style={{ backgroundColor:'#eeeeee' }}>
                 <FlatList
                     numColumns={1}
                     data={scheduleList}
@@ -184,7 +184,7 @@ class HomeComponent extends React.Component {
                             <CardItem style={{paddingBottom: 0}}>
                                 <Body>
                                 <List>
-                                    <ListItem noBorder
+                                    <ListItem noBorder={scheduleList.length === 0}
                                               style={loungeStyle.listHeaderListItem}
                                               onPress={item => Actions.homeScheduleList({title: '일정'})}>
                                         <Text style={loungeStyle.listHeaderListItem_Text}>일정</Text>

@@ -29,6 +29,7 @@ export function getHomeNotice(member) {
     noticeList.sort((a,b) => b.createDateTime - a.createDateTime);
 
     await statusMessage(dispatch, 'loading', false);
+    await statusMessage(dispatch, 'needUpdate', false);
     return resolve(dispatch({
       type: 'HOME_TOTAL',
       data: {
@@ -71,6 +72,7 @@ export function getHomeSchedule(member) {
             });
         }
         scheduleList.sort((a,b) => a.startDatetimeLong - b.startDatetimeLong);
+
 
         return resolve(dispatch({
             type: 'HOME_TOTAL',

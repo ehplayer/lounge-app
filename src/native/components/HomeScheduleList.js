@@ -58,18 +58,17 @@ class HomeScheduleList extends React.Component {
     const now = Date.now();
 
     return (
-      <Container>
+      <Container style={{ backgroundColor:'#eeeeee' }}>
         <Content>
           <Card transparent style={{marginTop:0}} >
             <CardItem style={{paddingBottom:0}}>
               <Body>
-              <List>
                 <FlatList
                     numColumns={1}
                     data={home.afterScheduleList}
                     ListHeaderComponent={
                         <ListItem style={{height: 40, paddingLeft:0, marginLeft:0,}}>
-                            <Text style={{width: '90%', paddingLeft:0, marginLeft:0, paddingBottom:20}}>예정된 일정</Text>
+                            <Text style={{width: '100%', paddingLeft:0, marginLeft:0, paddingBottom:20}}>예정된 일정</Text>
                             {/*<Image*/}
                                 {/*style={{width: 25, height: 20, marginLeft:10}}*/}
                                 {/*resizeMode="contain"*/}
@@ -97,14 +96,12 @@ class HomeScheduleList extends React.Component {
                     )}
                     keyExtractor={(item, index) => index + item.toString()}
                 />
-              </List>
               </Body>
             </CardItem>
           </Card>
           <Card transparent >
             <CardItem style={{paddingBottom:0}}>
               <Body>
-              <List>
                   <FlatList
                       numColumns={1}
                       data={home.beforeScheduleList}
@@ -131,7 +128,6 @@ class HomeScheduleList extends React.Component {
                       )}
                       keyExtractor={(item, index) => index + item.toString()}
                   />
-              </List>
               </Body>
             </CardItem>
           </Card>

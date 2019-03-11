@@ -7,7 +7,6 @@ import AuthWaitingImage from "../../images/authWaiting.png";
 class AuthWating extends React.Component {
   static propTypes = {
     member: PropTypes.shape({}),
-    logout: PropTypes.func.isRequired,
   };
   
   static defaultProps = {
@@ -15,8 +14,6 @@ class AuthWating extends React.Component {
   };
 
   render(){
-    const { member, logout} = this.props;
-
     return (
       <Container>
               <Image

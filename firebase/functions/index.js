@@ -92,10 +92,10 @@ exports.generateThumbnail = functions.storage.object().onFinalize((object) => {
 
 exports.sendPushNotification = functions.firestore
     .document('{sectionId}/{boardId}/notice/{noticeId}')
-    .onCreate((change, context) => {
+    .onCreate((snap, context) => {
     const {sectionId, boardId} = context.params;
     // 1. 새로 생성된 게시글 획득
-    const noticeDocument = change.after.exists ? change.after.data() : null;
+    const noticeDocument = snap.data();
     // 2. total 게시판일 경우 해당 대학 전체 push
     if(boardId === 'total'){
         const universe = sectionId.replace('univ', '');

@@ -8,6 +8,7 @@ export default function recipeReducer(state = initialState, action) {
       return {
         ...state,
         ...action.data,
+        initialized:true,
         loading: false,
         error: null,
       };
@@ -16,9 +17,13 @@ export default function recipeReducer(state = initialState, action) {
       return {
         ...state,
         ...action.data,
+        initialized:true,
         loading: false,
         error: null,
       };
+    }
+    case 'HOME_RESET': {
+        return initialState;
     }
     default:
       return state;

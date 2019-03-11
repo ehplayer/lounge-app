@@ -1,4 +1,4 @@
-import {Image, Platform, StatusBar, StyleSheet, TouchableOpacity, View} from 'react-native'
+import {Image, Platform, StatusBar, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import React from 'react'
 import {Actions} from 'react-native-router-flux'
 import Button from 'react-native-button'
@@ -7,6 +7,7 @@ import TopLogo from '../../../images/logo_menu.png';
 import MenuButton from '../../../images/hamburger_button.png';
 import {connect} from "react-redux";
 import loungeStyle from '../../constants/loungeStyle'
+import ArrowLeft from '../../../images/arrow_left.png';
 
 const styles = StyleSheet.create({
     container: {
@@ -24,7 +25,23 @@ const bgColorMap = loungeStyle.bgGradientColorMap;
 class MenuNavBar extends React.Component {
     render() {
         const bgColor = bgColorMap[this.props.navigation.state.key];
-        if (!this.props.member || !this.props.member.name) return <View/>
+        if (!this.props.member || !this.props.member.name ) return <View/>
+
+        if(this.props.member.authWaiting){
+            return <LinearGradient colors={['#394eb7', '#4a57ba']} style={{flexDirection: 'row'}} start={[0,0]} end={[1,0]}>
+                        <TouchableOpacity
+                            onPress={Actions.login}
+                            style={[styles.navBarItem, { paddingLeft: 10, paddingBottom: 20, paddingTop: 20}]}>
+                            <Image
+                                style={{width: 16, height: 16, marginLeft:10}}
+                                resizeMode="contain"
+                                source={ArrowLeft}/>
+                        </TouchableOpacity>
+                        <View style={[styles.navBarItem]}>
+                            <Text style={{fontSize: 18, color: '#ffffff', paddingTop: 0}}>{this.props.title}</Text>
+                        </View>
+                    </LinearGradient>
+        }
 
         return (
             <View style={{flexDirection: 'column'}}>

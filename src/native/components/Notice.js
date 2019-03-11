@@ -101,7 +101,7 @@ class Notice extends React.Component {
         const myAuth = member[sectionType + 'Auth'] && member[sectionType + 'Auth'].find(auth => auth.boardId === article.boardDocId);
         const isStaff = myAuth && myAuth.authType === 'S';
         return (
-            <Container>
+            <Container style={{ backgroundColor:'#eeeeee' }}>
                 <KeyboardAwareScrollView
                     enableOnAndroid extraScrollHeight={250}
                                          keyboardShouldPersistTaps={'handled'}

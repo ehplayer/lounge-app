@@ -122,10 +122,7 @@ class CreateArticle extends React.Component {
         await Permissions.askAsync(Permissions.CAMERA);
         await Permissions.askAsync(Permissions.CAMERA_ROLL);
 
-        const result = await ImagePicker.launchImageLibraryAsync({
-            allowsEditing: true,
-            aspect: [4, 3],
-        });
+        const result = await ImagePicker.launchImageLibraryAsync();
 
         if (!result.cancelled) {
             const response = await fetch(result.uri);
@@ -172,7 +169,7 @@ class CreateArticle extends React.Component {
         const isAdmin = isSectionAdmin || isUnionAdmin;
 
         return (
-            <Container>
+            <Container style={{ backgroundColor:'#eeeeee' }}>
                 <KeyboardAwareScrollView enableOnAndroid extraScrollHeight={180}
                                          keyboardShouldPersistTaps={'handled'}
                 >

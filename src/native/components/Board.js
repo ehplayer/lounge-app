@@ -225,9 +225,9 @@ class BoardComponent extends React.Component {
                                 {!hideBoardSelectMenu &&
                                 <Card transparent style={{marginTop:0, marginLeft:0, marginRight:0, marginBottom:0, padding:0, borderTopWidth:0, paddingBottom: 0, height: 76}}>
                                     <TouchableOpacity onPress={this.showDropDown}>
-                                        <CardItem style={{margin: 0, paddingBottom: 0, borderBottomWidth:0, justifyContent:'center'}}>
+                                        <CardItem style={{margin: 0, paddingBottom: 0, borderBottomWidth:0, justifyContent:'center', height: 76}}>
                                             <Thumbnail source={{uri: boardItem && boardItem.thumb}}
-                                                       style={{width: 44, height: 44, borderRadius: 22, marginTop:7}}/>
+                                                       style={{width: 44, height: 44, borderRadius: 22}}/>
                                             <ModalDropDown ref="dropdown"
                                                            style={{
                                                                alignSelf: 'flex-end',
@@ -237,13 +237,12 @@ class BoardComponent extends React.Component {
                                                                paddingLeft: 0,
                                                            }}
                                                            textStyle={{
-                                                               marginVertical: 10,
+                                                               marginBottom: 25,
                                                                marginHorizontal: 6,
                                                                fontSize: 15,
                                                                color: '#000000',
                                                                fontWeight: '100',
                                                                textAlign: 'left',
-                                                               textAlignVertical: 'center',
                                                            }}
                                                            dropdownStyle={{
                                                                width: '100%',
@@ -260,7 +259,7 @@ class BoardComponent extends React.Component {
                                                                return {
                                                                    ...adjust,
                                                                    left: 0,
-                                                                   top: adjust.top + (Platform.OS === 'ios' ? 18 : -7)
+                                                                   top: adjust.top + (Platform.OS === 'ios' ? 5 : -7)
                                                                };
                                                            }}
                                                            onSelect={(index, value) => this.onChangeBoard(value, index === document.boardList.length - 1 + "")}

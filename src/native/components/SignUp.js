@@ -160,7 +160,7 @@ class SignUp extends React.Component {
             {name:'중앙대학교', value:'ca', thumb: "https://firebasestorage.googleapis.com/v0/b/club-mba.appspot.com/o/image%2Funiv_icon%2Fca.png?alt=media&token=57868bf9-cdef-4d3e-ac8b-b3eacf837ca1"},
             {name:'카이스트', value:'kaist', thumb: "https://firebasestorage.googleapis.com/v0/b/club-mba.appspot.com/o/image%2Funiv_icon%2Fkaist.gif?alt=media&token=81dcb490-ec67-4052-a05e-6d5d00dea11f"},
             {name:'한양대학교', value:'hanyang', thumb: "https://firebasestorage.googleapis.com/v0/b/club-mba.appspot.com/o/image%2Funiv_icon%2Fhanyang.png?alt=media&token=cd7bbce2-faae-4a51-a90a-98f1bfb77a8a"},
-            //{name:'라운지대학교', value:'lounge', thumb: "http://www.hanyang.ac.kr/html-repositories/images/custom/introduction/img_hy0104_02_0102.png"},
+            {name:'라운지대학교', value:'lounge', thumb: "http://www.hanyang.ac.kr/html-repositories/images/custom/introduction/img_hy0104_02_0102.png"},
         ];
         if (loading) return <Loading/>;
 

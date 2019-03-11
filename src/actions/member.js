@@ -206,6 +206,8 @@ export function login(formData) {
 
     await getUserData(dispatch);
     await statusMessage(dispatch, 'loading', false);
+    await statusMessage(dispatch, 'needUpdate', true);
+
     return resolve(dispatch({
       type: 'USER_LOGIN',
       data: res,
@@ -473,10 +475,12 @@ export function changePassword(formData) {
 export function logout() {
   return dispatch => new Promise((resolve, reject) => {
     Firebase.auth().signOut()
-      .then(() => {
-        dispatch({ type: 'USER_RESET' });
-        setTimeout(resolve, 1000); // Resolve after 1s so that user sees a message
-      }).catch(reject);
+        .then(() => {dispatch({ type: 'USER_RESET' });})
+        .then(() => {dispatch({ type: 'HOME_RESET' });})
+        .then(() => {
+            dispatch({ type: 'UNIV_RESET' });
+            setTimeout(resolve, 1000); // Resolve after 1s so that user sees a message
+        }).catch(reject);
   }).catch(async (err) => { await statusMessage(dispatch, 'error', err.message); throw err.message; });
 }
 
