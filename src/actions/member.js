@@ -7,55 +7,55 @@ import {Firebase, FirebaseStorage, Firestore} from '../lib/firebase';
  * Get this User's Details
  */
 function getUserData(dispatch) {
-  const UID = (
-    Firebase
-    && Firebase.auth()
-    && Firebase.auth().currentUser
-    && Firebase.auth().currentUser.uid
-  ) ? Firebase.auth().currentUser.uid : null;
+    const UID = (
+        Firebase
+        && Firebase.auth()
+        && Firebase.auth().currentUser
+        && Firebase.auth().currentUser.uid
+    ) ? Firebase.auth().currentUser.uid : null;
 
-  if (!UID) return false;
+    if (!UID) return false;
 
-  const docRef = Firestore.collection("users").doc(UID);
-  return docRef.get().then(doc => {
-    return dispatch({
-      type: 'USER_DETAILS_UPDATE',
-      data: {...doc.data(),docId:doc.id},
+    const docRef = Firestore.collection("users").doc(UID);
+    return docRef.get().then(doc => {
+        return dispatch({
+            type: 'USER_DETAILS_UPDATE',
+            data: {...doc.data(), docId: doc.id},
+        });
     });
-  });
 }
 
 export function getMemberData() {
-  if (Firebase === null) return () => new Promise(resolve => resolve());
+    if (Firebase === null) return () => new Promise(resolve => resolve());
 
-  // Ensure token is up to date
-  return dispatch => new Promise((resolve) => {
-    Firebase.auth().onAuthStateChanged((loggedIn) => {
-      if (loggedIn) {
-        return resolve(getUserData(dispatch));
-      }
+    // Ensure token is up to date
+    return dispatch => new Promise((resolve) => {
+        Firebase.auth().onAuthStateChanged((loggedIn) => {
+            if (loggedIn) {
+                return resolve(getUserData(dispatch));
+            }
 
-      return () => new Promise(() => resolve());
+            return () => new Promise(() => resolve());
+        });
     });
-  });
 }
 
 export function getMemberListData(member) {
-  if (Firebase === null) return () => new Promise(resolve => resolve());
+    if (Firebase === null) return () => new Promise(resolve => resolve());
 
-  return dispatch => new Promise(async (resolve) => {
-      await statusMessage(dispatch, 'loading', true);
-      const userListSnapshots = await Firestore.collection("users").where('universe', '==', member.universe).where('authWaiting', '==', false).orderBy("name", 'asc').limit(20).get();
-      const userList = [];
-      userListSnapshots.docs.forEach(doc => {
-          userList.push({...doc.data(), docId: doc.id});
-      });
-      await statusMessage(dispatch, 'loading', false);
-      return resolve(dispatch({
-          type: 'SCHEDULER_OWNER_UPDATE',
-          userList: userList,
-      }));
-  });
+    return dispatch => new Promise(async (resolve) => {
+        await statusMessage(dispatch, 'loading', true);
+        const userListSnapshots = await Firestore.collection("users").where('universe', '==', member.universe).where('authWaiting', '==', false).orderBy("name", 'asc').limit(20).get();
+        const userList = [];
+        userListSnapshots.docs.forEach(doc => {
+            userList.push({...doc.data(), docId: doc.id});
+        });
+        await statusMessage(dispatch, 'loading', false);
+        return resolve(dispatch({
+            type: 'SCHEDULER_OWNER_UPDATE',
+            userList: userList,
+        }));
+    });
 }
 
 export function getMemberListMoreData(lastMember) {
@@ -64,9 +64,9 @@ export function getMemberListMoreData(lastMember) {
     return dispatch => new Promise(async (resolve) => {
         await statusMessage(dispatch, 'loading', true);
         const userListSnapshots = await Firestore.collection("users")
-                                        .where('universe', '==', lastMember.universe)
-                                        .where('authWaiting', '==', false)
-                                        .orderBy("name", 'asc').where('name', '>', lastMember.name).limit(20).get();
+            .where('universe', '==', lastMember.universe)
+            .where('authWaiting', '==', false)
+            .orderBy("name", 'asc').where('name', '>', lastMember.name).limit(20).get();
         const userList = [];
         userListSnapshots.docs.forEach(doc => {
             userList.push({...doc.data(), docId: doc.id});
@@ -89,7 +89,7 @@ export function getAuthRequestMemberListData(member) {
                 let userList = [];
                 userListSnapshots.docs.forEach(doc => {
                     const data = doc.data();
-                    if(!data.isAdmin){
+                    if (!data.isAdmin) {
                         userList.push({...doc.data(), docId: doc.id});
                     }
                 });
@@ -101,12 +101,13 @@ export function getAuthRequestMemberListData(member) {
             }));
     });
 }
+
 export function approveUser(userMap) {
     if (Firebase === null) return () => new Promise(resolve => resolve());
 
     return dispatch => new Promise(async (resolve) => {
         userMap.forEach((item) => {
-            Firestore.collection("users").doc(item.docId).set({authWaiting:false}, {merge:true})
+            Firestore.collection("users").doc(item.docId).set({authWaiting: false}, {merge: true})
         });
 
         resolve();
@@ -130,48 +131,50 @@ export function getOtherUserData(docId) {
 }
 
 export function getSearchMemberList(name, member) {
-  if (Firebase === null) return () => new Promise(resolve => resolve());
-  return dispatch => new Promise( async (resolve) => {
-    const documentSnapshots = await Firestore.collection("users").where('universe', '==', member.universe).orderBy('name').startAt(name).endAt(name + "\uf8ff").limit(20).get();
-    let docList = [];
-    documentSnapshots.docs.forEach(doc => {
-      docList.push({...doc.data(), docId: doc.id});
+    if (Firebase === null) return () => new Promise(resolve => resolve());
+    return dispatch => new Promise(async (resolve) => {
+        const documentSnapshots = await Firestore.collection("users").where('universe', '==', member.universe).orderBy('name').startAt(name).endAt(name + "\uf8ff").limit(20).get();
+        let docList = [];
+        documentSnapshots.docs.forEach(doc => {
+            docList.push({...doc.data(), docId: doc.id});
+        });
+        return resolve(dispatch({
+            type: 'SCHEDULER_SEARCH_LIST',
+            searchUserList: docList,
+        }));
     });
-    return resolve(dispatch({
-      type: 'SCHEDULER_SEARCH_LIST',
-      searchUserList: docList,
-    }));
-  });
 }
 
 export function addStaffMemberList(member) {
-  if (Firebase === null) return () => new Promise(resolve => resolve());
+    if (Firebase === null) return () => new Promise(resolve => resolve());
 
-  return dispatch => new Promise(resolve => {
-    return resolve(dispatch({
-      type: 'ADD_STEP_MEMBER_LIST',
-      member: member,
-    }));
-  });
+    return dispatch => new Promise(resolve => {
+        return resolve(dispatch({
+            type: 'ADD_STEP_MEMBER_LIST',
+            member: member,
+        }));
+    });
 }
+
 export function removeStaffMemberList(index) {
-  if (Firebase === null) return () => new Promise(resolve => resolve());
-  return dispatch => new Promise(resolve => {
-    return resolve(dispatch({
-      type: 'REMOVE_STEP_MEMBER_LIST',
-      index: index,
-    }));
-  });
+    if (Firebase === null) return () => new Promise(resolve => resolve());
+    return dispatch => new Promise(resolve => {
+        return resolve(dispatch({
+            type: 'REMOVE_STEP_MEMBER_LIST',
+            index: index,
+        }));
+    });
 }
-export function resetStaffMemberList() {
-  if (Firebase === null) return () => new Promise(resolve => resolve());
 
-  return dispatch => new Promise(resolve => {
-    return resolve(dispatch({
-      type: 'RESET_STEP_MEMBER_LIST',
-      member: [],
-    }));
-  });
+export function resetStaffMemberList() {
+    if (Firebase === null) return () => new Promise(resolve => resolve());
+
+    return dispatch => new Promise(resolve => {
+        return resolve(dispatch({
+            type: 'RESET_STEP_MEMBER_LIST',
+            member: [],
+        }));
+    });
 }
 
 
@@ -179,74 +182,90 @@ export function resetStaffMemberList() {
  * Login to Firebase with Email/Password
  */
 export function login(formData) {
-  const {
-    email,
-    password,
-  } = formData;
+    const {
+        email,
+        password,
+    } = formData;
 
-  return dispatch => new Promise(async (resolve, reject) => {
-    await statusMessage(dispatch, 'loading', true);
+    return dispatch => new Promise(async (resolve, reject) => {
+        await statusMessage(dispatch, 'loading', true);
 
-    // Validation checks
-    if (!email) return reject({ message: ErrorMessages.missingEmail });
-    if (!password) return reject({ message: ErrorMessages.missingPassword });
-    await Firebase.auth().setPersistence(Firebase.auth.Auth.Persistence.LOCAL);
-    const res = await Firebase.auth().signInWithEmailAndPassword(email, password).catch(async err =>{
-      await statusMessage(dispatch, 'loading', false);
-      return reject({ message: ErrorMessages[err.code]});
+        // Validation checks
+        if (!email) return reject({message: ErrorMessages.missingEmail});
+        if (!password) return reject({message: ErrorMessages.missingPassword});
+        await Firebase.auth().setPersistence(Firebase.auth.Auth.Persistence.LOCAL);
+        const res = await Firebase.auth().signInWithEmailAndPassword(email, password).catch(async err => {
+            await statusMessage(dispatch, 'loading', false);
+            return reject({message: ErrorMessages[err.code]});
+        });
+        if (!res) {
+            return reject();
+        }
+
+        const docRef = Firestore.collection("users").doc(res.user.uid);
+        const doc = await docRef.get();
+        const member = doc.data();
+        if (member.authWaiting) {
+            await statusMessage(dispatch, 'loading', false);
+            return reject({message: "승인 대기중입니다.\n승인 후 다시 로그인해주세요."});
+        }
+
+        dispatch({
+            type: 'USER_DETAILS_UPDATE',
+            data: {...member, docId: doc.id},
+        });
+
+        if (res && res.user.uid) {
+            docRef.set({lastLoggedIn: Date.now(),}, {merge: true})
+                .catch(err => reject({message: err}));
+        }
+        await statusMessage(dispatch, 'loading', false);
+        await statusMessage(dispatch, 'needUpdate', true);
+
+        return resolve(dispatch({
+            type: 'USER_LOGIN',
+            data: res,
+        }));
+
+    }).catch(async (err) => {
+        await statusMessage(dispatch, 'error', err.message);
     });
-    if(!res){
-      return reject();
-    }
-    if (res && res.user.uid) {
-      Firestore.collection("users").doc(res.user.uid).set({
-        lastLoggedIn: Date.now(),
-      }, {merge: true}).catch(err => reject({ message: err }));
-    }
-
-    await getUserData(dispatch);
-    await statusMessage(dispatch, 'loading', false);
-    await statusMessage(dispatch, 'needUpdate', true);
-
-    return resolve(dispatch({
-      type: 'USER_LOGIN',
-      data: res,
-    }));
-
-  }).catch(async (err) => { await statusMessage(dispatch, 'error', err.message);});
 }
 
 export function updatePushNotiAllow(status, pushToken) {
     return dispatch => new Promise(async (resolve, reject) => {
         const UID = Firebase.auth().currentUser.uid;
-        if (!UID) return reject({ message: ErrorMessages.missingFirstName });
+        if (!UID) return reject({message: ErrorMessages.missingFirstName});
 
         return Firestore.collection("users").doc(UID)
-                        .set({
-                            pushNotificationStatus:status,
-                            pushToken: pushToken
-                        }, {merge:true})
+            .set({
+                pushNotificationStatus: status,
+                pushToken: pushToken
+            }, {merge: true})
             .then(async () => {
                 return resolve(dispatch({
                     type: 'USER_DETAILS_UPDATE',
                     data: {
-                        termsCheck:true
+                        termsCheck: true
                     },
                 }));
             }).catch(reject);
-    }).catch(async (err) => { await statusMessage(dispatch, 'error', err.message); throw err.message; });
+    }).catch(async (err) => {
+        await statusMessage(dispatch, 'error', err.message);
+        throw err.message;
+    });
 }
 
 export function findEmail(formData) {
-    const { name, studentNum, phone } = formData;
+    const {name, studentNum, phone} = formData;
     if (Firebase === null) return () => new Promise(resolve => resolve());
 
-    return dispatch => new Promise( async (resolve) => {
+    return dispatch => new Promise(async (resolve) => {
 
         const documentSnapshots = await Firestore.collection("users")
-                                        .where('name', '==', name)
-                                        .where('studentNum', '==', studentNum)
-                                        .where('phone', '==', phone).get().catch(err => console.log(err));
+            .where('name', '==', name)
+            .where('studentNum', '==', studentNum)
+            .where('phone', '==', phone).get().catch(err => console.log(err));
         let docList = [];
         documentSnapshots.docs.forEach(doc => {
             docList.push({...doc.data(), docId: doc.id});
@@ -254,19 +273,21 @@ export function findEmail(formData) {
 
         return resolve(dispatch({
             type: 'UPDATE_MEMBER_STATE',
-            data:{
+            data: {
                 findEmail: docList[0] ? docList[0] : {},
             }
 
         }));
     });
-}export function clearFindEmail() {
+}
+
+export function clearFindEmail() {
     if (Firebase === null) return () => new Promise(resolve => resolve());
 
-    return dispatch => new Promise( async (resolve) => {
+    return dispatch => new Promise(async (resolve) => {
         return resolve(dispatch({
             type: 'UPDATE_MEMBER_STATE',
-            data:{
+            data: {
                 findEmail: undefined,
             }
 
@@ -278,74 +299,92 @@ export function findEmail(formData) {
  * Reset Password
  */
 export function resetPassword(formData) {
-  const { passwordEmail } = formData;
+    const {passwordEmail} = formData;
 
-  return dispatch => new Promise(async (resolve, reject) => {
-    // Validation checks
-    if (!passwordEmail) return reject({ message: ErrorMessages.missingEmail });
+    return dispatch => new Promise(async (resolve, reject) => {
+        // Validation checks
+        if (!passwordEmail) return reject({message: ErrorMessages.missingEmail});
 
-    // Go to Firebase
-    return Firebase.auth()
-      .sendPasswordResetEmail(passwordEmail)
-      .then(() => statusMessage(dispatch, 'loading', false).then(resolve(dispatch({ type: 'USER_RESET' }))))
-      .catch(() => resolve());
-  }).catch(async (err) => { await statusMessage(dispatch, 'error', err.message); throw err.message; });
+        // Go to Firebase
+        return Firebase.auth()
+            .sendPasswordResetEmail(passwordEmail)
+            .then(() => statusMessage(dispatch, 'loading', false).then(resolve(dispatch({type: 'USER_RESET'}))))
+            .catch(() => resolve());
+    }).catch(async (err) => {
+        await statusMessage(dispatch, 'error', err.message);
+        throw err.message;
+    });
 }
+
 /**
  * Update Profile
  */
 export function updateTerms(formData) {
     return dispatch => new Promise(async (resolve, reject) => {
         const UID = Firebase.auth().currentUser.uid;
-        if (!UID) return reject({ message: ErrorMessages.missingFirstName });
+        if (!UID) return reject({message: ErrorMessages.missingFirstName});
 
-        return Firestore.collection("users").doc(UID).set({ termsCheck:true}, {merge:true})
+        return Firestore.collection("users").doc(UID).set({termsCheck: true}, {merge: true})
             .then(async () => {
                 return resolve(dispatch({
                     type: 'USER_DETAILS_UPDATE',
                     data: {
-                        termsCheck:true
+                        termsCheck: true
                     },
                 }));
             }).catch(reject);
-    }).catch(async (err) => { await statusMessage(dispatch, 'error', err.message); throw err.message; });
+    }).catch(async (err) => {
+        await statusMessage(dispatch, 'error', err.message);
+        throw err.message;
+    });
 }
 
 /**
  * Update Profile
  */
 export function updateProfile(formData) {
-  const {
-    phone,
-    company,
-    className,
-    mbaType,
-    isSingle,
-    isProfileOpen,
-    imageUrl,
-    imageBlob,
-  } = formData;
-  let thumb = formData.thumb;
-  return dispatch => new Promise(async (resolve, reject) => {
-    const UID = Firebase.auth().currentUser.uid;
-    if (!UID) return reject({ message: ErrorMessages.missingFirstName });
+    const {
+        phone,
+        company,
+        className,
+        mbaType,
+        isSingle,
+        isProfileOpen,
+        imageUrl,
+        imageBlob,
+    } = formData;
+    let thumb = formData.thumb;
+    return dispatch => new Promise(async (resolve, reject) => {
+        const UID = Firebase.auth().currentUser.uid;
+        if (!UID) return reject({message: ErrorMessages.missingFirstName});
 
-    await statusMessage(dispatch, 'loading', true);
-    if(imageUrl && imageBlob){
-      thumb = await FirebaseStorage.child('users/' + UID + '/' + imageBlob._55._data.name)
-        .put(imageBlob._55)
-        .then(async snapshot => await snapshot.ref.getDownloadURL());
-      thumb = thumb.replace(imageBlob._55._data.name, 'thumb_' + imageBlob._55._data.name)
-    }
-    return Firestore.collection("users").doc(UID).set({ thumb, phone, company, className, mbaType, isSingle, isProfileOpen}, {merge:true})
-      .then(async () => {
+        await statusMessage(dispatch, 'loading', true);
+        if (imageUrl && imageBlob) {
+            thumb = await FirebaseStorage.child('users/' + UID + '/' + imageBlob._55._data.name)
+                .put(imageBlob._55)
+                .then(async snapshot => await snapshot.ref.getDownloadURL());
+            thumb = thumb.replace(imageBlob._55._data.name, 'thumb_' + imageBlob._55._data.name)
+        }
+        return Firestore.collection("users").doc(UID).set({
+            thumb,
+            phone,
+            company,
+            className,
+            mbaType,
+            isSingle,
+            isProfileOpen
+        }, {merge: true})
+            .then(async () => {
 
-        // Update Redux
-        await getUserData(dispatch);
-        await statusMessage(dispatch, 'success', '프로필 수정 완료');
-        resolve();
-      }).catch(reject);
-  }).catch(async (err) => { await statusMessage(dispatch, 'error', err.message); throw err.message; });
+                // Update Redux
+                await getUserData(dispatch);
+                await statusMessage(dispatch, 'success', '프로필 수정 완료');
+                resolve();
+            }).catch(reject);
+    }).catch(async (err) => {
+        await statusMessage(dispatch, 'error', err.message);
+        throw err.message;
+    });
 }
 
 
@@ -381,30 +420,49 @@ export function createProfile(formData) {
             .createUserWithEmailAndPassword(email, password)
             .then(async (res) => {
                 const uid = res.user.uid;
-                if(imageUrl && imageBlob){
+                if (imageUrl && imageBlob) {
                     thumb = await FirebaseStorage.child('users/' + uid + '/' + imageBlob._55._data.name)
                         .put(imageBlob._55)
                         .then(async snapshot => await snapshot.ref.getDownloadURL())
-                        .catch(async (err) => { console.log(err); throw err; });
+                        .catch(async (err) => {
+                            console.log(err);
+                            throw err;
+                        });
                     thumb = thumb.replace(imageBlob._55._data.name, 'thumb_' + imageBlob._55._data.name)
 
                 }
-                if(!thumb || thumb === ''){
+                if (!thumb || thumb === '') {
                     thumb = 'https://firebasestorage.googleapis.com/v0/b/club-mba.appspot.com/o/image%2Fthumb_gray.jpg?alt=media&token=821900e5-3630-4295-ac7d-eda9c6eb0e12';
                 }
 
-                Firestore.collection("users").doc(uid).set({ email, phone, name, studentNum, universe, isGraduation,
-                                                        className, mbaType, company, isProfileOpen, thumb, checkedNotification, checkedTermsService, checkedTermsUser,
-                                                        createDate: Date.now(),
-                                                            'memberType': 'U',
-                                                            'authWaiting': true,
-                                                            'univAuth': [{authType: 'U', boardId:'total'}],
-                                                            'clubAuth': []
-                                                            })
+                Firestore.collection("users").doc(uid).set({
+                    email,
+                    phone,
+                    name,
+                    studentNum,
+                    universe,
+                    isGraduation,
+                    className,
+                    mbaType,
+                    company,
+                    isProfileOpen,
+                    thumb,
+                    checkedNotification,
+                    checkedTermsService,
+                    checkedTermsUser,
+                    createDate: Date.now(),
+                    'memberType': 'U',
+                    'authWaiting': true,
+                    'univAuth': [{authType: 'U', boardId: 'total'}],
+                    'clubAuth': []
+                })
                     .then(() => statusMessage(dispatch, 'loading', false).then(resolve));
 
             }).catch(reject);
-    }).catch(async (err) => { await statusMessage(dispatch, 'loading', false); throw err; });
+    }).catch(async (err) => {
+        await statusMessage(dispatch, 'loading', false);
+        throw err;
+    });
 }
 
 
@@ -437,63 +495,79 @@ export function signUp(formData) {
                     // }).then(() => statusMessage(dispatch, 'loading', false).then(resolve));
                 }
             }).catch(reject);
-    }).catch(async (err) => { await statusMessage(dispatch, 'error', err.message); throw err.message; });
+    }).catch(async (err) => {
+        await statusMessage(dispatch, 'error', err.message);
+        throw err.message;
+    });
 }
 
 
 export function changePassword(formData) {
-  const {
-    thumb,
-    phone,
-    company,
-    isSingle,
-    isProfileOpen,
-  } = formData;
+    const {
+        thumb,
+        phone,
+        company,
+        isSingle,
+        isProfileOpen,
+    } = formData;
 
-  return dispatch => new Promise(async (resolve, reject) => {
-    const UID = Firebase.auth().currentUser.uid;
-    if (!UID) return reject({ message: ErrorMessages.missingFirstName });
+    return dispatch => new Promise(async (resolve, reject) => {
+        const UID = Firebase.auth().currentUser.uid;
+        if (!UID) return reject({message: ErrorMessages.missingFirstName});
 
-    await statusMessage(dispatch, 'loading', true);
-    // return FirebaseRef.child(`users/${UID}`).update({ thumb, phone, company, isSingle, isProfileOpen})
-    //   .then(async () => {
-    //     // Update Email address
-    //
-    //     // Change the password
-    //     if (changePassword) {
-    //       await Firebase.auth().currentUser.updatePassword(password).catch(reject);
-    //     }
-    //
-    //     // Update Redux
-    //     await getUserData(dispatch);
-    //     await statusMessage(dispatch, 'success', 'Profile Updated');
-    //     resolve();
-    //   }).catch(reject);
-  }).catch(async (err) => { await statusMessage(dispatch, 'error', err.message); throw err.message; });
+        await statusMessage(dispatch, 'loading', true);
+        // return FirebaseRef.child(`users/${UID}`).update({ thumb, phone, company, isSingle, isProfileOpen})
+        //   .then(async () => {
+        //     // Update Email address
+        //
+        //     // Change the password
+        //     if (changePassword) {
+        //       await Firebase.auth().currentUser.updatePassword(password).catch(reject);
+        //     }
+        //
+        //     // Update Redux
+        //     await getUserData(dispatch);
+        //     await statusMessage(dispatch, 'success', 'Profile Updated');
+        //     resolve();
+        //   }).catch(reject);
+    }).catch(async (err) => {
+        await statusMessage(dispatch, 'error', err.message);
+        throw err.message;
+    });
 }
 
 export function logout() {
-  return dispatch => new Promise((resolve, reject) => {
-    Firebase.auth().signOut()
-        .then(() => {dispatch({ type: 'USER_RESET' });})
-        .then(() => {dispatch({ type: 'HOME_RESET' });})
-        .then(() => {
-            dispatch({ type: 'UNIV_RESET' });
-            setTimeout(resolve, 1000); // Resolve after 1s so that user sees a message
-        }).catch(reject);
-  }).catch(async (err) => { await statusMessage(dispatch, 'error', err.message); throw err.message; });
+    return dispatch => new Promise((resolve, reject) => {
+        Firebase.auth().signOut()
+            .then(() => {
+                dispatch({type: 'USER_RESET'});
+            })
+            .then(() => {
+                dispatch({type: 'HOME_RESET'});
+            })
+            .then(() => {
+                dispatch({type: 'UNIV_RESET'});
+                setTimeout(resolve, 1000); // Resolve after 1s so that user sees a message
+            }).catch(reject);
+    }).catch(async (err) => {
+        await statusMessage(dispatch, 'error', err.message);
+        throw err.message;
+    });
 }
 
 export function deleteUser() {
     return dispatch => new Promise((resolve, reject) => {
         const currentUser = Firebase.auth().currentUser
         Firestore.collection("users").doc(currentUser.uid).delete()
-            .catch(err => reject({ message: err }));
+            .catch(err => reject({message: err}));
 
         currentUser.delete()
             .then(() => {
-                dispatch({ type: 'USER_RESET' });
+                dispatch({type: 'USER_RESET'});
                 setTimeout(resolve, 1000); // Resolve after 1s so that user sees a message
             }).catch(reject);
-    }).catch(async (err) => { await statusMessage(dispatch, 'error', err.message); throw err.message; });
+    }).catch(async (err) => {
+        await statusMessage(dispatch, 'error', err.message);
+        throw err.message;
+    });
 }

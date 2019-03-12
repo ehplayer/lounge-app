@@ -2,16 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
     Body,
+    Button,
     Card,
     CardItem,
     Container,
-    Content,
+    Left,
     List,
     ListItem,
+    Right,
+    Separator,
     Text,
-    Left,
-    Thumbnail,
-    Button, Right, Separator
+    Thumbnail
 } from 'native-base';
 import {Actions} from 'react-native-router-flux';
 import moment from "moment/moment";

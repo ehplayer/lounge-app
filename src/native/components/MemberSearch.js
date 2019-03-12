@@ -4,7 +4,6 @@ import {Actions} from 'react-native-router-flux';
 import {FlatList, Image} from "react-native";
 import Loading from "./Loading";
 import uncheckedIcon from '../../images/checkX.png'
-import {addStaffMemberList} from "../../actions/member";
 
 class MemberSearch extends React.Component {
 
@@ -40,12 +39,11 @@ class MemberSearch extends React.Component {
                   <Left style={{borderBottomWidth:0}}>
                     <Thumbnail small source={{uri: item.thumb}}/>
                   </Left>
-                  <Body style={{borderBottomWidth:0, justifyContent:'center', width:'25%'}}>
+                  <Body style={{borderBottomWidth:0, justifyContent:'center', width:'20%'}}>
                     <Text>{item.name}</Text>
                   </Body>
                   <Body style={{borderBottomWidth:0, margin:0}}>
-                      <Text style={{color: '#6D41DD'}}>{item.mbaType}</Text>
-                      <Text note>{item.className}</Text>
+                      <Text note>{item.phone}</Text>
                   </Body>
                   <Right style={{borderBottomWidth:0,justifyContent:'center',width:'30%'}}>
                     <Body>

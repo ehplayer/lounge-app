@@ -6,7 +6,6 @@ import {getHomeNotice, getHomeSchedule} from '../actions/home';
 import {clearFindEmail, findEmail, login, resetPassword, updatePushNotiAllow} from '../actions/member';
 import {Notifications, Permissions} from "expo";
 import Login from "../native/components/Login";
-import AuthWating from "../native/components/AuthWating";
 
 class HomeContainer extends React.Component {
     static propTypes = {
@@ -35,18 +34,13 @@ class HomeContainer extends React.Component {
             memberEmail : this.props.member.email,
         };
 
-        if (!props.member.name) {
-            return Actions.login();
-        }
-
     };
     componentDidMount() {
         if (!this.props.member.name) {
-            return Actions.login();
+            return;
         }
-        
-        this.registerForPushNotificationsAsync()
 
+        this.registerForPushNotificationsAsync()
         this.fetchTotalHome(this.props.member);
     }
 
@@ -78,9 +72,6 @@ class HomeContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (!nextProps.member.name) {
-            Actions.login();
-        }
         if(nextProps.status.needUpdate){
             this.fetchTotalHome(this.props.member);
         }
@@ -100,10 +91,11 @@ class HomeContainer extends React.Component {
 
     render = () => {
         const {Layout, home, member, status, login, findEmail, clearFindEmail, resetPassword} = this.props;
-        if (!this.props.member || !this.props.member.name) {
+        if (!member || !member.name || member.authWaiting) {
             return <Login
                 member={member}
                 loading={status.loading}
+                error={status.error}
                 login={login}
                 findEmail={findEmail}
                 clearFindEmail={clearFindEmail}
@@ -112,13 +104,9 @@ class HomeContainer extends React.Component {
             />;
         }
 
-        if (this.props.member.authWaiting) {
-            return <AuthWating/>;
-        }
-
         return (
             <Layout
-                error={home.error}
+                error={status.error}
                 loading={status.loading}
                 home={home}
                 member={member}

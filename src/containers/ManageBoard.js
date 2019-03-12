@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {Actions} from 'react-native-router-flux';
-import {setError, getJoiningBoardList, updateBoard} from '../actions/univ';
+import {getJoiningBoardList, setError, updateBoard} from '../actions/univ';
 import {removeStaffMemberList, resetStaffMemberList} from '../actions/member';
 
 class ManageBoard extends React.Component {
@@ -18,14 +17,16 @@ class ManageBoard extends React.Component {
   };
   constructor(props) {
     super(props);
-    if(!props.member.name){
-      Actions.login();
-      return;
-    }
     this.props.getJoiningBoardList(props.member)
     this.props.resetStaffMemberList();
   };
 
+  componentWillReceiveProps(nextProps) {
+      if(nextProps.status.needUpdate){
+          this.props.getJoiningBoardList(this.props.member)
+          this.props.resetStaffMemberList();
+      }
+  }
 
   render = () => {
     const { Layout, menu, member, status, removeStaffMemberList, updateBoard} = this.props;

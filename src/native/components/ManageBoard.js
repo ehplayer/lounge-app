@@ -2,22 +2,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
     Body,
-    Button, Card, CardItem,
+    Button,
+    Card,
+    CardItem,
     Container,
     Content,
     Input,
     Left,
     List,
     ListItem,
-    Picker,
-    Right,
     Separator,
     Text,
     Thumbnail
 } from 'native-base';
 import {Actions} from 'react-native-router-flux';
 import Loading from './Loading';
-import {Dimensions, FlatList, Image, TouchableHighlight, View, Platform} from "react-native";
+import {Dimensions, FlatList, Image, Platform, TouchableHighlight, View} from "react-native";
 import {ImagePicker, Permissions} from "expo";
 import ArrowDown from '../../images/arrow_down.png';
 import ModalDropDown from 'react-native-modal-dropdown';
@@ -95,11 +95,10 @@ class ManageBoard extends React.Component {
     };
     handleSubmit = () => {
         this.props.updateBoard(this.state, this.props.member.staffMemberList ? this.props.member.staffMemberList : [])
-            .then(() => Actions.pop())
             .catch(e => console.log(`Error: ${e}`));
     }
     removeStaffMemberList = (item) => {
-        const currentStaffIndex = this.state.staffList.findIndex(staffMember => staffMember.docId === item.docId)
+        const currentStaffIndex = this.state.staffList && this.state.staffList.findIndex(staffMember => staffMember.docId === item.docId)
         if (currentStaffIndex >= 0) {
             const removeMember = this.state.staffList.splice(currentStaffIndex, 1);
             this.state.removedStaffList.push(removeMember[0])
@@ -148,11 +147,8 @@ class ManageBoard extends React.Component {
     render() {
         const {loading, error, success, member, menu} = this.props;
         if (loading || !menu.boardList) return <Loading/>;
-        let {currentBoardItem, staffList} = this.state;
-        if(!currentBoardItem) {
-            currentBoardItem = menu && menu.boardList && menu.boardList[0];
-            staffList = currentBoardItem && currentBoardItem.staffMemberList
-        }
+        const currentBoardItem = menu && menu.boardList && menu.boardList[0];
+        const staffList = currentBoardItem && currentBoardItem.staffMemberList
         let {staffMemberList} = member;
         const totalMemberList = staffMemberList && staffList ? staffList.concat(staffMemberList) : staffMemberList;
 

@@ -51,10 +51,6 @@ class LoginComponent extends Component {
                 if (!result) {
                     return;
                 }
-                if (this.props.member.authWaiting) {
-
-                    return Actions.authWaiting();
-                }
 
                 if (result) Actions.home()
             })

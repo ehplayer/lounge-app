@@ -379,6 +379,7 @@ export function updateBoard(localState, staffMemberList) {
                 .then(async snapshot => await snapshot.ref.getDownloadURL());
             thumb = thumb.replace(imageBlob._55._data.name, 'thumb_' + imageBlob._55._data.name)
         }
+
         // 1. 스탭 제외된사람 제외
         if (removedStaffList.length >= 0) {
             removedStaffList.forEach(removeMember => {
@@ -387,7 +388,11 @@ export function updateBoard(localState, staffMemberList) {
                                 const data = await documentSnapshots.data();
                                 const authKey = currentBoardItem.sectionType + "Auth";
                                 const authList = data[authKey] || [];
-                                authList.splice(authList.indexOf(currentBoardItem.docId), 1);
+
+                                const authItemIndex = authList.findIndex(auth => auth.boardId === currentBoardItem.docId);
+                                if (authItemIndex >= 0) {
+                                    authList[authItemIndex].authType = 'U';
+                                }
                                 let updateResult = {
                                     [authKey]: authList,
                                 };
@@ -410,7 +415,13 @@ export function updateBoard(localState, staffMemberList) {
                         const authList = data[authKey] || [];
                         const waitingList = data[waitingKey] || [];
                         waitingList.splice(waitingList.indexOf(currentBoardItem.docId), 1);
-                        authList.push({authType: 'S', boardId: currentBoardItem.docId});
+
+                        const authItemIndex = authList.findIndex(auth => auth.boardId === currentBoardItem.docId);
+                        if (authItemIndex >= 0) {
+                            authList[authItemIndex].authType = 'S';
+                        } else {
+                            authList.push({authType: 'S', boardId: currentBoardItem.docId});
+                        }
                         let updateResult = {
                             [authKey]: authList,
                             [waitingKey]: waitingList,
@@ -424,10 +435,11 @@ export function updateBoard(localState, staffMemberList) {
         await Firestore.collection(member.universe + currentBoardItem.sectionType).doc(currentBoardItem.docId)
             .set({
                 ...currentBoardItem,
-                staffMemberList: currentBoardItem.staffMemberList.concat(staffMemberList),
+                staffMemberList: currentBoardItem.staffMemberList ? currentBoardItem.staffMemberList.concat(staffMemberList) : staffMemberList,
                 thumb: thumb,
             }, {merge: true})
         resolve();
+        await statusMessage(dispatch, 'needUpdate', true);
 
     }).catch(async (err) => {
         await statusMessage(dispatch, 'error', err.message);
@@ -803,6 +815,7 @@ export function getJoiningBoardList(member) {
                 }
             });
         });
+
         await statusMessage(dispatch, 'loading', false);
         return resolve(dispatch({
             type: 'JOINING_BOARD_REPLACE',
