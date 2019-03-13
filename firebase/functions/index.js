@@ -96,6 +96,8 @@ exports.sendPushNotification = functions.firestore
     const {sectionId, boardId} = context.params;
     // 1. 새로 생성된 게시글 획득
     const noticeDocument = snap.data();
+
+    console.log("on create " + noticeDocument.title)
     // 2. total 게시판일 경우 해당 대학 전체 push
     if(boardId === 'total'){
         const universe = sectionId.replace('univ', '');
@@ -103,6 +105,7 @@ exports.sendPushNotification = functions.firestore
             .get().then(memberDoc => {
             return memberDoc.docs.forEach(memberData => {
                 const member = memberData.data();
+                console.log("push send to " + member.name)
                 return fetch('https://exp.host/--/api/v2/push/send', {
                     method: "POST",
                     headers: {
@@ -127,6 +130,7 @@ exports.sendPushNotification = functions.firestore
             admin.firestore().collection('users').doc(member.docId)
                 .get().then(memberDoc => {
                 const memberData = memberDoc.data();
+                console.log("board push send to " + member.name)
                 return fetch('https://exp.host/--/api/v2/push/send', {
                     method: "POST",
                     headers: {

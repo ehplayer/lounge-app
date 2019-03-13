@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { createArticle } from '../actions/univ';
+import { updateUserData } from '../actions/member';
+
 class CreateArticle extends Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,
@@ -15,6 +17,11 @@ class CreateArticle extends Component {
   static defaultProps = {
     errorMessage: null,
     successMessage: null,
+  };
+
+  constructor(props) {
+      super(props);
+      this.props.updateUserData(this.props.member);
   };
 
   render(){
@@ -50,6 +57,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   createArticle,
+  updateUserData
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateArticle);

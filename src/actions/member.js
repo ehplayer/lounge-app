@@ -6,7 +6,7 @@ import {Firebase, FirebaseStorage, Firestore} from '../lib/firebase';
 /**
  * Get this User's Details
  */
-function getUserData(dispatch) {
+export function getUserData(dispatch) {
     const UID = (
         Firebase
         && Firebase.auth()
@@ -20,8 +20,26 @@ function getUserData(dispatch) {
     return docRef.get().then(doc => {
         return dispatch({
             type: 'USER_DETAILS_UPDATE',
-            data: {...doc.data(), docId: doc.id},
+            data: {...doc.data(), docId: doc.id, loadTime: new Date().getTime()},
         });
+    });
+
+}
+
+export function updateUserData(member) {
+    const {docId} = member;
+    return dispatch => new Promise(async (resolve, reject) => {
+        await Firebase.auth().setPersistence(Firebase.auth.Auth.Persistence.LOCAL);
+
+        const docRef = Firestore.collection("users").doc(docId);
+        const doc = await docRef.get();
+        const member = doc.data();
+        dispatch({
+            type: 'USER_DETAILS_UPDATE',
+            data: {...member, docId: doc.id, loadTime: new Date().getTime()},
+        });
+    }).catch(async (err) => {
+        await statusMessage(dispatch, 'error', err.message);
     });
 }
 
@@ -198,6 +216,7 @@ export function login(formData) {
             await statusMessage(dispatch, 'loading', false);
             return reject({message: ErrorMessages[err.code]});
         });
+
         if (!res) {
             return reject();
         }
@@ -212,7 +231,7 @@ export function login(formData) {
 
         dispatch({
             type: 'USER_DETAILS_UPDATE',
-            data: {...member, docId: doc.id},
+            data: {...member, docId: doc.id, loadTime:new Date().getTime()},
         });
 
         if (res && res.user.uid) {

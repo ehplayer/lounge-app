@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
 import {getArticleList, getArticleListMore, getBoardList, getNoticeList, getScheduleList} from '../actions/univ';
+import {updateUserData} from '../actions/member';
 
 class UnivContainer extends React.Component {
     static propTypes = {
@@ -25,9 +26,13 @@ class UnivContainer extends React.Component {
 
     constructor(props) {
         super(props);
+        if (this.props.member && (!this.props.member.loadTime || this.props.member.loadTime < (new Date().getTime() - 600000))) {
+            this.props.updateUserData(this.props.member);
+        }
         if (props.member.name) {
             this.fetchData(null, props.member);
-        };
+        }
+
     };
 
     componentWillReceiveProps(nextProps) {
@@ -35,7 +40,7 @@ class UnivContainer extends React.Component {
             this.fetchData(nextProps.univ.currentUnivId, nextProps.member);
         }
         if (!nextProps.member.name) {
-            Actions.login();
+            Actions.home();
         }
     }
 
@@ -78,6 +83,7 @@ const mapDispatchToProps = {
     getBoardList,
     getArticleList,
     getArticleListMore,
+    updateUserData,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UnivContainer);

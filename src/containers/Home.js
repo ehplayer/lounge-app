@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
 import {getHomeNotice, getHomeSchedule} from '../actions/home';
-import {clearFindEmail, findEmail, login, resetPassword, updatePushNotiAllow} from '../actions/member';
+import {clearFindEmail, findEmail, login, resetPassword, updatePushNotiAllow, updateUserData} from '../actions/member';
 import {Notifications, Permissions} from "expo";
 import Login from "../native/components/Login";
 
@@ -33,6 +33,10 @@ class HomeContainer extends React.Component {
         this.state = {
             memberEmail : this.props.member.email,
         };
+
+        if (this.props.member.name && (!this.props.member.loadTime || this.props.member.loadTime < (new Date().getTime() - 600000))) {
+            this.props.updateUserData(this.props.member);
+        }
 
     };
     componentDidMount() {
@@ -129,7 +133,8 @@ const mapDispatchToProps = {
     login,
     findEmail,
     clearFindEmail,
-    resetPassword
+    resetPassword,
+    updateUserData
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeContainer);
