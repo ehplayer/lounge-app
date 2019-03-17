@@ -118,6 +118,7 @@ class ManageBoard extends React.Component {
 
     onChangeBoard = (index, value) => {
         const boardItem = this.props.menu.boardList[index];
+        console.log(boardItem)
         this.setState({
             ...this.state,
             currentBoardItem: boardItem,
@@ -146,8 +147,9 @@ class ManageBoard extends React.Component {
 
     render() {
         const {loading, error, success, member, menu} = this.props;
+        const { currentBoardItem } = this.state;
         if (loading || !menu.boardList) return <Loading/>;
-        const currentBoardItem = menu && menu.boardList && menu.boardList[0];
+
         const staffList = currentBoardItem && currentBoardItem.staffMemberList
         let {staffMemberList} = member;
         const totalMemberList = staffMemberList && staffList ? staffList.concat(staffMemberList) : staffMemberList;

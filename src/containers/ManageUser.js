@@ -17,13 +17,13 @@ class Scheduler extends Component {
   };
 
   render = () => {
-    const { Layout, userList, approveUser } = this.props;
-    return <Layout userList={userList} approveUser={approveUser}/>;
+    const { Layout, authRequestUserList, approveUser } = this.props;
+    return <Layout authRequestUserList={authRequestUserList} approveUser={approveUser}/>;
   }
 }
 
 const mapStateToProps = state => ({
-  userList: state.member.userList || [],
+  authRequestUserList: state.member.authRequestUserList || [],
   member: state.member || [],
   loading: state.loading || false,
 });

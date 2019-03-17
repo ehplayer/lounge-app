@@ -102,7 +102,7 @@ export function getAuthRequestMemberListData(member) {
 
     // Ensure token is up to date
     return dispatch => new Promise(async (resolve) => {
-        return resolve(Firestore.collection("users").where('universe', '==', member.universe).where('authWaiting', '==', true).limit(20).get()
+        return await resolve(Firestore.collection("users").where('universe', '==', member.universe).where('authWaiting', '==', true).limit(20).get()
             .then(async userListSnapshots => {
                 let userList = [];
                 userListSnapshots.docs.forEach(doc => {
@@ -111,10 +111,9 @@ export function getAuthRequestMemberListData(member) {
                         userList.push({...doc.data(), docId: doc.id});
                     }
                 });
-
                 return dispatch({
                     type: 'SCHEDULER_OWNER_UPDATE',
-                    userList: userList,
+                    authRequestUserList: userList,
                 });
             }));
     });

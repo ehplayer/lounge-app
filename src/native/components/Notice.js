@@ -194,15 +194,17 @@ class Notice extends React.Component {
                                     borderTopWidth: 0.5,
                                     borderColor: '#cccccc'
                                 }}>
-                                    <Button transparent style={{height: 40, justifyContent: 'center', width: '100%'}}
+                                    <Button transparent style={{height: 40,
+                                        justifyContent: 'center', width: '100%',
+                                        flex: 1}}
                                             onPress={() => Actions.joinUserList({
                                                 document: article,
                                                 sectionType: sectionType
                                             })}>
-                                        <Text style={{paddingRight: 15, color: bgColor}}><Text
-                                            style={{fontSize: 15, color: bgColor}}>참석</Text> <Text
-                                            style={{color: bgColor}}>{article.joinerList ? article.joinerList.length : 0}</Text>
-                                            <Text style={{color: bgColor}}>{'>'}</Text></Text>
+                                        <Text style={{paddingRight: 15, color: bgColor, marginLeft:10}}><Text
+                                            style={{fontSize: 15, color: bgColor}}>참석자 리스트</Text> <Text
+                                            style={{color: bgColor}}>({article.joinerList ? article.joinerList.length : 0})</Text>
+                                        </Text>
                                     </Button>
                                 </Left>
                                 <Left style={{
@@ -222,11 +224,8 @@ class Notice extends React.Component {
                                         borderRadius: 0
                                     }}
                                             onPress={() => this.handleJoiner(isJoined, isJoinFinish && article.isLimitMember)}>
-                                        <Text style={{
-                                            fontSize: 15,
-                                            paddingRight: 15,
-                                            color: '#ffffff'
-                                        }}>{isJoinFinish && article.isLimitMember ? '마감' : isJoined ? '참석취소' : '참석하기'}</Text>
+                                        <Text style={{ fontSize: 15, color: '#ffffff', marginLeft:10}}>
+                                            {isJoinFinish && article.isLimitMember ? '마감' : isJoined ? '참석취소' : '참석하기'}</Text>
                                     </Button>
                                 </Left>
                             </CardItem>

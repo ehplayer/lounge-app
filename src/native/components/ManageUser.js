@@ -43,7 +43,7 @@ class Scheduler extends React.Component {
     };
 
     render() {
-        const {loading, error, userList} = this.props;
+        const {loading, error, authRequestUserList} = this.props;
         if (loading) return <Loading/>;
 
         return (
@@ -52,7 +52,7 @@ class Scheduler extends React.Component {
                     <Card transparent style={{marginTop: 0}}>
                         <CardItem style={{margin: 0, padding: 0}}>
                             <FlatList
-                                data={userList}
+                                data={authRequestUserList}
                                 ListHeaderComponent={() =>
                                     <ListItem style={{
                                             height: 50,
@@ -84,7 +84,7 @@ class Scheduler extends React.Component {
                                         height: 70,
                                         marginLeft: 0,
                                         marginRight: 0,
-                                        borderBottomWidth: (index === userList.length - 1 ? 0 : 0.3),
+                                        borderBottomWidth: (index === authRequestUserList.length - 1 ? 0 : 0.3),
                                         borderBottomColor: '#dddddd',
                                     }}>
                                         <Left style={{borderBottomWidth: 0}}>
