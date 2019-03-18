@@ -68,39 +68,20 @@ export function createArticle(localState, props) {
         }
 
         await Firestore.collection(props.boardType).doc(currentUnivId).collection(boardType).add(article).then(async documentSnapshot => {
+
+            if (props.boardType === 'hall') {
+                statusMessage(dispatch, 'loading', false);
+                return;
+            }
             const homeArticle = {...article, docId: documentSnapshot.id};
+
             if (localState.isNotice) {
-                Firestore.collection(props.member.universe + 'home').doc('notice').get()
-                    .then(documentSnapshots => {
-                        if (!documentSnapshots.exists) {
-                            Firestore.collection(props.member.universe + 'home').doc('notice').set({[currentUnivId]: [homeArticle]});
-                            return;
-                        }
-                        const data = documentSnapshots.data();
-                        let resultArray = data[currentUnivId] || [];
-                        resultArray.unshift(homeArticle);
-                        if (resultArray.length > 5) {
-                            resultArray.pop();
-                        }
-                        Firestore.collection(props.member.universe + 'home').doc('notice').set({[currentUnivId]: resultArray}, {merge: true});
-                    });
+                addHomeDocument(props.member.universe, currentUnivId, homeArticle, 'notice');
             }
             if (localState.isSchedule) {
-                Firestore.collection(props.member.universe + 'home').doc('schedule').get()
-                    .then(documentSnapshots => {
-                        if (!documentSnapshots.exists) {
-                            Firestore.collection(props.member.universe + 'home').doc('schedule').set({[currentUnivId]: [homeArticle]});
-                            return;
-                        }
-                        const data = documentSnapshots.data();
-                        let resultArray = data[currentUnivId] || [];
-                        resultArray.unshift(homeArticle);
-                        if (resultArray.length > 5) {
-                            resultArray.pop();
-                        }
-                        Firestore.collection(props.member.universe + 'home').doc('schedule').set({[currentUnivId]: resultArray}, {merge: true});
-                    });
+                addHomeDocument(props.member.universe, currentUnivId, homeArticle, 'schedule');
             }
+
             statusMessage(dispatch, 'loading', false);
             statusMessage(dispatch, 'needUpdate', true);
             return resolve();
@@ -110,6 +91,23 @@ export function createArticle(localState, props) {
         await statusMessage(dispatch, 'error', err.message);
         throw err.message;
     });
+}
+
+function addHomeDocument(universe, currentUnivId, homeArticle, boardType) {
+    Firestore.collection(universe + 'home').doc(boardType).get()
+        .then(documentSnapshots => {
+            if (!documentSnapshots.exists) {
+                Firestore.collection(universe + 'home').doc(boardType).set({[currentUnivId]: [homeArticle]});
+                return;
+            }
+            const data = documentSnapshots.data();
+            let resultArray = data[currentUnivId] || [];
+            resultArray.unshift(homeArticle);
+            if (resultArray.length > 5) {
+                resultArray.pop();
+            }
+            Firestore.collection(universe + 'home').doc(boardType).set({[currentUnivId]: resultArray}, {merge: true});
+        });
 }
 
 export function createBoard(localState, propsMember) {
@@ -230,6 +228,12 @@ export function updateArticle(localState, props) {
 
         await Firestore.collection(universe).doc(currentUnivId).collection(boardType).doc(props.article.docId).set(article)
             .then(() => {
+
+            if (universe === 'hall') {
+                statusMessage(dispatch, 'loading', false);
+                return;
+            }
+
             if (localState.isNotice) {
                 Firestore.collection(props.member.universe + 'home').doc('notice').get()
                     .then(documentSnapshots => {
