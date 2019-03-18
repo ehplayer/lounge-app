@@ -12,7 +12,7 @@ export function getHomeNotice(member) {
     const homeNotice = homeNoticeListData.data() || {};
     let noticeList = [];
 
-    member.univAuth.forEach(auth =>{
+    member.univAuth.forEach && member.univAuth.forEach(auth =>{
       if(homeNotice[auth.boardId]){
         homeNotice[auth.boardId].forEach(article => noticeList.push({...article,currentUnivId:auth.boardId, sectionType:'univ'}))
       }
@@ -27,6 +27,7 @@ export function getHomeNotice(member) {
       homeNotice['hall'].forEach(article => noticeList.push({...article,currentUnivId:auth.boardId, sectionType:'hall'}))
     }
     noticeList.sort((a,b) => b.createDateTime - a.createDateTime);
+
 
     await statusMessage(dispatch, 'loading', false);
     await statusMessage(dispatch, 'needUpdate', false);
@@ -49,7 +50,7 @@ export function getHomeSchedule(member) {
         let scheduleList = [];
         const now = Date.now();
 
-        member.univAuth.forEach(auth =>{
+        member.univAuth.forEach && member.univAuth.forEach(auth =>{
             if(homeSchedule[auth.boardId]){
                 homeSchedule[auth.boardId].forEach(article => {
                     if(article.startDatetimeLong > now)
@@ -96,7 +97,7 @@ export function getHomeScheduleList(member) {
         let afterScheduleList = [];
         const now = Date.now();
 
-        member.univAuth.forEach(auth =>{
+        member.univAuth.forEach && member.univAuth.forEach(auth =>{
             if(homeSchedule[auth.boardId]){
                 homeSchedule[auth.boardId].forEach(article => {
                     if(article.startDatetimeLong > now){

@@ -34,7 +34,8 @@ class HomeContainer extends React.Component {
             memberEmail : this.props.member.email,
         };
 
-        if (this.props.member.name && (!this.props.member.loadTime || this.props.member.loadTime < (new Date().getTime() - 600000))) {
+        if (this.props.member.name && (!this.props.member.loadTime || this.props.member.loadTime < (new Date().getTime() - 600000)
+            || !this.props.member.univAuth.find)) {
             this.props.updateUserData(this.props.member);
         }
 

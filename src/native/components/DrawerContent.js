@@ -44,7 +44,7 @@ class DrawerContent extends React.Component {
     render() {
         const {member} = this.props;
         const isMaster = member.memberType === 'M';
-        const univStaffAuth = member.univAuth && member.univAuth.find(auth => auth.authType === 'S');
+        const univStaffAuth = member.univAuth && member.univAuth.find && member.univAuth.find(auth => auth.authType === 'S');
         const clubStaffAuth = member.clubAuth && member.clubAuth.find(auth => auth.authType === 'S');
         const isStaff = univStaffAuth || clubStaffAuth;
 
